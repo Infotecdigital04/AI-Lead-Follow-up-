@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "relaynest",
+  "name": "ai-lead-follow-up",
   "main": "server/index.js",
   "compatibility_date": "2026-09-01",
   "assets": {

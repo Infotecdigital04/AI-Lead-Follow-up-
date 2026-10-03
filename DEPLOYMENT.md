@@ -43,6 +43,10 @@ For Cloudflare Git integration, connect this GitHub repository in Workers & Page
 - Root directory: the repository root
 - Production branch: `main`, after review and merge
 
+The dashboard Worker is named `ai-lead-follow-up`, matching `name` in `wrangler.jsonc`. This infrastructure name is separate from the Relaynest product name and the `relaynest` D1 database name.
+
+Before merging, use `codex/relaynest-client-portal` if you want to test the source through Workers Builds. The initial `main` commit contains only a README and cannot deploy the application. A build reporting no dependencies and no static files may be using that initial branch or an incorrect root directory. Check the build's commit and repository-root setting, and make sure the build command above runs before deployment. Replace the D1 placeholder and apply migrations before deploying the full application.
+
 Both the compiled frontend in `dist/` and Worker API are deployed. The public pages are generated during the build, so the committed source must include `scripts/prerender.mjs` and the image in `public/`.
 
 ## 4. Attach Your Subdomain
