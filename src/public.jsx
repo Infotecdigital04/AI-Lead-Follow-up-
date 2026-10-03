@@ -11,7 +11,6 @@ import {
   Layers3,
   ShieldCheck,
   Globe2,
-  Zap,
   Menu,
   X,
   Wrench,
@@ -21,6 +20,7 @@ import {
 } from "lucide-react";
 import { Brand, Language, Footer, CheckItem, useReveal } from "./ui";
 import { api, post, money, currencies } from "./data";
+import { Journey } from "./journey";
 
 export function Header() {
   const { t } = useTranslation();
@@ -40,13 +40,14 @@ export function Header() {
           <Link className="login-link" to="/login">
             {t("login")}
           </Link>
-          <Link className="button primary small" to="/login">
-            {t("getStarted")}
+          <Link className="button primary small" to="/demo/overview">
+            {t("tryDemo")}
             <ArrowRight size={15} />
           </Link>
           <button
             className="icon-button mobile-toggle"
             aria-label="Toggle navigation"
+            aria-expanded={open}
             onClick={() => setOpen(!open)}
           >
             {open ? <X /> : <Menu />}
@@ -68,36 +69,37 @@ export function Home() {
             <span className="tiny-mark">
               <Sparkles size={13} />
             </span>{" "}
-            A little more connected.
+            THE FOLLOW-THROUGH WORKSPACE
           </div>
           <h1>Relaynest</h1>
           <h2>{t("hero")}</h2>
           <p>{t("heroSub")}</p>
           <div className="hero-actions">
-            <Link className="button primary" to="/login">
-              {t("getStarted")}
+            <Link className="button primary" to="/demo/overview">
+              {t("tryDemo")}
               <ArrowRight size={17} />
             </Link>
-            <Link className="button secondary" to="/demo/overview">
+            <a className="button secondary" href="#journey">
               <Play size={16} />
-              {t("tryDemo")}
-            </Link>
+              See the client journey
+            </a>
           </div>
           <div className="hero-proof">
             <span>
               <Check size={14} />
-              No card needed for the demo
+              No signup. No card.
             </span>
             <span>
               <Check size={14} />
-              Built for service businesses
+              Sample data. Real workflows.
             </span>
           </div>
         </section>
         <section className="product-preview" id="product">
           <div className="preview-label">
             <span>
-              <span className="live-dot" /> YOUR NEXT CHAPTER, ALL IN ONE PLACE
+              <span className="live-dot" /> YOUR BUSINESS, WITH THE NEXT STEP IN
+              VIEW
             </span>
             <Link to="/demo/overview">
               Take a look inside <ArrowRight size={15} />
@@ -107,13 +109,19 @@ export function Home() {
             to="/demo/overview"
             aria-label="Open the interactive Relaynest workspace"
           >
-            <img
-              src="/workspace-preview.webp"
-              width="1440"
-              height="980"
-              fetchPriority="high"
-              alt="Relaynest workspace showing leads, follow-ups, appointments and service progress"
-            />
+            <picture>
+              <source
+                media="(max-width: 760px)"
+                srcSet="/workspace-mobile.jpg"
+              />
+              <img
+                src="/workspace-preview.jpg"
+                width="1440"
+                height="980"
+                fetchPriority="high"
+                alt="Relaynest workspace showing leads, follow-ups, appointments and service progress"
+              />
+            </picture>
           </Link>
         </section>
         <section className="value-strip">
@@ -133,6 +141,7 @@ export function Home() {
             <span>A portal they can trust</span>
           </div>
         </section>
+        <Journey />
         <section className="feature-section section-wrap" data-reveal>
           <div className="section-intro">
             <span className="eyebrow">LESS CHASING. MORE CONNECTING.</span>
@@ -227,6 +236,51 @@ export function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+        <section className="trust-band" data-reveal>
+          <div className="section-wrap trust-inner">
+            <div>
+              <span className="eyebrow">CONFIDENCE COMES FROM CLARITY</span>
+              <h2>
+                Your relationships.
+                <br />
+                Your control.
+              </h2>
+              <p>
+                Know what you can use today, and what still needs to be
+                connected.
+              </p>
+            </div>
+            <dl className="readiness-list">
+              <div>
+                <dt>
+                  <Check size={17} /> Explore now
+                </dt>
+                <dd>
+                  Sample leads, follow-up drafts, tasks, service tracking and
+                  the client portal.
+                </dd>
+              </div>
+              <div>
+                <dt>
+                  <ShieldCheck size={17} /> Always in your control
+                </dt>
+                <dd>
+                  Review messages before sending. Keep internal notes separate
+                  from client updates.
+                </dd>
+              </div>
+              <div>
+                <dt>
+                  <Globe2 size={17} /> Before live use
+                </dt>
+                <dd>
+                  Email sign-in, AI generation and subscription payments require
+                  provider setup. WhatsApp and channel sync are not connected.
+                </dd>
+              </div>
+            </dl>
           </div>
         </section>
         <section className="section-wrap faq-section" data-reveal>

@@ -59,6 +59,7 @@ import {
   currencies,
 } from "./data";
 import { PlanCards, openCheckout } from "./public";
+import { DailyFocus } from "./focus.jsx";
 
 const navigation = [
   ["overview", LayoutDashboard],
@@ -545,6 +546,11 @@ export default function Workspace({ demo = false }) {
               {page === "overview" ? (
                 <>
                   <Stats records={records} />
+                  <DailyFocus
+                    records={records}
+                    base={base}
+                    onSelect={setSelected}
+                  />
                   <div className="dashboard-columns">
                     <div className="dashboard-primary">
                       <section className="panel">

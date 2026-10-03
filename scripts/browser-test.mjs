@@ -1,6 +1,7 @@
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
+const base = process.env.TEST_BASE_URL || "http://127.0.0.1:8787";
 const browser = await chromium.launch({
   headless: true,
   ...(process.env.PLAYWRIGHT_EXECUTABLE_PATH
@@ -15,7 +16,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 await mkdir("test-results", { recursive: true });
 try {
-  await page.goto("http://127.0.0.1:8787/demo/overview");
+  await page.goto(base + "/demo/overview");
   await page
     .getByRole("heading", { name: "A little follow-up. A lot of possibility." })
     .waitFor();
@@ -67,7 +68,7 @@ try {
     .getByRole("button", { name: "Delete record", exact: true })
     .click();
   await page.getByRole("heading", { name: "Nothing here yet" }).waitFor();
-  await page.goto("http://127.0.0.1:8787/portal/demo");
+  await page.goto(base + "/portal/demo");
   await page
     .getByRole("heading", { name: "Your service, in the picture." })
     .waitFor();
@@ -93,7 +94,7 @@ try {
       "/portal/demo",
       "/login",
     ]) {
-      await page.goto("http://127.0.0.1:8787" + route);
+      await page.goto(base + route);
       await page.locator("h1").first().waitFor();
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth + 1,
@@ -109,7 +110,7 @@ try {
       });
     }
   }
-  await page.goto("http://127.0.0.1:8787/demo/overview");
+  await page.goto(base + "/demo/overview");
   await page.locator(".topbar-right select").selectOption("ar");
   assert.equal(await page.locator("html").getAttribute("dir"), "rtl");
   assert.equal(await page.locator("html").getAttribute("lang"), "ar");
@@ -118,19 +119,16 @@ try {
     fullPage: true,
   });
   await page.locator(".topbar-right select").selectOption("en");
-  const denied = await page.request.get(
-    "http://127.0.0.1:8787/api/workspace/records",
-  );
+  const denied = await page.request.get(base + "/api/workspace/records");
   assert.equal(denied.status(), 401);
-  const forged = await page.request.post(
-    "http://127.0.0.1:8787/api/billing/webhook",
-    { data: { event_id: "forged" } },
-  );
+  const forged = await page.request.post(base + "/api/billing/webhook", {
+    data: { event_id: "forged" },
+  });
   assert.equal(forged.status(), 401);
-  const crossOrigin = await page.request.post(
-    "http://127.0.0.1:8787/api/business",
-    { headers: { Origin: "https://evil.example" }, data: { name: "Test" } },
-  );
+  const crossOrigin = await page.request.post(base + "/api/business", {
+    headers: { Origin: "https://evil.example" },
+    data: { name: "Test" },
+  });
   assert.equal(crossOrigin.status(), 403);
   assert.deepEqual(errors, []);
   console.log(

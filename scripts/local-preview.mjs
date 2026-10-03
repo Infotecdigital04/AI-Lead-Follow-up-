@@ -1,9 +1,11 @@
 import { Miniflare, convertV4MiniflareOptions } from "miniflare";
 import { readFile } from "node:fs/promises";
+const port = Number(process.env.PORT || 8787);
+const origin = `http://127.0.0.1:${port}`;
 const mf = new Miniflare(
   convertV4MiniflareOptions({
     host: "127.0.0.1",
-    port: 8787,
+    port,
     resourcePersistencePath: "work/local-d1",
     workers: [
       {
@@ -13,7 +15,7 @@ const mf = new Miniflare(
         compatibilityDate: "2026-09-01",
         d1Databases: { DB: "relaynest" },
         bindings: {
-          APP_ORIGIN: "http://127.0.0.1:8787",
+          APP_ORIGIN: origin,
           PADDLE_ENV: "sandbox",
           EMAIL_FROM: "Relaynest <hello@infotecdigital.com>",
         },
@@ -35,7 +37,7 @@ const exists = await db
   .first();
 if (!exists)
   await db.exec(await readFile("migrations/0001_initial.sql", "utf8"));
-console.log("Relaynest preview ready at http://127.0.0.1:8787");
+console.log(`Relaynest preview ready at ${origin}`);
 for (const signal of ["SIGINT", "SIGTERM"])
   process.on(signal, async () => {
     await mf.dispose();
