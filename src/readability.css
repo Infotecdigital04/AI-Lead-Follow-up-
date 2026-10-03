@@ -1,0 +1,306 @@
+:root {
+  font-family: "DM Sans Variable", Arial, sans-serif;
+}
+.brand {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+@media (max-width: 760px) {
+  .sidebar:not(.mobile-open) {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+.assistant-panel h2 br {
+  display: block;
+}
+.table-scroll {
+  position: relative;
+}
+.muted,
+.workspace-heading p,
+.stat-label,
+.stat-sub,
+.table-secondary,
+.person-button small,
+.lead-table .person-button small,
+.date-cell,
+.followup-item > div > span,
+.appointment-mini > div > span,
+.assistant-panel > p,
+.panel-footer,
+.demo-bar,
+.workspace-footer {
+  color: #718277;
+}
+.sidebar-demo > p,
+.page-kicker,
+.pipeline-summary > div,
+.subtle-link {
+  color: #74897a;
+}
+h1,
+h2,
+h3,
+.brand,
+.stat > strong,
+.completion-date {
+  font-family: "Manrope Variable", "DM Sans Variable", Arial, sans-serif;
+}
+.sidebar nav a {
+  font-size: 13px;
+}
+.nav-caption {
+  font-size: 11px;
+}
+.business-switch strong {
+  font-size: 13px;
+}
+.business-switch span:not(.business-avatar) {
+  font-size: 11px;
+}
+.profile-row strong {
+  font-size: 12px;
+}
+.profile-row > div > span {
+  font-size: 11px;
+}
+.portal-link {
+  font-size: 13px;
+}
+.sidebar-demo > p,
+.sidebar-demo > a {
+  font-size: 12px;
+}
+.breadcrumb {
+  font-size: 12px;
+}
+.workspace-heading p {
+  font-size: 14px;
+}
+.page-kicker {
+  font-size: 11px;
+}
+.workspace-heading .button {
+  font-size: 13px;
+}
+.stat-label {
+  font-size: 12px;
+}
+.stat-sub {
+  font-size: 11px;
+}
+.pipeline-summary > div {
+  font-size: 11px;
+}
+.subtle-link {
+  font-size: 11px;
+}
+th {
+  font-size: 11px;
+}
+td {
+  font-size: 12px;
+}
+.person-button strong,
+.lead-table .person-button strong {
+  font-size: 12px;
+}
+.person-button small,
+.lead-table .person-button small {
+  font-size: 10px;
+}
+.service-name {
+  font-size: 11px;
+}
+.table-secondary {
+  font-size: 10px;
+}
+.lead-table .badge {
+  font-size: 10px;
+}
+.date-cell,
+.overdue {
+  font-size: 11px;
+}
+.assistant-heading > span:first-child {
+  font-size: 12px;
+}
+.assistant-panel > p {
+  font-size: 12px;
+}
+.followup-item strong {
+  font-size: 12px;
+}
+.followup-item > div > span {
+  font-size: 10px;
+}
+.assistant-panel > .button {
+  font-size: 12px;
+}
+.assistant-foot {
+  font-size: 10px;
+}
+.appointment-mini strong {
+  font-size: 12px;
+}
+.appointment-mini > div > span {
+  font-size: 10px;
+}
+.time-mark {
+  font-size: 10px;
+}
+.schedule-link {
+  font-size: 11px;
+}
+.job-overview-row strong {
+  font-size: 12px;
+}
+.job-overview-row > div > span {
+  font-size: 10px;
+}
+.panel-footer {
+  font-size: 10px;
+}
+.demo-bar {
+  font-size: 11px;
+}
+.workspace-footer {
+  font-size: 10px;
+}
+.hero-proof {
+  font-size: 12px;
+}
+.hero-kicker {
+  font-size: 13px;
+}
+.preview-label {
+  font-size: 11px;
+}
+.features p {
+  font-size: 16px;
+}
+.features a {
+  font-size: 14px;
+}
+.value-strip strong {
+  font-size: 14px;
+}
+.value-strip span {
+  font-size: 13px;
+}
+.section-intro p {
+  font-size: 16px;
+}
+.industry-list p {
+  font-size: 14px;
+}
+.faq-section details p {
+  font-size: 16px;
+}
+.plan > p,
+.plan li {
+  font-size: 14px;
+}
+.plan > p {
+  min-height: 48px;
+}
+.pricing-note {
+  font-size: 13px !important;
+}
+.settings-sections p {
+  font-size: 14px;
+}
+.setting-row {
+  font-size: 14px;
+}
+.calendar-event > strong {
+  font-size: 12px;
+}
+.calendar-event > small {
+  font-size: 11px;
+}
+.task-row > button > strong {
+  font-size: 14px;
+}
+.task-row > button > span {
+  font-size: 12px;
+}
+.board-column > h2 {
+  font-size: 13px;
+}
+.job-card p {
+  font-size: 12px;
+}
+.job-reference {
+  font-size: 10px;
+}
+.job-card select {
+  font-size: 12px;
+}
+.template-card p {
+  font-size: 14px;
+}
+.field {
+  font-size: 13px;
+}
+.client-content > p {
+  font-size: 16px;
+}
+.client-columns aside p {
+  font-size: 14px;
+}
+.updates-list p {
+  font-size: 14px;
+}
+.service-progress > div > strong {
+  font-size: 12px;
+}
+@media (max-width: 1250px) {
+  .dashboard-columns {
+    grid-template-columns: minmax(0, 1fr) 260px;
+  }
+  .lead-table {
+    min-width: 620px;
+  }
+  .assistant-heading > span:first-child {
+    font-size: 11px;
+  }
+  .assistant-panel h2 {
+    font-size: 21px;
+  }
+}
+@media (max-width: 1050px) {
+  .dashboard-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .hero-proof {
+    font-size: 10px;
+  }
+  .preview-label {
+    font-size: 9px;
+  }
+  .stat-sub {
+    font-size: 10px;
+  }
+  .demo-bar {
+    font-size: 10px;
+  }
+  .workspace-heading h1 {
+    font-size: 24px;
+  }
+  .workspace-heading p {
+    font-size: 13px;
+  }
+  .service-progress > div > strong {
+    font-size: 9px;
+  }
+  .plan > p {
+    min-height: 0;
+  }
+  .sidebar-demo > p {
+    font-size: 12px;
+  }
+}

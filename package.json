@@ -1,0 +1,37 @@
+{
+  "name": "relaynest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --configLoader native --host 127.0.0.1",
+    "build": "vite build --configLoader native && node scripts/prerender.mjs",
+    "preview": "node scripts/build-worker.mjs && node scripts/local-preview.mjs",
+    "deploy": "npm run build && wrangler deploy",
+    "db:local": "wrangler d1 migrations apply relaynest --local",
+    "db:remote": "wrangler d1 migrations apply relaynest --remote",
+    "test": "node scripts/build-worker.mjs && node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@paddle/paddle-js": "^1.4.2",
+    "hono": "^4.9.0",
+    "i18next": "^25.4.0",
+    "lucide-react": "^0.468.0",
+    "papaparse": "^5.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-i18next": "^15.7.0",
+    "react-router-dom": "^7.8.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "miniflare": "^5.20261001.0-alpha",
+    "playwright": "^1.62.1",
+    "prettier": "^3.9.9",
+    "vite": "^6.3.5",
+    "wrangler": "^4.30.0"
+  }
+}
