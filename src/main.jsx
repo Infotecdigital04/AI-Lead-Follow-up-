@@ -9,7 +9,9 @@ import "./readability.css";
 import "./experience.css";
 import "./premium.css";
 import "./signature.css";
-import { Home, Pricing, Login, Checkout, Legal, NotFound } from "./public.jsx";
+import { Pricing, Login, Checkout, Legal, NotFound } from "./public.jsx";
+import { HomeV2 } from "./homev2.jsx";
+import "./homev2-fix.css";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));
 function RouteMetadata() {
@@ -37,7 +39,7 @@ export function App() {
       <RouteMetadata />
       <Suspense fallback={<div className="loading">Opening Relaynest...</div>}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomeV2 />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<Checkout />} />
