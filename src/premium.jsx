@@ -10,6 +10,9 @@ import {
   Layers3,
   PanelTop,
   ArrowUpRight,
+  MessageSquare,
+  CalendarCheck2,
+  ShieldCheck,
 } from "lucide-react";
 
 export function MotionControl() {
@@ -47,64 +50,75 @@ export function MotionControl() {
 export function PremiumHero() {
   return (
     <>
-      <section className="premium-hero" aria-labelledby="premium-title">
-        <picture className="hero-photograph">
-          <source
-            media="(max-width: 760px)"
-            srcSet="/relaynest-studio-small.webp"
-          />
-          <img
-            src="/relaynest-studio.webp"
-            width="1536"
-            height="1024"
-            fetchPriority="high"
-            alt="Relaynest's service workspace displayed on a graphite laptop in a bright studio"
-          />
-        </picture>
-        <div className="premium-hero-copy">
-          <span className="premium-eyebrow">
-            <span /> FOR THE BUSINESS BEHIND GREAT SERVICE
+      <section className="signature-hero" aria-labelledby="premium-title">
+        <div className="signature-copy">
+          <span className="signature-kicker">
+            LEAD FOLLOW-UP. CLIENT EXPERIENCE. CONNECTED.
           </span>
           <h1 id="premium-title">
             Relaynest<span>.</span>
           </h1>
-          <h2>
-            Exceptional service.
-            <br className="mobile-break" /> Beautifully connected.
-          </h2>
+          <h2>Make every client feel like your only client.</h2>
           <p>
-            From the first inquiry to the final detail.
-            <br />
-            One place to give every client your best.
+            Bring your leads, follow-ups and client updates into one beautifully
+            clear workspace.
           </p>
-          <div className="hero-actions">
+          <div className="signature-actions">
             <Link to="/demo/overview" className="button primary">
               Explore Relaynest <ArrowUpRight size={18} />
             </Link>
-            <a href="#product" className="hero-tour-link">
-              See it in action <ArrowDown size={17} />
+            <a href="#product" className="signature-tour">
+              Discover the product <ArrowDown size={17} />
             </a>
           </div>
-          <span className="hero-reassurance">
-            <Check size={13} /> No signup or card needed for the demo
-          </span>
+          <p className="signature-reassurance">
+            <Check size={14} /> Free demo. No signup. No card.
+          </p>
         </div>
-        <div className="hero-caption">
-          <span>DESIGNED FOR THE FOLLOW-THROUGH</span>
-          <a href="#product">
-            Discover the workspace <ArrowDown size={14} />
-          </a>
+        <div className="signature-stage">
+          <div className="signature-stage-label">
+            <span>
+              <span className="signature-status" /> YOUR NEXT MOVE, IN FOCUS
+            </span>
+            <Link to="/demo/overview">
+              Enter the workspace <ArrowUpRight size={15} />
+            </Link>
+          </div>
+          <Link
+            to="/demo/overview"
+            className="signature-product"
+            aria-label="Explore the Relaynest demo workspace"
+          >
+            <picture>
+              <source
+                media="(max-width: 600px)"
+                srcSet="/workspace-mobile.jpg"
+              />
+              <img
+                src="/workspace-focus.jpg"
+                width="1147"
+                height="454"
+                fetchPriority="high"
+                alt="Relaynest demo: today's follow-ups, tasks and service progress in one workspace"
+              />
+            </picture>
+          </Link>
         </div>
-        <MotionControl />
+        <div className="signature-bottom">
+          <span>THE DETAILS MAKE THE DIFFERENCE.</span>
+          <MotionControl />
+        </div>
       </section>
       <div className="audience-ribbon">
-        <span>One-person ambition.</span>
-        <span>Growing teams.</span>
-        <span>High-touch service.</span>
-        <strong>
-          One connected workspace.
-          <ArrowRight size={16} />
-        </strong>
+        <span>
+          <MessageSquare size={18} /> A thoughtful first reply
+        </span>
+        <span>
+          <CalendarCheck2 size={18} /> A clear next step
+        </span>
+        <span>
+          <ShieldCheck size={18} /> A more personal experience
+        </span>
       </div>
     </>
   );

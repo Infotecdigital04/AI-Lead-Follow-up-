@@ -22,11 +22,11 @@ import { api, post, money, currencies } from "./data";
 import { Journey } from "./journey";
 import { PremiumHero, ProductShowcase } from "./premium";
 
-export function Header() {
+export function Header({ signature = false }) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
-    <header className="site-header">
+    <header className={`site-header${signature ? " signature-header" : ""}`}>
       <div className="site-nav">
         <Brand />
         <nav
@@ -69,7 +69,7 @@ export function Home() {
   useReveal();
   return (
     <>
-      <Header />
+      <Header signature />
       <main className="marketing premium">
         <PremiumHero />
         <ProductShowcase />

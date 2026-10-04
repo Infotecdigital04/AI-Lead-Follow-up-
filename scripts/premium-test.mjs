@@ -90,6 +90,7 @@ try {
     [320, 667],
     [390, 844],
     [768, 1024],
+    [1358, 634],
     [1366, 768],
     [1440, 900],
     [1920, 1080],
@@ -101,7 +102,7 @@ try {
       () => document.documentElement.dataset.motion === "off",
     );
     await page.waitForFunction(() => {
-      const img = document.querySelector(".hero-photograph img");
+      const img = document.querySelector(".signature-product img");
       return img.complete && img.naturalWidth > 0;
     });
     assert.equal(
@@ -128,13 +129,28 @@ try {
         `Navigation must be centered at ${width}`,
       );
     }
-    const hero = await page.locator(".premium-hero").boundingBox();
+    const hero = await page.locator(".signature-hero").boundingBox();
+    const reassurance = await page
+      .locator(".signature-reassurance")
+      .boundingBox();
+    const actions = await page.locator(".signature-actions").boundingBox();
+    const stage = await page.locator(".signature-stage").boundingBox();
+    assert.ok(
+      actions.y + actions.height <= reassurance.y,
+      `Actions overlap reassurance at ${width}x${height}`,
+    );
+    assert.ok(
+      reassurance.y + reassurance.height + 18 <= stage.y,
+      `Copy overlaps product at ${width}x${height}`,
+    );
     assert.ok(
       hero.y + hero.height < height,
       `Next section must be visible at ${width}x${height}`,
     );
     await page.screenshot({ path: `test-results/premium-hero-${width}.png` });
     await page.locator(".product-showcase").scrollIntoViewIfNeeded();
+    await page.locator(".showcase-image-link img").scrollIntoViewIfNeeded();
+    await page.locator(".showcase-image-link img").evaluate((img) => img.decode());
     await page.screenshot({
       path: `test-results/premium-product-${width}.png`,
     });
@@ -155,7 +171,7 @@ try {
   assert.equal(await toggle.getAttribute("aria-expanded"), "false");
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: centered navigation; six responsive viewports; all product images; keyboard tabs and demo links; scroll reveal; persistent motion controls; reduced motion; mobile navigation; no browser errors.",
+    "PASS: centered navigation; seven responsive viewports; measured hero separation; all product images; keyboard tabs and demo links; scroll reveal; persistent motion controls; reduced motion; mobile navigation; no browser errors.",
   );
 } finally {
   await browser.close();

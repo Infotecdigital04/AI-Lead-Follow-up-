@@ -8,6 +8,7 @@ import "./style.css";
 import "./readability.css";
 import "./experience.css";
 import "./premium.css";
+import "./signature.css";
 import { Home, Pricing, Login, Checkout, Legal, NotFound } from "./public.jsx";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));

@@ -18,7 +18,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 await mkdir("test-results", { recursive: true });
 try {
   await page.goto(base + "/");
-  await page.locator(".premium-hero h1").waitFor();
+  await page.locator(".signature-hero h1").waitFor();
   await page.getByRole("tab", { name: /The follow-up/ }).click();
   await page
     .getByLabel("Reply to Olivia")
@@ -124,7 +124,7 @@ try {
         `Overflow on ${route} at ${width}`,
       );
       if (route === "/") {
-        const img = page.locator(".hero-photograph img");
+        const img = page.locator(".signature-product img");
         await img.scrollIntoViewIfNeeded();
         assert.equal(
           await img.evaluate((el) => el.complete && el.naturalWidth > 0),
