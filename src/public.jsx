@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Play,
   Check,
-  Sparkles,
   MessageCircle,
   CalendarDays,
   Layers3,
@@ -21,6 +20,7 @@ import {
 import { Brand, Language, Footer, CheckItem, useReveal } from "./ui";
 import { api, post, money, currencies } from "./data";
 import { Journey } from "./journey";
+import { PremiumHero, ProductShowcase } from "./premium";
 
 export function Header() {
   const { t } = useTranslation();
@@ -29,11 +29,18 @@ export function Header() {
     <header className="site-header">
       <div className="site-nav">
         <Brand />
-        <nav className={open ? "open" : ""}>
+        <nav
+          aria-label="Main navigation"
+          className={open ? "open" : ""}
+          onClick={() => setOpen(false)}
+        >
           <a href="/#product">{t("product")}</a>
           <a href="/#industries">{t("industries")}</a>
           <Link to="/pricing">{t("pricing")}</Link>
           <Link to="/demo/overview">Live demo</Link>
+          <Link className="mobile-login" to="/login">
+            {t("login")}
+          </Link>
         </nav>
         <div className="nav-actions">
           <Language />
@@ -63,68 +70,10 @@ export function Home() {
   return (
     <>
       <Header />
-      <main className="marketing">
-        <section className="hero">
-          <div className="hero-kicker">
-            <span className="tiny-mark">
-              <Sparkles size={13} />
-            </span>{" "}
-            THE FOLLOW-THROUGH WORKSPACE
-          </div>
-          <h1>Relaynest</h1>
-          <h2>{t("hero")}</h2>
-          <p>{t("heroSub")}</p>
-          <div className="hero-actions">
-            <Link className="button primary" to="/demo/overview">
-              {t("tryDemo")}
-              <ArrowRight size={17} />
-            </Link>
-            <a className="button secondary" href="#journey">
-              <Play size={16} />
-              See the client journey
-            </a>
-          </div>
-          <div className="hero-proof">
-            <span>
-              <Check size={14} />
-              No signup. No card.
-            </span>
-            <span>
-              <Check size={14} />
-              Sample data. Real workflows.
-            </span>
-          </div>
-        </section>
-        <section className="product-preview" id="product">
-          <div className="preview-label">
-            <span>
-              <span className="live-dot" /> YOUR BUSINESS, WITH THE NEXT STEP IN
-              VIEW
-            </span>
-            <Link to="/demo/overview">
-              Take a look inside <ArrowRight size={15} />
-            </Link>
-          </div>
-          <Link
-            to="/demo/overview"
-            aria-label="Open the interactive Relaynest workspace"
-          >
-            <picture>
-              <source
-                media="(max-width: 760px)"
-                srcSet="/workspace-mobile.jpg"
-              />
-              <img
-                src="/workspace-preview.jpg"
-                width="1440"
-                height="980"
-                fetchPriority="high"
-                alt="Relaynest workspace showing leads, follow-ups, appointments and service progress"
-              />
-            </picture>
-          </Link>
-        </section>
-        <section className="value-strip">
+      <main className="marketing premium">
+        <PremiumHero />
+        <ProductShowcase />
+        <section className="value-strip" data-reveal>
           <div>
             <MessageCircle />
             <strong>Every conversation, continued.</strong>
@@ -202,27 +151,30 @@ export function Home() {
             <div>
               <span className="eyebrow">YOUR WORK. YOUR WORKSPACE.</span>
               <h2>
-                Built around people
+                For people who take
                 <br />
-                who provide a service.
+                service personally.
               </h2>
-              <p>Start with the essentials. Grow into your own rhythm.</p>
+              <p>
+                From independent specialists to high-touch service teams. A
+                thoughtful client experience belongs in every business.
+              </p>
             </div>
             <div className="industry-list">
               {[
                 [
                   Wrench,
-                  "Auto repair & garages",
+                  "Automotive & specialist care",
                   "From the first inquiry to keys handed back.",
                 ],
                 [
                   BriefcaseBusiness,
-                  "Agencies & consultants",
+                  "Agencies & private consultants",
                   "Keep every client and next step connected.",
                 ],
                 [
                   Building2,
-                  "Home & local services",
+                  "Property & personal services",
                   "Less back-and-forth. More work moving forward.",
                 ],
               ].map(([Icon, title, sub]) => (
@@ -799,3 +751,4 @@ export function NotFound() {
     </>
   );
 }
+

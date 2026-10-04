@@ -115,20 +115,75 @@ export function Modal({ title, children, onClose, wide = false }) {
 }
 export function useReveal() {
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("revealed");
-            observer.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.12 },
-    );
-    document
-      .querySelectorAll("[data-reveal]")
-      .forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const root = document.documentElement;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const elements = [...document.querySelectorAll("[data-reveal]")];
+    let observer,
+      frame = 0,
+      preference = null;
+    try {
+      preference = localStorage.getItem("relaynest-motion");
+    } catch {
+      /* Motion does not require storage. */
+    }
+    const apply = () => {
+      observer?.disconnect();
+      const enabled = !media.matches && preference !== "off";
+      root.dataset.motion = enabled ? "on" : "off";
+      if (enabled && "IntersectionObserver" in window) {
+        observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("revealed");
+                observer.unobserve(entry.target);
+              }
+            }),
+          { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
+        );
+        elements.forEach((element) => {
+          element.classList.add("reveal-ready");
+          element.classList.remove("revealed");
+          observer.observe(element);
+        });
+      } else
+        elements.forEach((element) => element.classList.remove("reveal-ready"));
+      window.dispatchEvent(new Event("relaynest-motion-applied"));
+    };
+    const changed = (event) => {
+      preference = event.detail;
+      apply();
+    };
+    const scroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        root.style.setProperty(
+          "--page-progress",
+          String(scrollY / Math.max(1, root.scrollHeight - innerHeight)),
+        );
+        root.style.setProperty(
+          "--hero-shift",
+          root.dataset.motion === "on"
+            ? `${Math.min(scrollY * 0.07, 24)}px`
+            : "0px",
+        );
+        frame = 0;
+      });
+    };
+    apply();
+    scroll();
+    window.addEventListener("scroll", scroll, { passive: true });
+    window.addEventListener("relaynest-motion", changed);
+    media.addEventListener("change", apply);
+    return () => {
+      observer?.disconnect();
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scroll);
+      window.removeEventListener("relaynest-motion", changed);
+      media.removeEventListener("change", apply);
+      root.style.removeProperty("--page-progress");
+      root.style.removeProperty("--hero-shift");
+    };
   }, []);
 }
 export function Footer() {
@@ -155,3 +210,4 @@ export function CheckItem({ children }) {
     </li>
   );
 }
+

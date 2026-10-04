@@ -7,6 +7,7 @@ import "@fontsource-variable/manrope/wght.css";
 import "./style.css";
 import "./readability.css";
 import "./experience.css";
+import "./premium.css";
 import { Home, Pricing, Login, Checkout, Legal, NotFound } from "./public.jsx";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));
@@ -52,3 +53,4 @@ export function App() {
   );
 }
 createRoot(document.getElementById("root")).render(<App />);
+

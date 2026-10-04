@@ -18,7 +18,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 await mkdir("test-results", { recursive: true });
 try {
   await page.goto(base + "/");
-  await page.getByRole("heading", { name: "Relaynest", exact: true }).waitFor();
+  await page.locator(".premium-hero h1").waitFor();
   await page.getByRole("tab", { name: /The follow-up/ }).click();
   await page
     .getByLabel("Reply to Olivia")
@@ -61,13 +61,11 @@ try {
       quality: 85,
     });
     await page.setViewportSize({ width: 390, height: 900 });
-    await page
-      .locator(".daily-focus")
-      .screenshot({
-        path: "public/workspace-mobile.jpg",
-        type: "jpeg",
-        quality: 85,
-      });
+    await page.locator(".daily-focus").screenshot({
+      path: "public/workspace-mobile.jpg",
+      type: "jpeg",
+      quality: 85,
+    });
     await page.setViewportSize({ width: 1440, height: 980 });
   }
   await page
@@ -126,7 +124,7 @@ try {
         `Overflow on ${route} at ${width}`,
       );
       if (route === "/") {
-        const img = page.locator(".product-preview img");
+        const img = page.locator(".hero-photograph img");
         await img.scrollIntoViewIfNeeded();
         assert.equal(
           await img.evaluate((el) => el.complete && el.naturalWidth > 0),
@@ -157,3 +155,4 @@ try {
 } finally {
   await browser.close();
 }
+
