@@ -65,7 +65,7 @@ export function StudioHome() {
         <p className="rn-hero-description">{english ? "Your leads, your work, your clients. Beautifully connected." : t("heroSub")}</p>
         <div className="rn-hero-actions"><Link className="rn-button rn-mint" to="/demo/overview">{english ? "Explore the workspace" : t("tryDemo")} <ArrowUpRight size={18} /></Link><a className="rn-text-link" href="#product"><Play size={15} /> See it in action</a></div>
         <p className="rn-reassurance"><Check size={13} /> No signup. No card. Just a look around.</p>
-      </div><div className="rn-hero-product"><div className="rn-product-caption"><span><span className="rn-status-dot" /> YOUR DAY, CONNECTED</span><span>SAMPLE WORKSPACE <ArrowUpRight size={12} /></span></div><Link to="/demo/overview" aria-label="Explore the Relaynest daily focus workspace"><img src="/workspace-focus.jpg" alt="Relaynest daily focus: follow-ups and tasks organised by priority" width="1147" height="455" fetchPriority="high" /></Link></div></section>
+      </div><div className="rn-hero-product"><div className="rn-product-caption"><span><span className="rn-status-dot" /> YOUR DAY, CONNECTED</span><span>SAMPLE WORKSPACE <ArrowUpRight size={12} /></span></div><Link to="/demo/overview" aria-label="Explore the Relaynest workspace"><img src="/workspace-preview.jpg" alt="Relaynest workspace overview with navigation, lead totals and daily follow-up tasks" width="1440" height="980" fetchPriority="high" /></Link></div></section>
       <div className="rn-value-strip"><span>Made for the business behind great service.</span><a href="#product">Less chasing. More connection. <ArrowDown size={16} /></a></div>
 
       <section className="rn-section rn-product" id="product">
