@@ -1,84 +1,581 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { ArrowUpRight, ArrowDown, Check, ChevronRight, Menu, X, Users, MessageCircle, Layers3, CalendarDays, Wrench, Scissors, Camera, BriefcaseBusiness, Plus, Play } from "lucide-react";
-import { Brand, Language } from "./ui";
-import { PlanCards } from "./public";
-import "./studio-home.css";
+import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  Bell,
+  CalendarDays,
+  Check,
+  ChevronRight,
+  Layers3,
+  Menu,
+  MessageCircle,
+  Pause,
+  Play,
+  Search,
+  Settings,
+  Sparkles,
+  Users,
+  Wrench,
+  X,
+  Zap,
+} from "lucide-react";
+import { Language } from "./ui";
 import { createHomeMotion } from "./home-motion";
+import "./studio-home.css";
 
-const views = [
-  { name: "Daily focus", icon: Users, title: "A clear head start.", text: "Know who needs a reply, what is due, and where to give your attention. One considered view of the day ahead.", image: "/workspace-complete.jpg", route: "/demo/overview" },
-  { name: "Service tracking", icon: Layers3, title: "Good work. All together.", text: "Keep the details close and the next step clear. Follow each job from the first conversation to the final handover.", image: "/workboard-complete.jpg", route: "/demo/jobs" },
-  { name: "Client portal", icon: MessageCircle, title: "A better client experience.", text: "Give clients a place of their own to see progress and stay connected. Less chasing. More confidence.", image: "/portal-complete.jpg", route: "/portal/demo" },
+const industries = [
+  {
+    name: "Automotive",
+    image: "/industry-automotive.webp",
+    alt: "A freshly detailed black sports car in an automotive workshop",
+    text: "From first inquiry to final handover, keep every detail connected.",
+    route: "/demo/jobs",
+  },
+  {
+    name: "Beauty & wellness",
+    image: "/industry-salon.webp",
+    alt: "An appointment-ready boutique beauty salon",
+    text: "Turn more inquiries into appointments and lasting client relationships.",
+    route: "/demo/appointments",
+  },
+  {
+    name: "Creative studios",
+    image: "/workspace-complete.jpg",
+    alt: "Relaynest project tasks and client follow-ups",
+    text: "Bring briefs, client conversations and the next creative milestone together.",
+    route: "/demo/tasks",
+    product: true,
+  },
+  {
+    name: "Professional services",
+    image: "/portal-complete.jpg",
+    alt: "Relaynest client portal showing shared service progress",
+    text: "A considered experience for every proposal, project and client.",
+    route: "/portal/demo",
+    product: true,
+  },
 ];
-const trades = [
-  { name: "Automotive", icon: Wrench, title: "Every service. Every detail.", description: "Keep enquiries, vehicle notes and service progress connected, from the first call to the keys back in hand.", stages: ["Enquiry", "Inspection", "In progress", "Ready"], client: "Olivia Rhye", job: "Annual vehicle service", next: "Confirm the collection time", message: "Hi Olivia, your service is nearly complete. Would a collection at 4 pm work for you?" },
-  { name: "Beauty & wellness", icon: Scissors, title: "Care that continues after the visit.", description: "Make room for a more personal experience. Keep client preferences, appointments and follow-ups in one place.", stages: ["Enquiry", "Booked", "Appointment", "Follow-up"], client: "Amelia Stone", job: "Colour consultation", next: "Follow up after the appointment", message: "Hi Amelia, it was lovely seeing you. How are you finding your new colour?" },
-  { name: "Creative studios", icon: Camera, title: "More room for your best work.", description: "Bring enquiries, project notes and client updates together, so the details never interrupt the creative process.", stages: ["Enquiry", "Proposal", "Production", "Delivery"], client: "Alex Morgan", job: "Brand photography", next: "Confirm the shoot brief", message: "Hi Alex, I have your shoot brief ready. Shall we walk through the details together?" },
-  { name: "Professional services", icon: BriefcaseBusiness, title: "Every relationship deserves attention.", description: "Keep a clear view of proposals, tasks and client conversations, whether you work independently or with a team.", stages: ["Discovery", "Proposal", "In progress", "Review"], client: "Jordan Lee", job: "Strategy consultation", next: "Arrange the proposal review", message: "Hi Jordan, following up on our conversation. Would Thursday work for a proposal review?" },
+const focusItems = [
+  {
+    icon: MessageCircle,
+    title: "Follow up with Olivia",
+    detail: "New lead / Consultation request",
+    time: "10:00 AM",
+    status: "Ready to follow up",
+    route: "/demo/leads",
+  },
+  {
+    icon: Wrench,
+    title: "Review service progress",
+    detail: "Alex Morgan / Project update",
+    time: "1:00 PM",
+    status: "In progress",
+    route: "/demo/jobs",
+  },
+  {
+    icon: CalendarDays,
+    title: "Confirm tomorrow's appointment",
+    detail: "Jamie Park / Initial consultation",
+    time: "4:00 PM",
+    status: "Needs confirmation",
+    route: "/demo/appointments",
+  },
 ];
-const questions = [
-  ["Can I try Relaynest before creating an account?", "Yes. The live demo opens straight into a workspace with sample data. No signup or card is required. Demo changes stay in your browser."],
-  ["Will this work for my kind of business?", "Relaynest brings together leads, customers, follow-up tasks, service jobs and a client portal. Explore the examples above, then try your everyday workflow in the demo."],
-  ["Can I use it on my phone?", "Yes. The workspace adapts to phones, tablets and desktops, so you can check on a client or a job away from your desk."],
-  ["Can I pay in my local currency?", "The pricing selector offers local currencies. Paid subscriptions will open after payment-provider approval; final currency, taxes and totals will be shown at checkout."],
+const productViews = [
+  {
+    name: "Daily focus",
+    title: "Follow up with Olivia",
+    subtitle: "New lead / Consultation request",
+    label: "Your next conversation",
+    message:
+      "Hi Olivia, thanks again for your interest. I've put together a few options based on what you're looking for. Let me know if you'd like to talk through the details.",
+    action: "Explore follow-ups",
+    route: "/demo/leads",
+  },
+  {
+    name: "Service tracking",
+    title: "Every detail, in view.",
+    subtitle: "From booked to beautifully delivered",
+    label: "Service in progress",
+    message:
+      "Keep job details, due dates and client updates together. A shared view of the work makes the next step clear for everyone.",
+    action: "Explore service jobs",
+    route: "/demo/jobs",
+  },
+  {
+    name: "Client portal",
+    title: "A space of their own.",
+    subtitle: "Your client experience, connected",
+    label: "A shared view of progress",
+    message:
+      "Give every client a calm, clear place to follow their service, check the latest update and know what comes next.",
+    action: "Open the client portal",
+    route: "/portal/demo",
+  },
 ];
-
+function Wordmark() {
+  return (
+    <Link to="/" className="rn-wordmark" aria-label="Relaynest home">
+      Relaynest<span>.</span>
+    </Link>
+  );
+}
+function SampleDashboard() {
+  return (
+    <div className="rn-device" aria-label="Sample Relaynest workspace">
+      <div className="rn-device-inner">
+        <aside className="rn-device-sidebar">
+          <span className="rn-device-brand">
+            Relaynest<span>.</span>
+          </span>
+          <nav aria-label="Sample workspace">
+            {[
+              [CalendarDays, "Today", "/demo/overview"],
+              [Users, "Leads", "/demo/leads"],
+              [Users, "Clients", "/demo/customers"],
+              [Layers3, "Services", "/demo/jobs"],
+              [CalendarDays, "Calendar", "/demo/appointments"],
+            ].map(([Icon, name, route], i) => (
+              <Link className={i === 0 ? "selected" : ""} to={route} key={name}>
+                <Icon size={15} />
+                <span>{name}</span>
+              </Link>
+            ))}
+          </nav>
+          <div className="rn-device-bottom">
+            <Link to="/demo/tasks">
+              <MessageCircle size={14} />
+              Follow-ups
+            </Link>
+            <Link to="/demo/settings">
+              <Settings size={14} />
+              Settings
+            </Link>
+          </div>
+        </aside>
+        <div className="rn-device-main">
+          <div className="rn-device-top">
+            <span>SAMPLE WORKSPACE</span>
+            <div>
+              <Search size={15} />
+              <Bell size={15} />
+              <span className="rn-avatar">AC</span>
+              <span className="rn-owner">
+                Alex Carter<small>Studio owner</small>
+              </span>
+            </div>
+          </div>
+          <h2>Good morning, Alex.</h2>
+          <p>A clear view of what comes next.</p>
+          <div className="rn-device-grid">
+            <div className="rn-focus-list">
+              <div className="rn-focus-heading">
+                <h3>Today's focus</h3>
+                <span>Tuesday, 22 April</span>
+              </div>
+              {focusItems.map(({ icon: Icon, ...item }, i) => (
+                <Link
+                  to={item.route}
+                  className="rn-focus-item"
+                  key={item.title}
+                >
+                  <span className={"rn-task-icon rn-task-" + i}>
+                    <Icon size={22} />
+                  </span>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <small>{item.detail}</small>
+                  </div>
+                  <div className="rn-task-meta">
+                    <time>{item.time}</time>
+                    <span className={"rn-status rn-status-" + i}>
+                      {item.status}
+                    </span>
+                  </div>
+                  <ChevronRight size={15} />
+                </Link>
+              ))}
+              <Link to="/demo/overview" className="rn-all-tasks">
+                View your workspace <ArrowRight size={13} />
+              </Link>
+            </div>
+            <div className="rn-device-rail">
+              <div className="rn-calendar">
+                <div>
+                  <strong>April 2025</strong>
+                  <CalendarDays size={14} />
+                </div>
+                <div className="rn-calendar-days">
+                  {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+                    <b key={i}>{d}</b>
+                  ))}
+                  {Array.from({ length: 35 }, (_, i) => (
+                    <span key={i} className={i === 23 ? "today" : ""}>
+                      {i < 2 || i > 31 ? "" : i - 1}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <Link to="/demo/jobs" className="rn-service-mini">
+                <Wrench size={24} />
+                <div>
+                  <strong>Service in progress</strong>
+                  <small>Project delivery</small>
+                  <span className="rn-status">In progress</span>
+                </div>
+                <ChevronRight size={14} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 export function StudioHome() {
-  const { t, i18n } = useTranslation();
-  const english = i18n.resolvedLanguage === "en";
-  const [menu, setMenu] = useState(false);
-  const [view, setView] = useState(0);
-  const [trade, setTrade] = useState(0);
-  const root = useRef(null);
-  const navigate = useNavigate();
-  const current = views[view];
-  const industry = trades[trade];
+  const root = useRef(null),
+    motion = useRef(null),
+    pausedRef = useRef(false);
+  const [menu, setMenu] = useState(false),
+    [paused, setPaused] = useState(false),
+    [industry, setIndustry] = useState(0),
+    [view, setView] = useState(0);
+  const current = productViews[view];
+  const shownIndustries = [
+    industries[industry],
+    industries[(industry + 1) % industries.length],
+  ];
   useEffect(() => {
-    const node = root.current;
-    if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let active=true, dispose;
-    createHomeMotion(node,()=>active).then(cleanup=>{if(active)dispose=cleanup;else cleanup();}).catch(()=>{});
-    return () => {active=false;dispose?.();};
+    let active = true;
+    createHomeMotion(root.current, () => active)
+      .then((controller) => {
+        if (active) {
+          motion.current = controller;
+          controller.pause(pausedRef.current);
+        } else controller.dispose();
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+      motion.current?.dispose();
+      motion.current = null;
+    };
   }, []);
   useEffect(() => {
+    pausedRef.current = paused;
+    motion.current?.pause(paused);
+  }, [paused]);
+  useEffect(() => {
     if (!menu) return;
-    const close = (event) => { if (event.key === "Escape") { setMenu(false); root.current?.querySelector(".rn-menu-button")?.focus(); } };
+    const close = (e) => {
+      if (e.key === "Escape") {
+        setMenu(false);
+        root.current?.querySelector(".rn-menu-toggle")?.focus();
+      }
+    };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, [menu]);
-
-  return <div className="rn-home" ref={root}>
-    <a className="rn-skip" href="#main">Skip to content</a>
-    <header className="rn-header"><div className="rn-nav">
-      <Brand />
-      <nav className="rn-links" aria-label="Main navigation"><a href="#product">{t("product")}</a><a href="#industries">{t("industries")}</a><a href="#pricing">{t("pricing")}</a><Link to="/demo/overview">{t("tryDemo")}</Link></nav>
-      <div className="rn-actions"><Language /><Link className="rn-login" to="/login">{t("login")}</Link><Link className="rn-button rn-small" to="/demo/overview">Explore <ArrowUpRight size={15} /></Link><button className="rn-menu-button" aria-label={menu ? "Close menu" : "Open menu"} aria-expanded={menu} aria-controls="rn-mobile-nav" onClick={() => setMenu(!menu)}>{menu ? <X size={21} /> : <Menu size={21} />}</button></div>
-    </div>{menu && <nav id="rn-mobile-nav" className="rn-mobile-nav" aria-label="Mobile navigation" onClick={(event) => { if (event.target.closest("a")) setMenu(false); }}><a href="#product">Product</a><a href="#industries">Industries</a><a href="#pricing">Pricing</a><Link to="/demo/overview">Live demo</Link><Link to="/login">Log in</Link><Language /></nav>}</header>
-    <main id="main">
-      <section className="rn-hero" aria-labelledby="rn-title"><div className="rn-hero-copy">
-        <p className="rn-eyebrow"><span /> A LITTLE FOLLOW-UP. A LOT OF POSSIBILITY.</p>
-        <h1 id="rn-title">Relaynest<span>.</span></h1><p className="rn-hero-title">{english ? "Stay close. Go further." : t("hero")}</p>
-        <p className="rn-hero-description">{english ? "Your leads, your work, your clients. Beautifully connected." : t("heroSub")}</p>
-        <div className="rn-hero-actions"><Link className="rn-button rn-mint" to="/demo/overview">{english ? "Explore the workspace" : t("tryDemo")} <ArrowUpRight size={18} /></Link><a className="rn-text-link" href="#product"><Play size={15} /> See it in action</a></div>
-        <p className="rn-reassurance"><Check size={13} /> No signup. No card. Just a look around.</p>
-      </div><div className="rn-hero-product"><div className="rn-product-caption"><span><span className="rn-status-dot" /> YOUR WORK, CONNECTED</span><span>SAMPLE WORKSPACE <ArrowUpRight size={12} /></span></div><Link to="/demo/jobs" aria-label="Explore the Relaynest service workspace"><img src="/workboard-complete.jpg" alt="Complete Relaynest service workspace, including every job stage and the page footer" width="1440" height="980" fetchPriority="high" /></Link></div></section>
-      <div className="rn-value-strip"><span>Made for the business behind great service.</span><a href="#product">Less chasing. More connection. <ArrowDown size={16} /></a></div>
-
-      <section className="rn-section rn-product" id="product">
-        <div className="rn-section-head rn-reveal"><div><p className="rn-eyebrow">01 / THE WORKSPACE</p><h2>A little less busy.<br /><span>A lot more clarity.</span></h2></div><p>Make space for the work you love.<br />Bring the rest together in Relaynest.</p></div>
-        <div className="rn-product-tabs" role="group" aria-label="Product views">{views.map((item, index) => <button key={item.name} aria-pressed={view === index} onClick={() => setView(index)}><item.icon size={17} />{item.name}</button>)}</div>
-        <div className="rn-product-stage rn-reveal"><div className="rn-product-story" aria-live="polite"><div><h3>{current.title}</h3><p>{current.text}</p></div><Link to={current.route}>Explore this view <ArrowUpRight size={18} /></Link></div><Link to={current.route} className="rn-screen-link" aria-label={`Open ${current.name} demo`}><img key={current.image} src={current.image} alt={`Relaynest ${current.name} sample screen`} loading="lazy" decoding="async" width="1440" height="980" /></Link></div>
-        <div className="rn-benefits rn-reveal">{[[MessageCircle, "A more personal follow-up.", "Keep context close, prepare your next reply, and remember the conversations that matter."], [CalendarDays, "A day with direction.", "Appointments, tasks and next steps, organised around the people who need you."], [Layers3, "A connected client journey.", "Move from enquiry to delivery with a shared view of the work in progress."]].map(([Icon, title, text], i) => <article key={title}><span className={`rn-benefit-icon rn-accent-${i}`}><Icon size={22} /></span><h3>{title}</h3><p>{text}</p></article>)}</div>
-      </section>
-      <section className="rn-industries" id="industries"><div className="rn-section"><div className="rn-section-head rn-reveal"><div><p className="rn-eyebrow">02 / YOUR KIND OF BUSINESS</p><h2>Your craft.<br /><span>Your way of working.</span></h2></div><p>From an independent studio to a growing team.<br />Every client deserves your best.</p></div>
-        <div className="rn-industry-layout rn-reveal"><div className="rn-industry-options" role="group" aria-label="Industry examples">{trades.map((item, index) => <button key={item.name} aria-pressed={trade === index} onClick={() => setTrade(index)}><item.icon size={20} /><span>{item.name}</span><ChevronRight size={18} /></button>)}</div>
-        <div className="rn-industry-detail" aria-live="polite"><span className="rn-example-label">ILLUSTRATIVE WORKFLOW</span><h3>{industry.title}</h3><p>{industry.description}</p><ol className="rn-stages">{industry.stages.map((stage, i) => <li key={stage} className={i === 2 ? "rn-current" : ""}><span>{i < 2 ? <Check size={12} /> : i + 1}</span>{stage}</li>)}</ol><div className="rn-client-line"><span className="rn-avatar">{industry.client.split(" ").map((part) => part[0]).join("")}</span><div><strong>{industry.client}</strong><span>{industry.job}</span></div><span className="rn-client-status">In progress</span></div><div className="rn-message"><span><MessageCircle size={14} />{industry.next}</span><p>{industry.message}</p></div></div></div>
-      </div></section>
-      <section className="rn-section rn-pricing" id="pricing"><div className="rn-section-head rn-reveal"><div><p className="rn-eyebrow">03 / ROOM TO GROW</p><h2>Big ambition.<br /><span>A thoughtful starting point.</span></h2></div><p>Explore a plan that fits your next chapter.<br />Start with the demo, at your own pace.</p></div><PlanCards onSelect={(plan, interval) => navigate(`/login?plan=${plan}&interval=${interval}`)} /></section>
-      <section className="rn-faq-section"><div className="rn-section rn-faq-grid"><div><p className="rn-eyebrow">A FEW MORE DETAILS</p><h2>Good questions.<br /><span>Clear answers.</span></h2><a className="rn-text-link" href="mailto:info@infotecdigital.com">Talk to us <ArrowUpRight size={17} /></a></div><div className="rn-faq">{questions.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></div></section>
-      <section className="rn-closing"><div><p className="rn-eyebrow">THE NEXT HELLO STARTS HERE.</p><h2>Your next chapter.<br /><span>All together.</span></h2></div><div><Link className="rn-button rn-mint" to="/demo/overview">Find your flow <ArrowUpRight size={18} /></Link><p className="rn-reassurance">No signup. No card.</p></div></section>
-    </main><footer className="rn-footer"><div><Brand /><p>A little follow-up. A lasting connection.</p></div><nav aria-label="Footer navigation"><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><Link to="/refunds">Refunds</Link><a href="mailto:info@infotecdigital.com">Contact</a></nav><p>© 2026 Infotec Digital</p></footer>
-  </div>;
+  return (
+    <div className="rn-home" ref={root}>
+      <a className="rn-skip" href="#main">
+        Skip to content
+      </a>
+      <header className="rn-header">
+        <div className="rn-nav">
+          <Wordmark />
+          <nav className="rn-nav-links" aria-label="Main navigation">
+            <a href="#product">Product</a>
+            <a href="#solutions">Solutions</a>
+            <Link to="/pricing">Pricing</Link>
+          </nav>
+          <div className="rn-nav-actions">
+            <Link className="rn-login" to="/login">
+              Log in
+            </Link>
+            <Link className="rn-pill rn-small" to="/demo/overview">
+              Explore demo <ArrowRight size={15} />
+            </Link>
+            <button
+              className="rn-menu-toggle"
+              aria-label={menu ? "Close menu" : "Open menu"}
+              aria-expanded={menu}
+              aria-controls="rn-mobile-navigation"
+              onClick={() => setMenu(!menu)}
+            >
+              {menu ? <X size={21} /> : <Menu size={21} />}
+            </button>
+          </div>
+        </div>
+        {menu && (
+          <nav
+            id="rn-mobile-navigation"
+            className="rn-mobile-nav"
+            aria-label="Mobile navigation"
+          >
+            <a href="#product" onClick={() => setMenu(false)}>
+              Product
+            </a>
+            <a href="#solutions" onClick={() => setMenu(false)}>
+              Solutions
+            </a>
+            <Link to="/pricing">Pricing</Link>
+            <Link to="/login">Log in</Link>
+            <Language />
+          </nav>
+        )}
+      </header>
+      <main id="main">
+        <section className="rn-hero" aria-labelledby="rn-headline">
+          <div className="rn-hero-copy">
+            <p className="rn-eyebrow">YOUR WORK. BEAUTIFULLY CONNECTED.</p>
+            <h1 className="rn-sr-only">
+              Relaynest: AI lead follow-up and client portal
+            </h1>
+            <h2 id="rn-headline">
+              Less chasing.
+              <br />
+              <span>More connection.</span>
+            </h2>
+            <p className="rn-hero-description">
+              Your leads, your work, your clients. One beautifully connected
+              workspace.
+            </p>
+            <div className="rn-hero-actions">
+              <Link className="rn-pill" to="/demo/overview">
+                Explore the workspace <ArrowRight size={17} />
+              </Link>
+              <a className="rn-text-link" href="#product">
+                See it in action
+              </a>
+            </div>
+            <p className="rn-reassurance">
+              No signup. No card. Just a look around.
+            </p>
+          </div>
+          <div className="rn-hero-scene">
+            <div className="rn-ribbon-motion">
+              <img
+                className="rn-ribbon"
+                src="/ribbon-sculpture.webp"
+                alt=""
+                width="1536"
+                height="1024"
+                fetchPriority="high"
+              />
+            </div>
+            <div className="rn-tablet-wrap">
+              <SampleDashboard />
+            </div>
+            <Link className="rn-floating-followup" to="/demo/leads">
+              <small>Next follow-up</small>
+              <div>
+                <span className="rn-avatar">OR</span>
+                <span>
+                  <strong>Olivia Rhye</strong>
+                  <small>Ready when you are.</small>
+                </span>
+                <span className="rn-circle-arrow">
+                  <ArrowRight size={16} />
+                </span>
+              </div>
+            </Link>
+          </div>
+          <button
+            className="rn-motion-toggle"
+            onClick={() => setPaused(!paused)}
+            aria-pressed={paused}
+            aria-label={
+              paused ? "Resume ambient animation" : "Pause ambient animation"
+            }
+            title={
+              paused ? "Resume ambient animation" : "Pause ambient animation"
+            }
+          >
+            {paused ? <Play size={15} /> : <Pause size={15} />}
+          </button>
+        </section>
+        <section
+          className="rn-product"
+          id="product"
+          aria-labelledby="rn-product-title"
+        >
+          <div className="rn-section-heading rn-reveal">
+            <div>
+              <p className="rn-eyebrow">01 / THE WORKSPACE</p>
+              <h2 id="rn-product-title">
+                A little less busy.
+                <br />
+                <span>A lot more clarity.</span>
+              </h2>
+            </div>
+            <p>
+              Make space for the work you love.
+              <br />
+              Bring the rest together in Relaynest.
+            </p>
+          </div>
+          <div className="rn-dark-stage">
+            <div className="rn-dark-console">
+              <aside className="rn-dark-sidebar">
+                {[
+                  [Zap, "Follow-ups", 0],
+                  [CalendarDays, "Appointments", 1],
+                  [Wrench, "Service jobs", 1],
+                  [Users, "Clients", 2],
+                ].map(([Icon, name, index], i) =>
+                  name === "Appointments" ? (
+                    <Link
+                      className="rn-dark-nav-link"
+                      key={name}
+                      to="/demo/appointments"
+                    >
+                      <Icon size={21} />
+                      <span>{name}</span>
+                    </Link>
+                  ) : (
+                    <button
+                      className={
+                        (i === 0 && view === 0) ||
+                        (i === 2 && view === 1) ||
+                        (i === 3 && view === 2)
+                          ? "active"
+                          : ""
+                      }
+                      key={name}
+                      onClick={() => setView(index)}
+                    >
+                      <Icon size={21} />
+                      <span>{name}</span>
+                    </button>
+                  ),
+                )}
+              </aside>
+              <div className="rn-dark-content">
+                <div className="rn-dark-client">
+                  <span className="rn-avatar rn-avatar-large">OR</span>
+                  <div>
+                    <h3>{current.title}</h3>
+                    <p>{current.subtitle}</p>
+                  </div>
+                  <span className="rn-dark-status">
+                    <span />
+                    Sample workspace
+                  </span>
+                </div>
+                <div
+                  className="rn-product-tabs"
+                  role="group"
+                  aria-label="Workspace preview"
+                >
+                  {productViews.map((item, index) => (
+                    <button
+                      key={item.name}
+                      aria-pressed={view === index}
+                      onClick={() => setView(index)}
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+                <div className="rn-message-preview" key={view}>
+                  <div>
+                    <Sparkles size={18} />
+                    <span>{current.label}</span>
+                  </div>
+                  <p>{current.message}</p>
+                  <Link to={current.route}>
+                    {current.action}
+                    <ArrowRight size={17} />
+                  </Link>
+                </div>
+                <div className="rn-dark-bottom">
+                  <span>
+                    <Check size={14} />
+                    Every next step, connected.
+                  </span>
+                  <Link to="/demo/overview">
+                    Explore the demo <ArrowRight size={15} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          className="rn-solutions"
+          id="solutions"
+          aria-labelledby="rn-solutions-title"
+        >
+          <div className="rn-solutions-head rn-reveal">
+            <div>
+              <p className="rn-eyebrow">02 / YOUR KIND OF BUSINESS</p>
+              <h2 id="rn-solutions-title">
+                Built around
+                <br />
+                your kind of work.
+              </h2>
+            </div>
+            <div
+              className="rn-industry-tabs"
+              role="group"
+              aria-label="Business type"
+            >
+              {industries.map((item, index) => (
+                <button
+                  key={item.name}
+                  aria-pressed={industry === index}
+                  onClick={() => setIndustry(index)}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="rn-industry-grid">
+            {shownIndustries.map((item) => (
+              <Link
+                key={item.name}
+                className={
+                  "rn-industry-card" +
+                  (item.product ? " rn-industry-product" : "")
+                }
+                to={item.route}
+              >
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  loading="lazy"
+                  width="1000"
+                  height="667"
+                />
+                <div>
+                  <h3>{item.name}</h3>
+                  <p>{item.text}</p>
+                </div>
+                <span className="rn-card-arrow">
+                  <ArrowRight size={22} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </main>
+      <footer className="rn-footer">
+        <Wordmark />
+        <nav aria-label="Legal">
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
+          <Link to="/refunds">Refunds</Link>
+          <a href="mailto:info@infotecdigital.com">Contact</a>
+        </nav>
+        <Link className="rn-footer-invite" to="/demo/overview">
+          Stay close. Go further.
+          <span>
+            <ArrowRight size={18} />
+          </span>
+        </Link>
+      </footer>
+    </div>
+  );
 }

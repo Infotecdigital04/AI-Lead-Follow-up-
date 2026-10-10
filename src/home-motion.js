@@ -1,40 +1,131 @@
 export async function createHomeMotion(root, isActive) {
+  const noop = { dispose() {}, pause() {} };
+  if (
+    !root ||
+    !isActive() ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  )
+    return noop;
   const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-    import('gsap'), import('gsap/ScrollTrigger'),
+    import("gsap"),
+    import("gsap/ScrollTrigger"),
   ]);
-  if (!isActive()) return () => {};
+  if (!isActive()) return noop;
   gsap.registerPlugin(ScrollTrigger);
+  let ambient,
+    paused = false,
+    inView = true;
   const media = gsap.matchMedia();
-  media.add('(prefers-reduced-motion: no-preference)', () => {
-    root.dataset.motion = 'gsap';
+  const sync = () => ambient?.paused(paused || document.hidden || !inView);
+  media.add("(prefers-reduced-motion: no-preference)", () => {
+    root.dataset.motion = "gsap";
     const context = gsap.context(() => {
-      gsap.from('.rn-hero-copy > *', {y:22,opacity:0,duration:.8,stagger:.07,ease:'power3.out',clearProps:'all'});
-      gsap.from('.rn-hero-product img', {opacity:0,duration:1,delay:.2,ease:'power3.out',clearProps:'all'});
-      root.querySelectorAll('.rn-reveal').forEach(element => {
-        gsap.from(element, {y:38,opacity:0,duration:.85,ease:'power3.out',scrollTrigger:{trigger:element,start:'top 92%',once:true},clearProps:'all'});
+      gsap.from(".rn-hero-copy > :not(.rn-sr-only)", {
+        y: 18,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.8,
+        ease: "power3.out",
+        clearProps: "all",
       });
-      gsap.from('.rn-benefits article', {y:28,opacity:0,stagger:.15,duration:.7,scrollTrigger:{trigger:'.rn-benefits',start:'top 88%',once:true},clearProps:'all'});
+      gsap.from(".rn-tablet-wrap", {
+        y: 30,
+        opacity: 0,
+        duration: 1.2,
+        delay: 0.2,
+        ease: "power3.out",
+        clearProps: "all",
+      });
+      ambient = gsap
+        .timeline({
+          repeat: -1,
+          yoyo: true,
+          defaults: { duration: 5, ease: "sine.inOut" },
+        })
+        .to(".rn-ribbon-motion", { y: -12, rotation: 0.8, scale: 1.015 }, 0)
+        .to(".rn-floating-followup", { y: -10 }, 0);
+      ScrollTrigger.create({
+        trigger: ".rn-hero",
+        start: "top bottom",
+        end: "bottom top",
+        onToggle: (self) => {
+          inView = self.isActive;
+          sync();
+        },
+      });
+      root.querySelectorAll(".rn-reveal").forEach((element) => {
+        gsap.from(element, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          clearProps: "all",
+          scrollTrigger: { trigger: element, start: "top 94%", once: true },
+        });
+      });
+      sync();
     }, root);
-    return () => {context.revert();delete root.dataset.motion;};
+    return () => {
+      context.revert();
+      delete root.dataset.motion;
+    };
   });
-  media.add('(min-width: 900px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => {
-    const hero=root.querySelector('.rn-hero');
-    const screen=root.querySelector('.rn-hero-product');
-    const copy=root.querySelector('.rn-hero-copy');
-    const context=gsap.context(() => {
-      // Keep the full captured screen inside the pinned viewport at both ends.
-      const timeline=gsap.timeline({scrollTrigger:{id:'relaynest-hero',trigger:hero,start:'top 76px',end:()=>`+=${Math.round(innerHeight*.7)}`,pin:true,scrub:.8,anticipatePin:1,invalidateOnRefresh:true}});
-      timeline.to(copy,{y:-48,opacity:0,ease:'none',duration:.45},0)
-        .to(screen,{y:()=>-Math.min(120,hero.clientHeight*.2),scale:()=>Math.min(1.55,(hero.clientHeight-65)/screen.offsetHeight),ease:'none',duration:1},0)
-        .to(hero,{backgroundColor:'#35443c',ease:'none',duration:1},0);
-    },root);
-    return ()=>context.revert();
-  });
-  const refresh=()=>ScrollTrigger.refresh();
-  root.querySelectorAll('img').forEach(img=>img.addEventListener('load',refresh));
-  document.fonts.ready.then(()=>{if(isActive())refresh();});
-  return ()=>{
-    root.querySelectorAll('img').forEach(img=>img.removeEventListener('load',refresh));
-    media.revert();
+  media.add(
+    "(min-width: 761px) and (prefers-reduced-motion: no-preference)",
+    () => {
+      const context = gsap.context(() => {
+        // Animate each frame as a whole without cropping or pinning a partial dashboard.
+        gsap.to(".rn-device", {
+          rotation: 0.5,
+          y: -12,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".rn-hero-scene",
+            start: "top 75%",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+        gsap.fromTo(
+          ".rn-dark-console",
+          { rotateX: 9, rotateY: -6, rotateZ: 2, y: 22 },
+          {
+            rotateX: 0,
+            rotateY: 0,
+            rotateZ: 0,
+            y: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".rn-dark-stage",
+              start: "top 95%",
+              end: "center 45%",
+              scrub: 1,
+            },
+          },
+        );
+      }, root);
+      return () => context.revert();
+    },
+  );
+  const refresh = () => {
+    if (isActive()) ScrollTrigger.refresh();
+  };
+  root
+    .querySelectorAll("img")
+    .forEach((img) => img.addEventListener("load", refresh));
+  document.fonts.ready.then(refresh);
+  document.addEventListener("visibilitychange", sync);
+  return {
+    pause(value) {
+      paused = value;
+      sync();
+    },
+    dispose() {
+      root
+        .querySelectorAll("img")
+        .forEach((img) => img.removeEventListener("load", refresh));
+      document.removeEventListener("visibilitychange", sync);
+      media.revert();
+    },
   };
 }
