@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ai-lead-follow-up",
+  "main": "server/index.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"],
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "relaynest",
+      "database_id": "351bf984-7dd0-41fa-bdaa-767d9a97623d",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "vars": {
+    "APP_ORIGIN": "https://relaynest.infotecdigital.com",
+    "PADDLE_ENV": "sandbox",
+    "EMAIL_FROM": "Relaynest <hello@infotecdigital.com>",
+  },
+}

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /api/
+Disallow: /demo/
+Disallow: /portal/
+Disallow: /login
+Sitemap: https://relaynest.infotecdigital.com/sitemap.xml
