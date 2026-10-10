@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Language } from "./ui";
 import { createHomeMotion } from "./home-motion";
+import { HomeSections } from "./home-sections";
 import "./studio-home.css";
 
 const industries = [
@@ -502,6 +503,7 @@ export function StudioHome() {
             </div>
           </div>
         </section>
+        <HomeSections />
         <section
           className="rn-solutions"
           id="solutions"

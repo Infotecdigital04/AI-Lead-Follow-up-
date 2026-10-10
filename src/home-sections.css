@@ -1,0 +1,989 @@
+.rn-home .rn-journey {
+  max-width: 1320px;
+  margin: auto;
+  padding: 72px 48px 58px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
+  gap: 46px;
+  align-items: start;
+}
+.rn-home .rn-journey-copy > .rn-eyebrow {
+  color: #2a7955;
+  margin: 4px 0 12px;
+}
+.rn-home .rn-journey-copy > h2 {
+  font-size: 51px;
+  line-height: 1.08;
+  font-weight: 550;
+}
+.rn-home .rn-journey-intro {
+  font-size: 18px;
+  color: #69706e;
+  line-height: 1.5;
+  margin-top: 17px;
+  max-width: 430px;
+}
+.rn-home .rn-journey-steps {
+  list-style: none;
+  padding: 0;
+  margin: 34px 0 36px;
+  display: grid;
+  gap: 32px;
+}
+.rn-home .rn-journey-steps li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 22px;
+}
+.rn-home .rn-journey-steps li > span {
+  font-size: 42px;
+  line-height: 1.3;
+  color: #b9c0bb;
+  font-weight: 300;
+}
+.rn-home .rn-journey-steps li > div {
+  border-left: 1px solid #dfe4de;
+  padding: 1px 0 8px 25px;
+}
+.rn-home .rn-journey-steps h3 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.rn-home .rn-journey-steps p {
+  font-size: 14px;
+  color: #707875;
+  line-height: 1.5;
+  margin-top: 8px;
+  max-width: 300px;
+}
+.rn-home .rn-journey-cta {
+  width: fit-content;
+  text-align: center;
+}
+.rn-home .rn-journey-cta .rn-pill {
+  min-width: 232px;
+  min-height: 50px;
+  font-size: 14px;
+  background: #103e30;
+}
+.rn-home .rn-journey-cta > p {
+  font-size: 12px;
+  color: #737d76;
+  margin-top: 10px;
+}
+.rn-home .rn-journey-stage {
+  position: relative;
+  padding: 20px 22px 50px;
+  background: #e5f3e6;
+  border-radius: 8px;
+}
+.rn-home .rn-journey-stage > .rn-eyebrow {
+  color: #30634b;
+  font-size: 8px;
+  margin-bottom: 22px;
+}
+.rn-home .rn-journey-desktop {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  background: #e0e4db;
+  border-radius: 16px;
+  box-shadow: 0 20px 22px -14px #385b4066;
+  padding: 9px 9px 9px 0;
+}
+.rn-home .rn-journey-sidebar {
+  background: #102c22;
+  color: #d1dfd5;
+  padding: 18px 8px;
+  border-radius: 14px 0 0 14px;
+  margin-block: -9px;
+}
+.rn-home .rn-journey-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 7px 17px;
+  color: #fff;
+}
+.rn-home .rn-journey-brand svg {
+  color: #9bdfb4;
+}
+.rn-home .rn-journey-sidebar nav {
+  display: grid;
+  gap: 4px;
+}
+.rn-home .rn-journey-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 33px;
+  border-radius: 5px;
+  padding: 7px 8px;
+  font-size: 10px;
+}
+.rn-home .rn-journey-sidebar a.active,
+.rn-home .rn-journey-sidebar a:hover {
+  background: #294c3b;
+  color: #fff;
+}
+.rn-home .rn-journey-workspace {
+  min-width: 0;
+  padding: 19px 16px 21px;
+  background: #fafbf8;
+  border-radius: 12px 12px 12px 0;
+  min-height: 478px;
+}
+.rn-home .rn-journey-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rn-home .rn-journey-person .rn-avatar {
+  width: 38px;
+  height: 38px;
+  font-size: 12px;
+  background: #a9c5bf;
+  color: #173c35;
+}
+.rn-home .rn-journey-person h3 {
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.rn-home .rn-journey-person p {
+  font-size: 9px;
+  color: #78857c;
+  margin-top: 3px;
+}
+.rn-home .rn-journey-person > svg {
+  margin-left: auto;
+  flex: none;
+  color: #849088;
+}
+.rn-home .rn-journey-progress {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0;
+  margin: 20px -5px;
+}
+.rn-home .rn-journey-progress li {
+  position: relative;
+  text-align: center;
+  padding: 0;
+}
+.rn-home .rn-journey-progress li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  height: 1px;
+  background: #cfd5ce;
+  left: 50%;
+  width: 100%;
+}
+.rn-home .rn-journey-progress li.complete::after {
+  background: #398b61;
+}
+.rn-home .rn-journey-progress li > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  width: 17px;
+  height: 17px;
+  border: 2px solid #b6bdb7;
+  background: #fafbf8;
+  border-radius: 50%;
+  margin: auto;
+}
+.rn-home .rn-journey-progress li.complete > span {
+  background: #1c674a;
+  border-color: #1c674a;
+  color: white;
+}
+.rn-home .rn-journey-progress li.current > span {
+  background: #3dab70;
+  border-color: #258354;
+  box-shadow: 0 0 0 3px #3dab7017;
+}
+.rn-home .rn-journey-progress small {
+  display: block;
+  margin-top: 6px;
+  font-size: 8px;
+  color: #63776a;
+  white-space: nowrap;
+}
+.rn-home .rn-journey-draft {
+  padding: 14px 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px #1b32230a;
+}
+.rn-home .rn-draft-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.rn-home .rn-draft-heading h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 550;
+}
+.rn-home .rn-draft-heading > span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7px;
+  padding: 4px 7px;
+  border-radius: 14px;
+  background: #e9f3ec;
+  color: #37654f;
+}
+.rn-home .rn-draft-body {
+  border: 1px solid #e9ece5;
+  border-radius: 6px;
+  padding: 12px 10px 9px;
+  margin-top: 12px;
+}
+.rn-home .rn-draft-body > p {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #304338;
+}
+.rn-home .rn-draft-body > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 17px;
+  color: #88998b;
+}
+.rn-home .rn-draft-body a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 20px;
+  padding: 6px 12px;
+  background: #123d2e;
+  color: white;
+  font-size: 9px;
+}
+.rn-home .rn-journey-activity {
+  margin-top: 26px;
+}
+.rn-home .rn-journey-activity h4 {
+  font-size: 12px;
+  margin: 0 0 16px;
+  font-weight: 550;
+}
+.rn-home .rn-journey-activity ol {
+  list-style: none;
+  padding: 0 0 0 6px;
+  margin: 0;
+}
+.rn-home .rn-journey-activity li {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  min-height: 45px;
+}
+.rn-home .rn-journey-activity li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  background: #d5dad3;
+  top: 13px;
+  bottom: 0;
+  left: 6px;
+}
+.rn-home .rn-journey-activity li > span {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #d5dad3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rn-home .rn-journey-activity li.complete > span {
+  color: white;
+  background: #378f5e;
+}
+.rn-home .rn-journey-activity strong {
+  display: block;
+  font-size: 9px;
+  font-weight: 550;
+}
+.rn-home .rn-journey-activity small {
+  display: block;
+  font-size: 8px;
+  color: #7b877d;
+  margin-top: 3px;
+}
+.rn-home .rn-journey-phone {
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  width: 225px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #f5f6f1;
+  border-radius: 18px;
+  box-shadow: 0 14px 27px #26382828;
+}
+.rn-home .rn-phone-person {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.rn-home .rn-phone-person .rn-avatar {
+  width: 26px;
+  height: 26px;
+  font-size: 8px;
+  background: #a9c5bf;
+}
+.rn-home .rn-phone-person strong {
+  font-size: 10px;
+  font-weight: 550;
+}
+.rn-home .rn-phone-person > svg {
+  margin-left: auto;
+  color: #7b877d;
+}
+.rn-home .rn-journey-phone > img {
+  width: 100%;
+  height: 71px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 5px;
+}
+.rn-home .rn-phone-category {
+  font-size: 7px;
+  color: #6e7c71;
+  margin-top: 10px;
+}
+.rn-home .rn-journey-phone h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 4px 0 9px;
+}
+.rn-home .rn-phone-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: #d7f6e0;
+  font-size: 9px;
+  color: #246444;
+}
+.rn-home .rn-phone-status > span {
+  width: 9px;
+  height: 9px;
+  border: 1px solid #2d9661;
+  border-radius: 50%;
+}
+.rn-home .rn-progress-compact {
+  margin: 14px -5px 16px;
+}
+.rn-home .rn-progress-compact li > span {
+  width: 10px;
+  height: 10px;
+  border-width: 0;
+  background: #d2d9d0;
+}
+.rn-home .rn-progress-compact li:not(:last-child)::after {
+  top: 4px;
+  height: 2px;
+}
+.rn-home .rn-progress-compact small {
+  font-size: 7px;
+  margin-top: 7px;
+}
+.rn-home .rn-progress-compact svg {
+  width: 8px;
+}
+.rn-home .rn-phone-update {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #f4f6f2;
+  border-radius: 6px;
+}
+.rn-home .rn-phone-update svg {
+  flex: none;
+  color: #5a6d60;
+}
+.rn-home .rn-phone-update p {
+  font-size: 8px;
+  line-height: 1.5;
+  color: #758178;
+}
+.rn-home .rn-workflow-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 60px;
+}
+.rn-home .rn-workflow-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 13px;
+  border: 1px solid #deeadf;
+  border-radius: 30px;
+  font-size: 11px;
+  color: #215641;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.rn-home .rn-workflow-links a:hover {
+  background: #e5f3e6;
+}
+.rn-home .rn-home-pricing {
+  background: #101b18;
+  color: #f5faf6;
+  padding: 62px 48px 28px;
+}
+.rn-home .rn-pricing-inner {
+  max-width: 1224px;
+  margin: auto;
+  position: relative;
+}
+.rn-home .rn-pricing-heading {
+  padding-right: 250px;
+}
+.rn-home .rn-pricing-heading > .rn-eyebrow {
+  color: #9addb6;
+  margin-bottom: 10px;
+}
+.rn-home .rn-pricing-heading > h2 {
+  font-size: 49px;
+  line-height: 1.1;
+  font-weight: 550;
+}
+.rn-home .rn-pricing-heading > p:last-child {
+  font-size: 18px;
+  color: #b6c3bb;
+  margin-top: 12px;
+}
+.rn-home .rn-home-pricing .pricing-controls {
+  position: absolute;
+  top: 15px;
+  right: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 10px;
+}
+.rn-home .rn-home-pricing .segmented {
+  background: #203e30;
+  border: 1px solid #3c5a46;
+  border-radius: 28px;
+  padding: 4px;
+}
+.rn-home .rn-home-pricing .segmented button {
+  font-size: 12px;
+  color: #dceee0;
+  border-radius: 24px;
+  padding: 9px 15px;
+}
+.rn-home .rn-home-pricing .segmented button.active {
+  background: #0e2e22;
+  color: white;
+  box-shadow: inset 0 0 0 1px #608b70;
+}
+.rn-home .rn-home-pricing .segmented span {
+  background: #cff1dc;
+  color: #23523a;
+  padding: 3px 6px;
+  border-radius: 10px;
+  font-size: 9px;
+}
+.rn-home .rn-home-pricing .currency-select {
+  color: #bed7c6;
+  font-size: 11px;
+}
+.rn-home .rn-home-pricing .currency-select select {
+  color: #d5e6da;
+  padding: 3px 5px;
+  font-size: 11px;
+  min-width: 70px;
+}
+.rn-home .rn-home-pricing .currency-select option {
+  color: #183727;
+  background: white;
+}
+.rn-home .rn-home-pricing .plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 0;
+  margin-top: 38px;
+}
+.rn-home .rn-home-pricing .plan {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #35463d;
+  padding: 34px 30px 26px;
+  border-radius: 8px;
+  background: #17221e;
+  color: #f5faf6;
+  box-shadow: none;
+}
+.rn-home .rn-home-pricing .plan.featured {
+  background: #def5e4;
+  color: #113b2a;
+  border-color: #95d4ad;
+  box-shadow: 0 0 0 1px #78c59a30;
+}
+.rn-home .rn-home-pricing .plan-ribbon {
+  top: 13px;
+  left: auto;
+  right: 22px;
+  background: #c1eed2;
+  color: #245e3c;
+  border: 1px solid #77b78e;
+  border-radius: 15px;
+  padding: 2px 8px;
+  font-size: 8px;
+}
+.rn-home .rn-home-pricing .plan > h2 {
+  font-size: 27px;
+  margin: 0 0 5px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+.rn-home .rn-home-pricing .plan > p {
+  color: #c0ccc4;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 40px;
+}
+.rn-home .rn-home-pricing .plan.featured > p {
+  color: #365b45;
+}
+.rn-home .rn-home-pricing .price {
+  font-size: 46px;
+  line-height: 1.2;
+  margin: 24px 0 4px;
+  gap: 7px;
+  font-weight: 600;
+}
+.rn-home .rn-home-pricing .price > span {
+  font-size: 13px;
+  color: inherit;
+}
+.rn-home .rn-home-pricing .billing-period {
+  font-size: 12px;
+  color: #c0ccc4;
+  min-height: 28px;
+}
+.rn-home .rn-home-pricing .featured .billing-period {
+  color: #365b45;
+}
+.rn-home .rn-home-pricing .plan ul {
+  margin: 20px 0 26px;
+  padding: 0;
+  list-style: none;
+}
+.rn-home .rn-home-pricing .plan li {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0 0 13px;
+  color: #cbd6ce;
+}
+.rn-home .rn-home-pricing .plan li:last-child {
+  margin-bottom: 0;
+}
+.rn-home .rn-home-pricing .featured li {
+  color: #2d5440;
+}
+.rn-home .rn-home-pricing .plan li svg {
+  color: #91d9ad;
+  width: 17px;
+  flex: none;
+  margin: 0;
+}
+.rn-home .rn-home-pricing .featured li svg {
+  color: #2d8653;
+}
+.rn-home .rn-home-pricing .plan > .button {
+  order: 1;
+  margin: auto 0 0;
+  min-height: 45px;
+  border-radius: 30px;
+  background: transparent;
+  border: 1px solid #c5d6c9;
+  color: white;
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+.rn-home .rn-home-pricing .featured > .button {
+  background: #113e2b;
+  border-color: #113e2b;
+  color: #fff;
+}
+.rn-home .rn-home-pricing .plan > .button:hover {
+  background: #2a4b38;
+  color: white;
+}
+.rn-home .rn-home-pricing .pricing-note {
+  max-width: 930px;
+  margin: 22px auto 0;
+  text-align: center;
+  color: #acbeb0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.rn-home .rn-pricing-demo {
+  border-top: 1px solid #36483e;
+  margin-top: 19px;
+  padding-top: 16px;
+  text-align: center;
+}
+.rn-home .rn-pricing-demo h3 {
+  font-size: 18px;
+  font-weight: 500;
+}
+.rn-home .rn-pricing-demo > a {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 5px;
+}
+@media (max-width: 1150px) {
+  .rn-home .rn-journey {
+    padding: 55px 32px;
+    gap: 28px;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+  .rn-home .rn-journey-copy > h2 {
+    font-size: 40px;
+  }
+  .rn-home .rn-journey-intro {
+    font-size: 16px;
+  }
+  .rn-home .rn-journey-steps {
+    gap: 26px;
+  }
+  .rn-home .rn-journey-steps li {
+    grid-template-columns: 45px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .rn-home .rn-journey-steps li > div {
+    padding-left: 18px;
+  }
+  .rn-home .rn-journey-steps h3 {
+    font-size: 16px;
+  }
+  .rn-home .rn-journey-stage {
+    padding-inline: 16px;
+  }
+  .rn-home .rn-journey-desktop {
+    grid-template-columns: 85px minmax(0, 1fr);
+  }
+  .rn-home .rn-journey-sidebar {
+    padding-inline: 5px;
+  }
+  .rn-home .rn-journey-sidebar a {
+    gap: 6px;
+    padding-inline: 5px;
+    font-size: 8px;
+  }
+  .rn-home .rn-journey-brand {
+    font-size: 9px;
+    margin-inline: 3px;
+    gap: 4px;
+  }
+  .rn-home .rn-journey-workspace {
+    padding-inline: 12px;
+  }
+  .rn-home .rn-journey-phone {
+    width: 205px;
+  }
+  .rn-home .rn-workflow-links {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+  .rn-home .rn-workflow-links a {
+    font-size: 10px;
+    padding: 9px 11px;
+  }
+  .rn-home .rn-pricing-heading > h2 {
+    font-size: 39px;
+  }
+  .rn-home .rn-home-pricing {
+    padding: 48px 32px 25px;
+  }
+  .rn-home .rn-home-pricing .plan {
+    padding: 34px 22px 24px;
+  }
+  .rn-home .rn-home-pricing .price {
+    font-size: 40px;
+  }
+}
+@media (max-width: 900px) {
+  .rn-home .rn-journey {
+    grid-template-columns: 1fr;
+    max-width: 700px;
+    gap: 35px;
+  }
+  .rn-home .rn-journey-copy > h2 {
+    font-size: 44px;
+  }
+  .rn-home .rn-journey-intro {
+    max-width: 500px;
+  }
+  .rn-home .rn-journey-steps {
+    gap: 22px;
+    margin-block: 28px;
+  }
+  .rn-home .rn-journey-steps li {
+    grid-template-columns: 55px 1fr;
+  }
+  .rn-home .rn-journey-steps p {
+    max-width: none;
+  }
+  .rn-home .rn-journey-desktop {
+    grid-template-columns: 108px minmax(0, 1fr);
+  }
+  .rn-home .rn-journey-sidebar a {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .rn-home .rn-journey-phone {
+    width: 225px;
+  }
+  .rn-home .rn-pricing-heading {
+    padding-right: 0;
+  }
+  .rn-home .rn-home-pricing .pricing-controls {
+    position: static;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+  }
+  .rn-home .rn-home-pricing .plans {
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .rn-home .rn-home-pricing .plan {
+    padding-inline: 16px;
+  }
+  .rn-home .rn-home-pricing .plan > h2 {
+    font-size: 24px;
+  }
+  .rn-home .rn-home-pricing .plan li {
+    font-size: 11px;
+  }
+  .rn-home .rn-home-pricing .price {
+    font-size: 34px;
+  }
+}
+@media (max-width: 640px) {
+  .rn-home .rn-journey {
+    padding: 36px 20px;
+  }
+  .rn-home .rn-journey-copy > h2 {
+    font-size: 36px;
+  }
+  .rn-home .rn-journey-intro {
+    font-size: 15px;
+  }
+  .rn-home .rn-journey-steps li > span {
+    font-size: 35px;
+  }
+  .rn-home .rn-journey-steps li {
+    grid-template-columns: 43px 1fr;
+    gap: 10px;
+  }
+  .rn-home .rn-journey-steps p {
+    font-size: 13px;
+  }
+  .rn-home .rn-journey-cta .rn-pill {
+    min-height: 46px;
+    min-width: 220px;
+    font-size: 13px;
+  }
+  .rn-home .rn-journey-stage {
+    padding: 16px 10px 140px;
+  }
+  .rn-home .rn-journey-stage > .rn-eyebrow {
+    margin-bottom: 15px;
+  }
+  .rn-home .rn-journey-desktop {
+    grid-template-columns: 38px minmax(0, 1fr);
+    padding: 5px 5px 5px 0;
+    border-radius: 10px;
+  }
+  .rn-home .rn-journey-sidebar {
+    padding: 16px 3px;
+    margin-block: -5px;
+    border-radius: 9px 0 0 9px;
+  }
+  .rn-home .rn-journey-brand {
+    font-size: 0;
+    margin: 0 0 16px;
+    justify-content: center;
+    gap: 0;
+  }
+  .rn-home .rn-journey-sidebar a {
+    justify-content: center;
+    padding: 8px 4px;
+  }
+  .rn-home .rn-journey-sidebar a > span {
+    display: none;
+  }
+  .rn-home .rn-journey-workspace {
+    padding: 15px 10px;
+    min-height: 450px;
+    border-radius: 7px;
+  }
+  .rn-home .rn-journey-person {
+    gap: 7px;
+  }
+  .rn-home .rn-journey-person h3 {
+    font-size: 11px;
+  }
+  .rn-home .rn-journey-person .rn-avatar {
+    width: 29px;
+    height: 29px;
+    font-size: 9px;
+  }
+  .rn-home .rn-journey-person p {
+    font-size: 8px;
+  }
+  .rn-home .rn-journey-person > svg {
+    width: 13px;
+  }
+  .rn-home .rn-journey-progress small {
+    font-size: 7px;
+  }
+  .rn-home .rn-journey-draft {
+    padding: 12px 8px;
+  }
+  .rn-home .rn-draft-heading {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .rn-home .rn-draft-heading h4 {
+    font-size: 12px;
+  }
+  .rn-home .rn-draft-body {
+    padding: 10px 8px;
+  }
+  .rn-home .rn-draft-body > p {
+    font-size: 9px;
+  }
+  .rn-home .rn-journey-activity {
+    margin-top: 20px;
+  }
+  .rn-home .rn-journey-phone {
+    width: 174px;
+    right: 0;
+    bottom: 0;
+    padding: 11px;
+    border-radius: 12px;
+  }
+  .rn-home .rn-journey-phone > img {
+    height: 61px;
+  }
+  .rn-home .rn-journey-phone h4 {
+    font-size: 12px;
+  }
+  .rn-home .rn-progress-compact small {
+    font-size: 6px;
+  }
+  .rn-home .rn-phone-update {
+    padding: 8px;
+    gap: 7px;
+  }
+  .rn-home .rn-phone-update p {
+    font-size: 7px;
+  }
+  .rn-home .rn-phone-update svg {
+    width: 17px;
+  }
+  .rn-home .rn-workflow-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .rn-home .rn-workflow-links a {
+    font-size: 11px;
+    padding: 10px 7px;
+  }
+  .rn-home .rn-home-pricing {
+    padding: 36px 20px 24px;
+  }
+  .rn-home .rn-pricing-heading > h2 {
+    font-size: 36px;
+  }
+  .rn-home .rn-pricing-heading > p:last-child {
+    font-size: 15px;
+  }
+  .rn-home .rn-home-pricing .pricing-controls {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .rn-home .rn-home-pricing .segmented button {
+    padding: 8px 11px;
+    font-size: 11px;
+  }
+  .rn-home .rn-home-pricing .plans {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .rn-home .rn-home-pricing .plan {
+    padding: 33px 26px 24px;
+  }
+  .rn-home .rn-home-pricing .plan > p {
+    min-height: 0;
+  }
+  .rn-home .rn-home-pricing .plan li {
+    font-size: 13px;
+  }
+  .rn-home .rn-home-pricing .price {
+    font-size: 44px;
+    margin-top: 21px;
+  }
+  .rn-home .rn-home-pricing .pricing-note {
+    font-size: 10px;
+  }
+}
+@media (max-width: 360px) {
+  .rn-home .rn-journey-copy > h2,
+  .rn-home .rn-pricing-heading > h2 {
+    font-size: 31px;
+  }
+  .rn-home .rn-journey-person h3 {
+    font-size: 10px;
+  }
+  .rn-home .rn-journey-stage {
+    padding-inline: 8px;
+  }
+  .rn-home .rn-journey-phone {
+    width: 155px;
+  }
+  .rn-home .rn-home-pricing .currency-select select {
+    min-width: 58px;
+  }
+}

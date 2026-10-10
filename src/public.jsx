@@ -317,7 +317,7 @@ const countryCurrency = {
   FI: "EUR",
   GR: "EUR",
 };
-export function PlanCards({ onSelect }) {
+export function PlanCards({ onSelect, exploreLabels = false }) {
   const { t } = useTranslation();
   const [interval, setInterval] = useState("monthly"),
     [currency, setCurrency] = useState("USD");
@@ -332,12 +332,14 @@ export function PlanCards({ onSelect }) {
         <div className="segmented">
           <button
             className={interval === "monthly" ? "active" : ""}
+            aria-pressed={interval === "monthly"}
             onClick={() => setInterval("monthly")}
           >
             {t("monthly")}
           </button>
           <button
             className={interval === "yearly" ? "active" : ""}
+            aria-pressed={interval === "yearly"}
             onClick={() => setInterval("yearly")}
           >
             {t("yearly")}
@@ -401,7 +403,11 @@ export function PlanCards({ onSelect }) {
               className={"plan " + (i === 1 ? "featured" : "")}
               key={key}
             >
-              {i === 1 && <span className="plan-ribbon">ROOM TO GROW</span>}
+              {i === 1 && (
+                <span className="plan-ribbon">
+                  {exploreLabels ? "GROWTH" : "ROOM TO GROW"}
+                </span>
+              )}
               <h2>{name}</h2>
               <p>{sub}</p>
               <div className="price">
@@ -417,7 +423,7 @@ export function PlanCards({ onSelect }) {
                 className={"button " + (i === 1 ? "primary" : "secondary")}
                 onClick={() => onSelect(key, interval)}
               >
-                {t("choosePlan")}
+                {exploreLabels ? `Explore ${name}` : t("choosePlan")}
                 <ArrowRight size={16} />
               </button>
               <ul>
@@ -751,4 +757,3 @@ export function NotFound() {
     </>
   );
 }
-

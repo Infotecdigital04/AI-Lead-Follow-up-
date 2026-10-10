@@ -17,6 +17,8 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ## Reference design
 
+The middle of the homepage now includes `HomeSections` from `src/home-sections.jsx` and scoped `src/home-sections.css`: an illustrative three-step automotive service journey followed by a dark pricing band. They sit between the existing dark workspace and industry sections. The phone artwork uses the existing car asset ONLY as a labelled automotive example. All visible calls to action lead to existing demos or plan signup. Pricing reuses `PlanCards` in `src/public.jsx` with optional `exploreLabels`; monthly/yearly calculations, country-based currency and the payment-approval notice remain shared with `/pricing`. Do not duplicate the price book or suggest live payment availability.
+
 The user supplied a light hero with sculptural jade/silver ribbons, a tablet-like sample dashboard, a dark workspace section, contextual industry photos, and a very compact dark footer. Preserve this composition. The hero is responsive HTML with sample data, not a screenshot of the full app. Keep its full frame visible within its section; do not use fixed-height cropping. The real app remains reachable through the demo links. Homepage English copy is not a claim of complete translation coverage.
 
 Artwork was generated with the built-in ImageGen tool and optimized as WebP. Prompts: (1) two broad interlocking pale-jade glass and satin champagne-silver ribbon loops on a warm-white studio floor, no text/tablet/UI; (2) black sports coupe in a clean premium detailing workshop, no logos or people; (3) boutique salon with circular mirror, chair and beauty products, no logos or people. These are illustrative assets, not customer endorsements.
