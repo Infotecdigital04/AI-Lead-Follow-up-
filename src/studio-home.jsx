@@ -5,11 +5,12 @@ import { ArrowUpRight, ArrowDown, Check, ChevronRight, Menu, X, Users, MessageCi
 import { Brand, Language } from "./ui";
 import { PlanCards } from "./public";
 import "./studio-home.css";
+import { createHomeMotion } from "./home-motion";
 
 const views = [
-  { name: "Daily focus", icon: Users, title: "A clear head start.", text: "Know who needs a reply, what is due, and where to give your attention. One considered view of the day ahead.", image: "/workspace-preview.jpg", route: "/demo/overview" },
-  { name: "Service tracking", icon: Layers3, title: "Good work. All together.", text: "Keep the details close and the next step clear. Follow each job from the first conversation to the final handover.", image: "/product-services.jpg", route: "/demo/jobs" },
-  { name: "Client portal", icon: MessageCircle, title: "A better client experience.", text: "Give clients a place of their own to see progress and stay connected. Less chasing. More confidence.", image: "/product-portal.jpg", route: "/portal/demo" },
+  { name: "Daily focus", icon: Users, title: "A clear head start.", text: "Know who needs a reply, what is due, and where to give your attention. One considered view of the day ahead.", image: "/workspace-complete.jpg", route: "/demo/overview" },
+  { name: "Service tracking", icon: Layers3, title: "Good work. All together.", text: "Keep the details close and the next step clear. Follow each job from the first conversation to the final handover.", image: "/workboard-complete.jpg", route: "/demo/jobs" },
+  { name: "Client portal", icon: MessageCircle, title: "A better client experience.", text: "Give clients a place of their own to see progress and stay connected. Less chasing. More confidence.", image: "/portal-complete.jpg", route: "/portal/demo" },
 ];
 const trades = [
   { name: "Automotive", icon: Wrench, title: "Every service. Every detail.", description: "Keep enquiries, vehicle notes and service progress connected, from the first call to the keys back in hand.", stages: ["Enquiry", "Inspection", "In progress", "Ready"], client: "Olivia Rhye", job: "Annual vehicle service", next: "Confirm the collection time", message: "Hi Olivia, your service is nearly complete. Would a collection at 4 pm work for you?" },
@@ -36,13 +37,10 @@ export function StudioHome() {
   const industry = trades[trade];
   useEffect(() => {
     const node = root.current;
-    if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
-    node.classList.add("rn-motion");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("rn-visible"); observer.unobserve(entry.target); } });
-    }, { threshold: 0.08 });
-    node.querySelectorAll(".rn-reveal").forEach((element) => observer.observe(element));
-    return () => { observer.disconnect(); node.classList.remove("rn-motion"); };
+    if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let active=true, dispose;
+    createHomeMotion(node,()=>active).then(cleanup=>{if(active)dispose=cleanup;else cleanup();}).catch(()=>{});
+    return () => {active=false;dispose?.();};
   }, []);
   useEffect(() => {
     if (!menu) return;
@@ -65,7 +63,7 @@ export function StudioHome() {
         <p className="rn-hero-description">{english ? "Your leads, your work, your clients. Beautifully connected." : t("heroSub")}</p>
         <div className="rn-hero-actions"><Link className="rn-button rn-mint" to="/demo/overview">{english ? "Explore the workspace" : t("tryDemo")} <ArrowUpRight size={18} /></Link><a className="rn-text-link" href="#product"><Play size={15} /> See it in action</a></div>
         <p className="rn-reassurance"><Check size={13} /> No signup. No card. Just a look around.</p>
-      </div><div className="rn-hero-product"><div className="rn-product-caption"><span><span className="rn-status-dot" /> YOUR DAY, CONNECTED</span><span>SAMPLE WORKSPACE <ArrowUpRight size={12} /></span></div><Link to="/demo/overview" aria-label="Explore the Relaynest workspace"><img src="/workspace-preview.jpg" alt="Relaynest workspace overview with navigation, lead totals and daily follow-up tasks" width="1440" height="980" fetchPriority="high" /></Link></div></section>
+      </div><div className="rn-hero-product"><div className="rn-product-caption"><span><span className="rn-status-dot" /> YOUR WORK, CONNECTED</span><span>SAMPLE WORKSPACE <ArrowUpRight size={12} /></span></div><Link to="/demo/jobs" aria-label="Explore the Relaynest service workspace"><img src="/workboard-complete.jpg" alt="Complete Relaynest service workspace, including every job stage and the page footer" width="1440" height="980" fetchPriority="high" /></Link></div></section>
       <div className="rn-value-strip"><span>Made for the business behind great service.</span><a href="#product">Less chasing. More connection. <ArrowDown size={16} /></a></div>
 
       <section className="rn-section rn-product" id="product">
@@ -80,7 +78,7 @@ export function StudioHome() {
       </div></section>
       <section className="rn-section rn-pricing" id="pricing"><div className="rn-section-head rn-reveal"><div><p className="rn-eyebrow">03 / ROOM TO GROW</p><h2>Big ambition.<br /><span>A thoughtful starting point.</span></h2></div><p>Explore a plan that fits your next chapter.<br />Start with the demo, at your own pace.</p></div><PlanCards onSelect={(plan, interval) => navigate(`/login?plan=${plan}&interval=${interval}`)} /></section>
       <section className="rn-faq-section"><div className="rn-section rn-faq-grid"><div><p className="rn-eyebrow">A FEW MORE DETAILS</p><h2>Good questions.<br /><span>Clear answers.</span></h2><a className="rn-text-link" href="mailto:info@infotecdigital.com">Talk to us <ArrowUpRight size={17} /></a></div><div className="rn-faq">{questions.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></div></section>
-      <section className="rn-closing"><p className="rn-eyebrow">THE NEXT HELLO STARTS HERE.</p><h2>Make room for<br /><span>what comes next.</span></h2><Link className="rn-button rn-mint" to="/demo/overview">Find your flow <ArrowUpRight size={18} /></Link><p className="rn-reassurance">Open the demo. Make yourself at home.</p></section>
+      <section className="rn-closing"><div><p className="rn-eyebrow">THE NEXT HELLO STARTS HERE.</p><h2>Your next chapter.<br /><span>All together.</span></h2></div><div><Link className="rn-button rn-mint" to="/demo/overview">Find your flow <ArrowUpRight size={18} /></Link><p className="rn-reassurance">No signup. No card.</p></div></section>
     </main><footer className="rn-footer"><div><Brand /><p>A little follow-up. A lasting connection.</p></div><nav aria-label="Footer navigation"><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><Link to="/refunds">Refunds</Link><a href="mailto:info@infotecdigital.com">Contact</a></nav><p>© 2026 Infotec Digital</p></footer>
   </div>;
 }
