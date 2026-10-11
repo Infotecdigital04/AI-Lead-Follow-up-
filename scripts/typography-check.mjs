@@ -148,6 +148,28 @@ try {
       await page.goto(base + path);
       await page.waitForTimeout(path === "/" ? 1300 : 150);
       await audit(page, path, width);
+      if (path === "/pricing") {
+        const header = await page.locator(".site-header").boundingBox();
+        const actions = await page.locator(".nav-actions").boundingBox();
+        assert.ok(
+          actions.y + actions.height <= header.y + header.height + 1,
+          "Navigation extends below its header",
+        );
+        if (width > 900) {
+          assert.equal(
+            await page.locator(".mobile-login").isVisible(),
+            false,
+            "Mobile-only login leaked into desktop navigation",
+          );
+          assert.equal(await page.locator(".login-link").isVisible(), true);
+        } else {
+          assert.equal(await page.locator(".login-link").isVisible(), false);
+          await page.getByRole("button", { name: "Toggle navigation" }).click();
+          assert.equal(await page.locator(".mobile-login").isVisible(), true);
+          await audit(page, "/public-mobile-menu", width);
+          await page.getByRole("button", { name: "Toggle navigation" }).click();
+        }
+      }
       if (
         [
           "/",

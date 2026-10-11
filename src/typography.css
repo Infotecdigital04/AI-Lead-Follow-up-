@@ -85,7 +85,7 @@ body {
   font-weight: 600;
   line-height: 1.2;
 }
-:root :is(.site-nav nav a, .sidebar nav a, .rn-nav-links a, .rn-login) {
+:root :is(.sidebar nav a, .rn-nav-links a, .rn-login) {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -740,13 +740,41 @@ body {
     overflow-wrap: anywhere;
   }
   :root .site-nav {
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 8px;
+    padding-inline: 16px;
+    flex-wrap: nowrap;
+  }
+  :root .site-nav > .brand {
+    font-size: 20px;
+    gap: 6px;
+  }
+  :root .site-nav > .brand img {
+    width: 26px;
+    height: 26px;
   }
   :root .nav-actions {
-    gap: 10px;
+    gap: 6px;
+  }
+  :root .nav-actions > .button {
+    padding-inline: 12px;
   }
   :root .focus-filters {
     flex-wrap: wrap;
+  }
+}
+@media (max-width: 360px) {
+  :root .site-header {
+    height: auto;
+    min-height: 116px;
+  }
+  :root .site-nav {
+    height: auto;
+    min-height: 116px;
+    padding-block: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  :root .site-nav nav {
+    top: 100%;
   }
 }
