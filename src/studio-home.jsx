@@ -22,6 +22,7 @@ import {
 import { Language } from "./ui";
 import { createHomeMotion } from "./home-motion";
 import { HomeSections } from "./home-sections";
+import { HomeExtras, ClosingFooter } from "./home-finale";
 import "./studio-home.css";
 
 const industries = [
@@ -562,22 +563,9 @@ export function StudioHome() {
             ))}
           </div>
         </section>
+        <HomeExtras />
       </main>
-      <footer className="rn-footer">
-        <Wordmark />
-        <nav aria-label="Legal">
-          <Link to="/privacy">Privacy</Link>
-          <Link to="/terms">Terms</Link>
-          <Link to="/refunds">Refunds</Link>
-          <a href="mailto:info@infotecdigital.com">Contact</a>
-        </nav>
-        <Link className="rn-footer-invite" to="/demo/overview">
-          Stay close. Go further.
-          <span>
-            <ArrowRight size={18} />
-          </span>
-        </Link>
-      </footer>
+      <ClosingFooter />
     </div>
   );
 }

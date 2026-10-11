@@ -135,7 +135,7 @@ try {
       await page.keyboard.press("Escape");
       assert.equal(await page.locator("#rn-mobile-navigation").count(), 0);
     }
-    await page.locator(".rn-footer-invite").click();
+    await page.locator(".rn-final-actions .rn-pill").click();
     await page.waitForURL("**/demo/overview");
     await page.locator(".rn-home").waitFor({ state: "detached" });
     assert.equal(

@@ -25,4 +25,21 @@ Artwork was generated with the built-in ImageGen tool and optimized as WebP. Pro
 
 ## Working with Claude or Codex
 
+## Walkthrough, FAQ and closing section
+
+`src/home-finale.jsx` and `src/home-finale.css` add the walkthrough, six native expandable FAQs, and compact dark closing CTA/footer. `HomeExtras` follows industries; `ClosingFooter` replaces the old footer. The play button opens an accessible native dialog with three sample-data chapters, GSAP playback, pause and chapter controls, Escape dismissal and focus restoration. This is an interactive illustration, not a recorded video or a live AI request. Reduced-motion users start paused. All demo links lead to existing routes. The FAQs continue to work without JavaScript.
+
+`src/home-motion.js` handles scroll reveals, walkthrough frame motion and closing artwork parallax. FAQ toggle events refresh ScrollTrigger positions. Keep the final footer selectors specific enough to override the older generic footer styles. Do not crop the sculpture or turn the dashboard into a background image.
+
+Run `node scripts/finale-check.mjs` against the local preview (port 8793) or set `TEST_BASE_URL` for live verification. It covers 320, 390, 768, 1034 and 1440 pixel widths, artwork, playback, chapter routes, keyboard FAQs, focus restoration, reduced motion and SSR. `scripts/reference-check.mjs` now uses the closing CTA for its route-cleanup check.
+
+### New generated artwork
+
+Mode: built-in ImageGen, optimized to 1440px WebP. These are decorative illustrations, not customer photographs.
+
+- `public/walkthrough-desk.webp`: Prompt: "Create a landscape 1536x1024 photorealistic website product showcase BACKGROUND. Calm modern workspace in soft daylight, pale sage wall, light green stone desktop across bottom, small leafy plant in ivory ceramic pot at extreme left, small ivory pencil cup at extreme right, subtle shadows from window and leaves on right wall. Large EMPTY central 80 percent of composition reserved for a separate HTML dashboard to be overlaid. No computer, no laptop, no tablet, no screen, no text, no typography, no logos, no people. Premium architectural product photography. Clean pale sage/white palette, natural true-to-life surfaces, softly lit but sharp visible objects, refined minimal framing. Desk low in frame, wall behind. Horizontal composition."
+- `public/closing-sculpture.webp`: Prompt: "Premium photorealistic abstract sculpture for a SaaS website closing banner, landscape 1536x1024. Two beautifully intertwined sculptural oval loops made of pale jade satin-finish ceramic with subtle polished edges, physical interlocking form, resting on a dark emerald stone studio floor, positioned only in the RIGHT THIRD of a wide frame. Strong soft directional light from upper right catches the jade surfaces, elegant realistic contact shadows, deep almost black emerald #0b1914 studio background. Left two thirds nearly empty dark #0b1914 with subtle natural illumination, reserved for HTML copy. All parts of sculpture fully visible, no cropping. Rich material microtexture, tactile premium industrial design photograph, sophisticated minimal composition. No text, no letters, no logos, no people, no spheres, no floating orbs, no bokeh."
+
+### Collaboration
+
 Fetch the current deployment branch before editing; preserve newer commits. Push small commits to this branch to trigger Cloudflare. Avoid force pushes. Keep homepage styling scoped to prevent global footer rules leaking in. Run `npm run build`, inspect desktop/mobile screenshots at several scroll positions, and check the complete bottom edge of the images. Respect reduced motion and retain real links and controls. Do not add fake customer counts or claims of activated integrations.

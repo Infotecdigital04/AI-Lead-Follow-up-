@@ -75,6 +75,35 @@ export async function createHomeMotion(root, isActive) {
     () => {
       const context = gsap.context(() => {
         // Animate each frame as a whole without cropping or pinning a partial dashboard.
+        gsap.fromTo(
+          ".rn-walk-device",
+          { y: 18, scale: 0.97 },
+          {
+            y: 0,
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".rn-walk-frame",
+              start: "top 95%",
+              end: "center 65%",
+              scrub: 1,
+            },
+          },
+        );
+        gsap.fromTo(
+          ".rn-final-art",
+          { y: 20 },
+          {
+            y: -10,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".rn-final-cta",
+              start: "top bottom",
+              end: "bottom bottom",
+              scrub: 1,
+            },
+          },
+        );
         gsap.to(".rn-device", {
           rotation: 0.5,
           y: -12,
@@ -115,6 +144,7 @@ export async function createHomeMotion(root, isActive) {
     .forEach((img) => img.addEventListener("load", refresh));
   document.fonts.ready.then(refresh);
   document.addEventListener("visibilitychange", sync);
+  root.addEventListener("toggle", refresh, true);
   return {
     pause(value) {
       paused = value;
@@ -125,6 +155,7 @@ export async function createHomeMotion(root, isActive) {
         .querySelectorAll("img")
         .forEach((img) => img.removeEventListener("load", refresh));
       document.removeEventListener("visibilitychange", sync);
+      root.removeEventListener("toggle", refresh, true);
       media.revert();
     },
   };
