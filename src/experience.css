@@ -14,7 +14,7 @@ html {
 }
 .hero-kicker {
   color: #43645c;
-  font-size: 11px;
+  font-size: var(--text-support);
   font-weight: 700;
 }
 .hero h1 {
@@ -93,7 +93,7 @@ html {
 }
 .journey-tabs button > span {
   color: #62756d;
-  font-size: 12px;
+  font-size: var(--text-support);
   font-variant-numeric: tabular-nums;
 }
 .journey-tabs button > svg {
@@ -131,7 +131,7 @@ html {
   gap: 7px;
   margin-top: 28px;
   color: #62736d;
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .journey-example {
   border: 1px solid #d9e3e0;
@@ -157,7 +157,7 @@ html {
   font-weight: 650;
 }
 .example-heading small {
-  font-size: 10px;
+  font-size: var(--text-support);
   color: #5e7067;
 }
 .inquiry-example,
@@ -180,7 +180,7 @@ html {
 }
 .example-person > div > span {
   color: #61746d;
-  font-size: 12px;
+  font-size: var(--text-support);
   margin-top: 4px;
 }
 .inquiry-example blockquote {
@@ -207,7 +207,7 @@ html {
 .example-next span {
   margin-top: 5px;
   color: #63756f;
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .example-next > svg {
   color: #0b7668;
@@ -222,7 +222,7 @@ html {
 .draft-example label > span {
   margin-inline-start: auto;
   color: #68776f;
-  font-size: 11px;
+  font-size: var(--text-support);
   font-weight: 400;
 }
 .draft-example textarea {
@@ -242,7 +242,7 @@ html {
 }
 .draft-example-actions > span {
   color: #557365;
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .draft-example-actions .button {
   min-width: 150px;
@@ -251,7 +251,7 @@ html {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .handover-title > strong {
   color: #925166;
@@ -291,12 +291,12 @@ html {
   background: #d5e6dc;
 }
 .handover-example li strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .handover-example li small {
   display: block;
   color: #60726a;
-  font-size: 11px;
+  font-size: var(--text-support);
   margin-top: 3px;
 }
 .example-private {
@@ -304,7 +304,7 @@ html {
   align-items: center;
   gap: 7px;
   color: #566d61;
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .feature-section {
   border-top: 1px solid #e2e9e5;
@@ -392,7 +392,7 @@ html {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
+  font-size: var(--text-support);
   font-weight: 700;
   color: #397363;
 }
@@ -403,10 +403,10 @@ html {
 .focus-top p {
   margin: 0;
   color: #617269;
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .focus-top > a {
-  font-size: 12px;
+  font-size: var(--text-support);
   flex-shrink: 0;
 }
 .focus-filters {
@@ -431,10 +431,10 @@ html {
   border-bottom: 2px solid transparent;
   padding: 10px 13px;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .focus-filters button > span {
-  font-size: 10px;
+  font-size: var(--text-support);
   font-variant-numeric: tabular-nums;
 }
 .focus-filters button[aria-pressed="true"] {
@@ -490,12 +490,12 @@ html {
   display: block;
   margin-top: 4px;
   color: #65756d;
-  font-size: 11px;
+  font-size: var(--text-support);
   overflow-wrap: anywhere;
 }
 .focus-due {
   color: #587262;
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .focus-due.past {
   color: #a25637;
@@ -506,7 +506,7 @@ html {
   justify-content: flex-end;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .focus-clear {
   display: flex;
@@ -518,7 +518,7 @@ html {
 }
 .focus-expand {
   margin: 16px 0;
-  font-size: 12px;
+  font-size: var(--text-support);
   min-height: 32px;
 }
 .site-nav nav a,
@@ -577,7 +577,7 @@ html {
     gap: 4px;
   }
   .nav-actions > .button {
-    font-size: 11px;
+    font-size: var(--text-support);
     min-width: 102px;
     padding-inline: 8px;
   }
@@ -605,7 +605,7 @@ html {
   }
   .hero-proof {
     flex-wrap: wrap;
-    font-size: 11px;
+    font-size: var(--text-support);
     gap: 8px 14px;
   }
   .product-preview {
@@ -621,10 +621,10 @@ html {
     display: none;
   }
   .preview-label > span {
-    font-size: 9px;
+    font-size: var(--text-support);
   }
   .preview-label > a {
-    font-size: 10px;
+    font-size: var(--text-support);
   }
   .journey-section {
     padding: 45px 20px;
@@ -643,7 +643,7 @@ html {
     gap: 6px;
     min-height: 73px;
     padding: 12px 8px;
-    font-size: 12px;
+    font-size: var(--text-support);
   }
   .journey-tabs button > svg {
     display: none;
@@ -666,7 +666,7 @@ html {
   }
   .journey-footnote {
     margin-top: 17px;
-    font-size: 11px;
+    font-size: var(--text-support);
   }
   .journey-example {
     min-height: 336px;
@@ -684,17 +684,17 @@ html {
     gap: 9px;
   }
   .example-person > .badge {
-    font-size: 9px;
+    font-size: var(--text-support);
   }
   .draft-example-actions {
     flex-wrap: wrap;
   }
   .draft-example label {
-    font-size: 12px;
+    font-size: var(--text-support);
     flex-wrap: wrap;
   }
   .draft-example label > span {
-    font-size: 10px;
+    font-size: var(--text-support);
   }
   .trust-inner {
     grid-template-columns: minmax(0, 1fr);
@@ -709,14 +709,14 @@ html {
     font-size: 19px;
   }
   .focus-top > a {
-    font-size: 11px;
+    font-size: var(--text-support);
   }
   .focus-filters {
     gap: 0;
   }
   .focus-filters button {
     padding: 9px 10px;
-    font-size: 11px;
+    font-size: var(--text-support);
   }
   .focus-row {
     grid-template-columns: 30px minmax(0, 1fr);
@@ -739,7 +739,7 @@ html {
     display: none;
   }
   .journey-tabs button {
-    font-size: 11px;
+    font-size: var(--text-support);
   }
   .example-person > .badge {
     margin-inline-start: 43px;

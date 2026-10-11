@@ -96,7 +96,7 @@
   align-items: center;
 }
 .rn-home .rn-walk-topline > span {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
   color: #356149;
   background: #dcebdc;
@@ -161,13 +161,13 @@
 }
 .rn-home .rn-walk-tasks small {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
   color: #7e877c;
   margin-top: 3px;
 }
 .rn-home .rn-walk-tasks time {
   margin-left: auto;
-  font-size: 8px;
+  font-size: 9px;
   color: #737e72;
   white-space: nowrap;
 }
@@ -189,12 +189,12 @@
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px 4px;
-  font-size: 8px;
+  font-size: 9px;
   text-align: center;
   margin-top: 14px;
 }
 .rn-home .rn-walk-calendar b {
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 500;
   color: #5f6d60;
 }
@@ -831,7 +831,7 @@
     padding: 15px 10px;
   }
   .rn-home .rn-walk-topline > span {
-    font-size: 6px;
+    font-size: 9px;
     padding: 4px 6px;
   }
   .rn-home .rn-walk-topline > small {
@@ -861,10 +861,10 @@
     width: 16px;
   }
   .rn-home .rn-walk-tasks strong {
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-walk-tasks small {
-    font-size: 6px;
+    font-size: 9px;
   }
   .rn-home .rn-walk-tasks > div > svg {
     width: 11px;
@@ -885,10 +885,10 @@
     font-size: 9px;
   }
   .rn-home .rn-walk-draft small {
-    font-size: 7px;
+    font-size: 9px;
   }
   .rn-home .rn-walk-draft p {
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-walk-draft > div > span {
     height: 23px;
@@ -1018,7 +1018,7 @@
     padding: 18px;
   }
   .rn-home .rn-tour-header p {
-    font-size: 7px;
+    font-size: 9px;
   }
   .rn-home .rn-tour-header h2 {
     font-size: 20px;
@@ -1047,7 +1047,7 @@
     font-size: 9px;
   }
   .rn-home .rn-tour-leads > div > span:not(.rn-avatar) {
-    font-size: 8px;
+    font-size: 9px;
     padding: 3px 5px;
   }
   .rn-home .rn-tour-leads > div > svg {

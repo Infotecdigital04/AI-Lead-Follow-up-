@@ -2,8 +2,6 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./i18n";
-import "@fontsource-variable/dm-sans/wght.css";
-import "@fontsource-variable/manrope/wght.css";
 import "./style.css";
 import "./readability.css";
 import "./experience.css";
@@ -11,6 +9,7 @@ import "./premium.css";
 import "./signature.css";
 import { Pricing, Login, Checkout, Legal, NotFound } from "./public.jsx";
 import { StudioHome as HomeV2 } from "./studio-home.jsx";
+import "./typography.css";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));
 function RouteMetadata() {
@@ -55,4 +54,3 @@ export function App() {
   );
 }
 createRoot(document.getElementById("root")).render(<App />);
-

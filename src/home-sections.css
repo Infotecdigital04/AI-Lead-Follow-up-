@@ -80,7 +80,7 @@
 }
 .rn-home .rn-journey-stage > .rn-eyebrow {
   color: #30634b;
-  font-size: 8px;
+  font-size: 9px;
   margin-bottom: 22px;
 }
 .rn-home .rn-journey-desktop {
@@ -212,7 +212,7 @@
 .rn-home .rn-journey-progress small {
   display: block;
   margin-top: 6px;
-  font-size: 8px;
+  font-size: 9px;
   color: #63776a;
   white-space: nowrap;
 }
@@ -237,7 +237,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 7px;
+  font-size: 9px;
   padding: 4px 7px;
   border-radius: 14px;
   background: #e9f3ec;
@@ -322,7 +322,7 @@
 }
 .rn-home .rn-journey-activity small {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
   color: #7b877d;
   margin-top: 3px;
 }
@@ -346,7 +346,7 @@
 .rn-home .rn-phone-person .rn-avatar {
   width: 26px;
   height: 26px;
-  font-size: 8px;
+  font-size: 9px;
   background: #a9c5bf;
 }
 .rn-home .rn-phone-person strong {
@@ -365,7 +365,7 @@
   border-radius: 5px;
 }
 .rn-home .rn-phone-category {
-  font-size: 7px;
+  font-size: 9px;
   color: #6e7c71;
   margin-top: 10px;
 }
@@ -404,7 +404,7 @@
   height: 2px;
 }
 .rn-home .rn-progress-compact small {
-  font-size: 7px;
+  font-size: 9px;
   margin-top: 7px;
 }
 .rn-home .rn-progress-compact svg {
@@ -423,7 +423,7 @@
   color: #5a6d60;
 }
 .rn-home .rn-phone-update p {
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1.5;
   color: #758178;
 }
@@ -556,7 +556,7 @@
   border: 1px solid #77b78e;
   border-radius: 15px;
   padding: 2px 8px;
-  font-size: 8px;
+  font-size: 9px;
 }
 .rn-home .rn-home-pricing .plan > h2 {
   font-size: 27px;
@@ -704,7 +704,7 @@
   .rn-home .rn-journey-sidebar a {
     gap: 6px;
     padding-inline: 5px;
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-journey-brand {
     font-size: 9px;
@@ -868,13 +868,13 @@
     font-size: 9px;
   }
   .rn-home .rn-journey-person p {
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-journey-person > svg {
     width: 13px;
   }
   .rn-home .rn-journey-progress small {
-    font-size: 7px;
+    font-size: 9px;
   }
   .rn-home .rn-journey-draft {
     padding: 12px 8px;
@@ -909,14 +909,14 @@
     font-size: 12px;
   }
   .rn-home .rn-progress-compact small {
-    font-size: 6px;
+    font-size: 9px;
   }
   .rn-home .rn-phone-update {
     padding: 8px;
     gap: 7px;
   }
   .rn-home .rn-phone-update p {
-    font-size: 7px;
+    font-size: 9px;
   }
   .rn-home .rn-phone-update svg {
     width: 17px;

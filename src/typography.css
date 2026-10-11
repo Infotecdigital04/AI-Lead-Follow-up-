@@ -1,0 +1,752 @@
+/* One native font system for marketing, workspace, authentication and portals. */
+:root {
+  --font-system:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-system);
+  --font-head: var(--font-system);
+  --text-body: 16px;
+  --text-card: 15px;
+  --text-ui: 15px;
+  --text-nav: 15px;
+  --text-support: 13px;
+  --text-faq: 16px;
+  --text-answer: 15px;
+  --heading-hero: 88px;
+  --heading-section: 60px;
+  --heading-card: 28px;
+  font-family: var(--font-system);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+html,
+body {
+  font-family: var(--font-system);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+body {
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.6;
+}
+:root :is(button, input, select, textarea) {
+  font-family: var(--font-system);
+}
+:root :is(h1, h2) {
+  font-weight: 700;
+  line-height: 1.08;
+}
+:root :is(h3, h4) {
+  font-weight: 600;
+  line-height: 1.25;
+}
+:root p {
+  font-size: var(--text-body);
+  line-height: 1.6;
+  font-weight: 400;
+}
+:root :is(button, .button, .text-button) {
+  font-size: var(--text-ui);
+  font-weight: 600;
+  line-height: 1.2;
+}
+/* The touch target floor also applies to icon-only and compact controls. */
+:root body :is(button, .button, .rn-pill, .rn-text-link) {
+  min-height: 44px !important;
+}
+:root :is(.icon-button, .rn-menu-toggle, .rn-motion-toggle, .rn-tour-icon) {
+  min-width: 44px;
+}
+:root
+  body
+  :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 44px;
+}
+:root :is(label, .field, .checkbox-label) {
+  font-size: var(--text-card);
+  line-height: 1.5;
+}
+:root
+  :is(
+    .site-nav nav,
+    .site-nav > nav,
+    .login-link,
+    .sidebar nav a,
+    .portal-link,
+    .rn-home .rn-nav-links,
+    .rn-home .rn-login
+  ) {
+  font-size: var(--text-nav);
+  font-weight: 600;
+  line-height: 1.2;
+}
+:root :is(.site-nav nav a, .sidebar nav a, .rn-nav-links a, .rn-login) {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+:root
+  :is(
+    .language select,
+    .currency-select,
+    .currency-select select,
+    .segmented button,
+    .billing-period,
+    .price > span
+  ) {
+  font-size: 14px;
+}
+:root .language select {
+  padding-inline: 4px 22px;
+  max-width: 132px;
+}
+:root :is(.eyebrow, .page-kicker, .nav-caption, .focus-eyebrow) {
+  font-size: 12px;
+  font-weight: 600;
+}
+:root
+  :is(
+    .auth-content > p,
+    .legal-page p,
+    .workspace-heading p,
+    .settings-sections p,
+    .client-content > p,
+    .client-columns aside p,
+    .updates-list p,
+    .internal-note p
+  ) {
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+:root
+  :is(
+    .auth-content form label,
+    .setting-row,
+    .detail-grid dd,
+    .field,
+    .checkbox-label
+  ) {
+  font-size: var(--text-card);
+}
+:root
+  :is(
+    .auth-content .legal-note,
+    .auth-divider span,
+    .auth-bottom,
+    .muted,
+    .info-note,
+    .client-security,
+    .client-demo,
+    .client-footer,
+    .workspace-footer,
+    .panel-footer,
+    .demo-bar
+  ) {
+  font-size: var(--text-support);
+  line-height: 1.6;
+}
+:root
+  :is(
+    .auth-content h1,
+    .onboarding h1,
+    .subscription-gate > h1,
+    .client-content > h1,
+    .legal-page h1,
+    .pricing-page > h1
+  ) {
+  font-weight: 700;
+  line-height: 1.08;
+}
+:root :is(.auth-content h1, .onboarding h1, .workspace-heading h1) {
+  font-size: 32px;
+}
+:root :is(.pricing-page > h1, .legal-page h1, .subscription-gate > h1) {
+  font-size: 42px;
+}
+:root
+  :is(
+    .panel-header h2,
+    .schedule-panel .panel-header h2,
+    .settings-sections h2,
+    .report-panel > h2,
+    .modal-head h2,
+    .client-columns h2,
+    .service-summary h2
+  ) {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+:root :is(.template-card h3, .job-card h3, .empty h3) {
+  font-size: 20px;
+  font-weight: 600;
+}
+:root
+  :is(
+    .template-card p,
+    .job-card p,
+    .empty p,
+    .assistant-panel > p,
+    .focus-top p
+  ) {
+  font-size: var(--text-card);
+  line-height: 1.6;
+}
+:root
+  :is(
+    .focus-record strong,
+    .person-button strong,
+    .lead-table .person-button strong,
+    .task-row > button > strong,
+    .followup-item strong,
+    .appointment-mini strong,
+    .job-overview-row strong,
+    .calendar-event > strong
+  ) {
+  font-size: var(--text-card);
+  font-weight: 600;
+  line-height: 1.4;
+}
+:root
+  :is(
+    .focus-record small,
+    .person-button small,
+    .lead-table .person-button small,
+    .table-secondary,
+    .service-name,
+    .date-cell,
+    .overdue,
+    .task-row > button > span,
+    .followup-item > div > span,
+    .appointment-mini > div > span,
+    .calendar-event > small
+  ) {
+  font-size: var(--text-support);
+  line-height: 1.5;
+}
+:root :is(.business-switch strong, .profile-row strong, .stat-label, td) {
+  font-size: var(--text-card);
+}
+:root
+  :is(
+    .business-switch span:not(.business-avatar),
+    .profile-row > div > span,
+    .breadcrumb,
+    th,
+    .stat-sub,
+    .pipeline-summary > div,
+    .assistant-heading > span:first-child
+  ) {
+  font-size: var(--text-support);
+}
+:root :is(.sidebar-demo > p, .sidebar-demo > a, .sidebar-demo > strong) {
+  font-size: var(--text-support);
+  line-height: 1.5;
+}
+:root
+  :is(
+    .panel-header,
+    .focus-top,
+    .record-toolbar,
+    .record-toolbar-actions,
+    .pricing-controls
+  ) {
+  flex-wrap: wrap;
+}
+:root .setting-row {
+  gap: 16px;
+  flex-wrap: wrap;
+}
+:root .setting-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+:root .profile-row > div {
+  min-width: 0;
+}
+:root .profile-row strong {
+  overflow-wrap: anywhere;
+}
+:root .table-scroll {
+  overflow-x: auto;
+}
+:root .panel-header h2 {
+  margin-bottom: 0;
+}
+:root :is(.plan > p, .plan li) {
+  font-size: var(--text-card);
+  line-height: 1.6;
+}
+:root .plan {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+:root .plan h2 {
+  font-size: clamp(20px, var(--heading-card), 28px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+:root .plan > p {
+  min-height: 3.2em;
+}
+:root .plan > .button {
+  margin-top: auto;
+}
+:root :is(.pricing-note, .payment-note) {
+  font-size: 12px;
+  line-height: 1.65;
+}
+:root :is(footer nav, footer > div, .client-footer, .workspace-footer) {
+  font-size: 13px;
+  line-height: 1.5;
+}
+:root footer :is(a:not(.brand):not(.rn-wordmark), small),
+:root footer > span {
+  font-size: 13px;
+}
+:root :is(footer, .client-footer) {
+  flex-wrap: wrap;
+}
+
+/* Marketing text is full-size; illustrative interface text keeps its own scale. */
+:root .rn-home {
+  font-family: var(--font-system);
+  font-size: var(--text-body);
+}
+:root .rn-home :is(h1, h2, h3, h4) {
+  font-family: var(--font-system);
+}
+:root .rn-home .rn-hero-copy h2 {
+  font-size: clamp(42px, var(--heading-hero), 88px);
+  font-weight: 700;
+  line-height: 1.04;
+}
+:root
+  .rn-home
+  :is(
+    .rn-section-heading h2,
+    .rn-solutions h2,
+    .rn-journey-copy > h2,
+    .rn-pricing-heading > h2,
+    .rn-walk-heading > h2,
+    .rn-faq-intro > h2,
+    .rn-final-copy > h2
+  ) {
+  font-size: clamp(34px, var(--heading-section), 60px);
+  font-weight: 700;
+  line-height: 1.06;
+}
+:root
+  .rn-home
+  :is(.rn-industry-card h3, .rn-journey-steps h3, .rn-pricing-demo h3) {
+  font-size: clamp(20px, var(--heading-card), 28px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+:root
+  .rn-home
+  :is(
+    .rn-pill,
+    .rn-small,
+    .rn-text-link,
+    .rn-journey-cta .rn-pill,
+    .rn-final-actions > .rn-pill,
+    .rn-final-actions > a:not(.rn-pill),
+    .rn-tour-controls .rn-pill,
+    .rn-walk-demo > a,
+    .rn-faq-intro > a,
+    .rn-pricing-demo > a
+  ) {
+  font-size: var(--text-ui);
+  font-weight: 600;
+  line-height: 1.2;
+}
+:root .rn-home .rn-text-link {
+  display: inline-flex;
+  align-items: center;
+}
+:root .rn-home :is(.rn-eyebrow, .rn-journey-stage > .rn-eyebrow) {
+  font-size: 12px;
+  line-height: 1.6;
+}
+:root
+  .rn-home
+  :is(
+    .rn-hero-description,
+    .rn-section-heading > p,
+    .rn-journey-intro,
+    .rn-pricing-heading > p:last-child,
+    .rn-walk-heading > p:last-child,
+    .rn-faq-intro > p:not(.rn-eyebrow),
+    .rn-final-copy > p:not(.rn-eyebrow):not(.rn-final-note)
+  ) {
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+:root .rn-home :is(.rn-industry-card p, .rn-journey-steps p) {
+  font-size: var(--text-card);
+  line-height: 1.6;
+}
+:root
+  .rn-home
+  :is(
+    .rn-reassurance,
+    .rn-journey-cta > p,
+    .rn-walk-caption,
+    .rn-walk-demo > p,
+    .rn-final-note,
+    .rn-final-note > small,
+    .rn-footer > small
+  ) {
+  font-size: var(--text-support);
+  line-height: 1.6;
+}
+:root
+  .rn-home
+  :is(
+    .rn-product-tabs button,
+    .rn-industry-tabs button,
+    .rn-workflow-links a,
+    .rn-walk-steps li
+  ) {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+:root
+  .rn-home
+  :is(
+    .rn-home-pricing .currency-select,
+    .rn-home-pricing .currency-select select,
+    .rn-home-pricing .segmented button,
+    .rn-home-pricing .billing-period,
+    .rn-home-pricing .price > span
+  ) {
+  font-size: 14px;
+  line-height: 1.5;
+}
+:root .rn-home .rn-home-pricing :is(.plan > p, .plan li) {
+  font-size: var(--text-card);
+  line-height: 1.6;
+}
+:root .rn-home .rn-home-pricing .plan > p {
+  min-height: 3.2em;
+}
+:root .rn-home .rn-home-pricing .plan > h2 {
+  font-size: clamp(20px, var(--heading-card), 28px);
+  font-weight: 600;
+}
+:root .rn-home .rn-home-pricing .plan > .button {
+  font-size: var(--text-ui);
+  font-weight: 600;
+  line-height: 1.2;
+}
+:root .rn-home .rn-home-pricing :is(.plan-ribbon, .segmented span) {
+  font-size: 12px;
+}
+:root .rn-home .rn-home-pricing .segmented span {
+  font-size: var(--text-support);
+}
+:root .rn-home .rn-home-pricing .pricing-note {
+  font-size: 12px;
+  line-height: 1.65;
+}
+:root .rn-home .rn-faq-list summary {
+  font-size: var(--text-faq);
+  font-weight: 600;
+  line-height: 1.5;
+}
+:root .rn-home .rn-faq-list details > div {
+  font-size: var(--text-answer);
+  font-weight: 400;
+  line-height: 1.65;
+}
+:root .rn-home .rn-footer nav {
+  font-size: 13px;
+  line-height: 1.5;
+}
+:root .rn-home .rn-footer nav a,
+:root .rn-home .rn-footer > small {
+  font-size: 13px;
+}
+:root .rn-home .rn-tour-header p {
+  font-size: var(--text-support);
+}
+:root .rn-home .rn-tour-dialog .rn-avatar {
+  font-size: var(--text-support);
+}
+:root .rn-home :is(.rn-tour-scene-title p, .rn-tour-message > p) {
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+:root
+  .rn-home
+  :is(
+    .rn-tour-leads strong,
+    .rn-tour-message > div,
+    .rn-tour-journey > div,
+    .rn-tour-journey li strong
+  ) {
+  font-size: var(--text-card);
+  line-height: 1.4;
+}
+:root
+  .rn-home
+  :is(
+    .rn-tour-leads small,
+    .rn-tour-leads > div > span:not(.rn-avatar),
+    .rn-tour-message > div > span,
+    .rn-tour-review,
+    .rn-tour-journey > div > span,
+    .rn-tour-journey li small,
+    .rn-tour-controls > div > span
+  ) {
+  font-size: var(--text-support);
+  line-height: 1.5;
+}
+:root .rn-home .rn-tour-chapters button {
+  font-size: 14px;
+  line-height: 1.2;
+}
+:root
+  .rn-home
+  :is(
+    .rn-product-tabs button,
+    .rn-industry-tabs button,
+    .rn-home-pricing .segmented button
+  ) {
+  line-height: 1.2;
+}
+:root .rn-home .rn-tour-icon {
+  width: 44px;
+  height: 44px;
+}
+:root .rn-home .rn-product-tabs {
+  flex-wrap: wrap;
+}
+:root .rn-home .rn-workflow-links {
+  flex-wrap: wrap;
+}
+:root .rn-home .rn-workflow-links a {
+  min-height: 44px;
+}
+:root .rn-home .rn-journey-progress small {
+  white-space: normal;
+  line-height: 1.4;
+}
+:root .rn-home .rn-journey-phone {
+  width: 235px;
+}
+:root .rn-home .rn-industry-card {
+  min-height: 240px;
+}
+:root .rn-home .rn-pricing-heading {
+  padding-right: 310px;
+}
+:root .rn-home .rn-home-pricing .plan {
+  padding-top: 42px;
+}
+:root .rn-home .rn-nav {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+:root .rn-home .rn-nav-actions {
+  gap: 22px;
+}
+
+/* Discrete, zoom-friendly type steps keep headings stable within each layout. */
+@media (max-width: 1200px) {
+  :root {
+    --heading-hero: 64px;
+    --heading-section: 46px;
+    --heading-card: 24px;
+  }
+  :root .rn-home .rn-nav {
+    gap: 16px;
+  }
+  :root .rn-home .rn-nav-links {
+    gap: 22px;
+  }
+  :root .rn-home .rn-nav-actions {
+    gap: 16px;
+  }
+  :root .rn-home .rn-journey {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+  :root .rn-home .rn-journey-steps li {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+}
+@media (max-width: 1000px) {
+  :root {
+    --heading-hero: 56px;
+    --heading-section: 42px;
+    --heading-card: 22px;
+  }
+  :root .rn-home .rn-journey {
+    grid-template-columns: 1fr;
+  }
+  :root .rn-home .rn-motion-toggle {
+    right: auto;
+    left: 18px;
+  }
+  :root .rn-home .rn-pricing-heading {
+    padding-right: 0;
+  }
+  :root .rn-home .rn-home-pricing .pricing-controls {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  :root .rn-home .rn-nav {
+    width: calc(100% - 40px);
+    gap: 14px;
+  }
+  :root .rn-home .rn-nav-links {
+    gap: 16px;
+  }
+  :root .rn-home .rn-nav-actions {
+    gap: 12px;
+  }
+  :root .rn-home .rn-small {
+    padding-inline: 16px;
+  }
+  :root .rn-home .rn-home-pricing .plans,
+  :root .plans {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+    margin-inline: auto;
+  }
+  :root .plan > p {
+    min-height: 0;
+  }
+  :root .rn-home .rn-home-pricing .plan > p {
+    min-height: 0;
+  }
+}
+@media (max-width: 760px) {
+  :root {
+    --text-body: 15px;
+    --text-card: 14px;
+    --text-ui: 14px;
+    --text-nav: 16px;
+    --text-support: 12px;
+    --text-faq: 15px;
+    --text-answer: 14px;
+    --heading-hero: 42px;
+    --heading-section: 34px;
+    --heading-card: 20px;
+  }
+  :root .rn-home .rn-mobile-nav a {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  :root .rn-home .rn-nav {
+    display: flex;
+    gap: 10px;
+    width: calc(100% - 32px);
+  }
+  :root .rn-home .rn-nav-actions {
+    margin-left: auto;
+    gap: 8px;
+  }
+  :root .rn-home .rn-login {
+    display: none;
+  }
+  :root .rn-home .rn-wordmark {
+    font-size: 23px;
+  }
+  :root .rn-home .rn-small {
+    padding-inline: 14px;
+    gap: 8px;
+  }
+  :root .rn-home .rn-hero-actions {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  :root .rn-home .rn-final-actions {
+    flex-wrap: wrap;
+  }
+  :root .rn-home .rn-final-copy > h2 {
+    max-width: 100%;
+  }
+  :root .rn-home .rn-final-cta {
+    padding-bottom: 275px;
+  }
+  :root .rn-home .rn-faq-section {
+    gap: 28px;
+  }
+  :root .rn-home .rn-journey-phone {
+    width: 195px;
+  }
+  :root .rn-home .rn-journey-stage {
+    padding-bottom: 180px;
+  }
+  :root .rn-home .rn-workflow-links {
+    grid-template-columns: 1fr 1fr;
+  }
+  :root .rn-home .rn-workflow-links a {
+    font-size: 14px;
+    white-space: normal;
+  }
+  :root .rn-home .rn-tour-leads > div {
+    flex-wrap: wrap;
+  }
+  :root .rn-home .rn-tour-chapters {
+    gap: 12px;
+  }
+  :root .rn-home .rn-tour-chapters button {
+    padding-inline: 0;
+  }
+  :root .rn-home .rn-tour-content {
+    min-height: 0;
+  }
+  :root .rn-home .rn-footer > small {
+    font-size: 12px;
+  }
+  :root :is(.workspace-heading h1, .auth-content h1) {
+    font-size: 28px;
+  }
+  :root :is(.pricing-page > h1, .legal-page h1, .subscription-gate > h1) {
+    font-size: 34px;
+  }
+  :root
+    :is(
+      .panel-header h2,
+      .schedule-panel .panel-header h2,
+      .settings-sections h2,
+      .report-panel > h2,
+      .modal-head h2,
+      .client-columns h2,
+      .service-summary h2
+    ) {
+    font-size: 20px;
+  }
+  :root .service-progress {
+    gap: 8px;
+  }
+  :root .service-progress > div > strong {
+    overflow-wrap: anywhere;
+  }
+  :root .site-nav {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  :root .nav-actions {
+    gap: 10px;
+  }
+  :root .focus-filters {
+    flex-wrap: wrap;
+  }
+}

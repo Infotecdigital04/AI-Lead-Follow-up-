@@ -4,7 +4,7 @@
   --rn-paper: #faf9f6;
   color: var(--rn-ink);
   background: var(--rn-paper);
-  font-family: "DM Sans Variable", sans-serif;
+  font-family: var(--font-system);
   line-height: 1.5;
   overflow: clip;
 }
@@ -23,7 +23,7 @@
 .rn-home h1,
 .rn-home h2,
 .rn-home h3 {
-  font-family: "DM Sans Variable", sans-serif;
+  font-family: var(--font-system);
 }
 .rn-home a {
   color: inherit;
@@ -328,7 +328,7 @@
 }
 .rn-home .rn-device-top > span {
   color: #717872;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
 }
 .rn-home .rn-device-top > div {
@@ -356,7 +356,7 @@
 }
 .rn-home .rn-owner small {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
   color: #798077;
   font-weight: 400;
 }
@@ -393,7 +393,7 @@
   font-weight: 600;
 }
 .rn-home .rn-focus-heading > span {
-  font-size: 8px;
+  font-size: 9px;
   color: #7b7e78;
 }
 .rn-home .rn-focus-item {
@@ -433,7 +433,7 @@
   font-weight: 600;
 }
 .rn-home .rn-focus-item small {
-  font-size: 8px;
+  font-size: 9px;
   color: #757b73;
   display: block;
   margin-top: 4px;
@@ -444,7 +444,7 @@
 }
 .rn-home .rn-task-meta time {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
   color: #7f847a;
   margin-bottom: 5px;
 }
@@ -454,7 +454,7 @@
   padding: 3px 7px;
   background: #e6efe4;
   color: #497653;
-  font-size: 7px;
+  font-size: 9px;
   white-space: nowrap;
 }
 .rn-home .rn-status-2 {
@@ -485,7 +485,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 7px;
+  font-size: 9px;
   gap: 3px 1px;
 }
 .rn-home .rn-calendar-days > * {
@@ -520,7 +520,7 @@
 }
 .rn-home .rn-service-mini small {
   display: block;
-  font-size: 8px;
+  font-size: 9px;
   color: #7f837b;
   margin: 2px 0 6px;
 }
@@ -1095,7 +1095,7 @@
     padding-inline: 18px;
   }
   .rn-home .rn-eyebrow {
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-hero-copy h2 {
     font-size: 38px;
@@ -1186,7 +1186,7 @@
     min-height: 19px;
   }
   .rn-home .rn-device-top > span {
-    font-size: 6px;
+    font-size: 9px;
   }
   .rn-home .rn-device-top > div {
     gap: 9px;
@@ -1198,7 +1198,7 @@
   .rn-home .rn-device-top .rn-avatar {
     width: 23px;
     height: 23px;
-    font-size: 7px;
+    font-size: 9px;
   }
   .rn-home .rn-device-main > h2 {
     font-size: 19px;
@@ -1220,7 +1220,7 @@
     font-size: 12px;
   }
   .rn-home .rn-focus-heading > span {
-    font-size: 6px;
+    font-size: 9px;
   }
   .rn-home .rn-focus-item {
     min-height: 46px;
@@ -1236,17 +1236,17 @@
     height: 16px;
   }
   .rn-home .rn-focus-item strong {
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-focus-item small {
-    font-size: 6px;
+    font-size: 9px;
     margin-top: 2px;
   }
   .rn-home .rn-focus-item > svg {
     width: 10px;
   }
   .rn-home .rn-all-tasks {
-    font-size: 8px;
+    font-size: 9px;
     margin-top: 6px;
   }
   .rn-home .rn-floating-followup {
@@ -1266,13 +1266,13 @@
   .rn-home .rn-floating-followup .rn-avatar {
     width: 26px;
     height: 26px;
-    font-size: 8px;
+    font-size: 9px;
   }
   .rn-home .rn-floating-followup strong {
     font-size: 9px;
   }
   .rn-home .rn-floating-followup small {
-    font-size: 7px;
+    font-size: 9px;
   }
   .rn-home .rn-circle-arrow {
     width: 19px;

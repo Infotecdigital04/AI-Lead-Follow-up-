@@ -1,5 +1,5 @@
 :root {
-  font-family: "DM Sans Variable", Arial, sans-serif;
+  font-family: var(--font-system);
 }
 .brand {
   direction: ltr;
@@ -45,137 +45,137 @@ h3,
 .brand,
 .stat > strong,
 .completion-date {
-  font-family: "Manrope Variable", "DM Sans Variable", Arial, sans-serif;
+  font-family: var(--font-system);
 }
 .sidebar nav a {
   font-size: 13px;
 }
 .nav-caption {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .business-switch strong {
   font-size: 13px;
 }
 .business-switch span:not(.business-avatar) {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .profile-row strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .profile-row > div > span {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .portal-link {
   font-size: 13px;
 }
 .sidebar-demo > p,
 .sidebar-demo > a {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .breadcrumb {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .workspace-heading p {
   font-size: 14px;
 }
 .page-kicker {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .workspace-heading .button {
   font-size: 13px;
 }
 .stat-label {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .stat-sub {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .pipeline-summary > div {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .subtle-link {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 th {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 td {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .person-button strong,
 .lead-table .person-button strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .person-button small,
 .lead-table .person-button small {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .service-name {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .table-secondary {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .lead-table .badge {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .date-cell,
 .overdue {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .assistant-heading > span:first-child {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .assistant-panel > p {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .followup-item strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .followup-item > div > span {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .assistant-panel > .button {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .assistant-foot {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .appointment-mini strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .appointment-mini > div > span {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .time-mark {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .schedule-link {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .job-overview-row strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .job-overview-row > div > span {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .panel-footer {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .demo-bar {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .workspace-footer {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .hero-proof {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .hero-kicker {
   font-size: 13px;
 }
 .preview-label {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .features p {
   font-size: 16px;
@@ -215,28 +215,28 @@ td {
   font-size: 14px;
 }
 .calendar-event > strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .calendar-event > small {
-  font-size: 11px;
+  font-size: var(--text-support);
 }
 .task-row > button > strong {
   font-size: 14px;
 }
 .task-row > button > span {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .board-column > h2 {
   font-size: 13px;
 }
 .job-card p {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .job-reference {
-  font-size: 10px;
+  font-size: var(--text-support);
 }
 .job-card select {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 .template-card p {
   font-size: 14px;
@@ -254,7 +254,7 @@ td {
   font-size: 14px;
 }
 .service-progress > div > strong {
-  font-size: 12px;
+  font-size: var(--text-support);
 }
 @media (max-width: 1250px) {
   .dashboard-columns {
@@ -264,7 +264,7 @@ td {
     min-width: 620px;
   }
   .assistant-heading > span:first-child {
-    font-size: 11px;
+    font-size: var(--text-support);
   }
   .assistant-panel h2 {
     font-size: 21px;
@@ -277,16 +277,16 @@ td {
 }
 @media (max-width: 760px) {
   .hero-proof {
-    font-size: 10px;
+    font-size: var(--text-support);
   }
   .preview-label {
-    font-size: 9px;
+    font-size: var(--text-support);
   }
   .stat-sub {
-    font-size: 10px;
+    font-size: var(--text-support);
   }
   .demo-bar {
-    font-size: 10px;
+    font-size: var(--text-support);
   }
   .workspace-heading h1 {
     font-size: 24px;
@@ -295,12 +295,12 @@ td {
     font-size: 13px;
   }
   .service-progress > div > strong {
-    font-size: 9px;
+    font-size: var(--text-support);
   }
   .plan > p {
     min-height: 0;
   }
   .sidebar-demo > p {
-    font-size: 12px;
+    font-size: var(--text-support);
   }
 }

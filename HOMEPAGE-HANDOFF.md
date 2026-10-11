@@ -4,6 +4,9 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ## Active files
 
+- `src/typography.css`: the final shared typography layer, imported after the page styles in `src/main.jsx`. Uses only the native Apple-first system stack, with no downloaded fonts. DM Sans and Manrope imports and dependencies are removed. Type tokens cover desktop/mobile body, cards, controls and supporting copy. Headings use bounded `clamp()` sizes with discrete responsive steps; preserve these tokens instead of adding smaller page-specific overrides. All button targets have a 44px height floor. Decorative product previews retain a separate proportional type scale with a 9px minimum for visible text.
+- `scripts/typography-check.mjs`: tests public routes, all demo pages, client portal, lead editor, and browser-fixture authenticated/onboarding/subscription states at 1440, 1024, 768 and 390px. Verifies system font inheritance, no font downloads, minimum text sizes, touch targets and overflow. Signed-in tests use intercepted sample responses, not a real paid account. Run against the preview with `node scripts/typography-check.mjs`; set `TEST_BASE_URL` for live checks.
+
 - `src/studio-home.jsx`: active homepage in both `src/main.jsx` and `src/prerender.jsx`.
 - `src/studio-home.css`: homepage styling, scoped under `.rn-home`.
 - `src/home-motion.js`: lazy-loaded GSAP and ScrollTrigger, ambient ribbon/follow-up movement, entrance reveals and scroll-controlled dashboard perspective. No pinned hero. Reduced motion and explicit ambient pause are supported; cleanup runs when leaving the route.
