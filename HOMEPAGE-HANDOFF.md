@@ -20,6 +20,8 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ## Reference design
 
+The hero deliberately uses a quieter 500 weight and 36-64px height-aware type scale after user feedback that the global 88px/700 heading overwhelmed the dashboard. Preserve the final hero overrides in `typography.css`, including short-laptop viewport rules. Do not enlarge this headline back to the global section scale; keep the readable body and control sizes elsewhere unchanged.
+
 The middle of the homepage now includes `HomeSections` from `src/home-sections.jsx` and scoped `src/home-sections.css`: an illustrative three-step automotive service journey followed by a dark pricing band. They sit between the existing dark workspace and industry sections. The phone artwork uses the existing car asset ONLY as a labelled automotive example. All visible calls to action lead to existing demos or plan signup. Pricing reuses `PlanCards` in `src/public.jsx` with optional `exploreLabels`; monthly/yearly calculations, country-based currency and the payment-approval notice remain shared with `/pricing`. Do not duplicate the price book or suggest live payment availability.
 
 The user supplied a light hero with sculptural jade/silver ribbons, a tablet-like sample dashboard, a dark workspace section, contextual industry photos, and a very compact dark footer. Preserve this composition. The hero is responsive HTML with sample data, not a screenshot of the full app. Keep its full frame visible within its section; do not use fixed-height cropping. The real app remains reachable through the demo links. Homepage English copy is not a claim of complete translation coverage.
@@ -46,3 +48,4 @@ Mode: built-in ImageGen, optimized to 1440px WebP. These are decorative illustra
 ### Collaboration
 
 Fetch the current deployment branch before editing; preserve newer commits. Push small commits to this branch to trigger Cloudflare. Avoid force pushes. Keep homepage styling scoped to prevent global footer rules leaking in. Run `npm run build`, inspect desktop/mobile screenshots at several scroll positions, and check the complete bottom edge of the images. Respect reduced motion and retain real links and controls. Do not add fake customer counts or claims of activated integrations.
+
