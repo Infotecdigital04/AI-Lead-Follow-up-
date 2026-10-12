@@ -25,6 +25,7 @@ try {
       return {
         heading: box(".rn-hero-copy h2"), device: box(".rn-device"),
         hero: box(".rn-hero"), note: box(".rn-reassurance"),
+        ribbon: box(".rn-ribbon-motion"),
         actions: box(".rn-hero-actions"),
         size: parseFloat(getComputedStyle(heading).fontSize),
         weight: getComputedStyle(heading).fontWeight,
@@ -38,6 +39,10 @@ try {
     assert.ok(geometry.device.bottom < geometry.hero.bottom, "Dashboard clipped by section");
     assert.ok(geometry.note.top >= geometry.actions.bottom, "CTA overlaps supporting text");
     assert.ok(geometry.device.top > geometry.note.bottom, "Dashboard overlaps copy");
+    assert.ok(geometry.note.top >= geometry.actions.bottom + 7, "Supporting text crowds actions");
+    assert.ok(geometry.ribbon.top > geometry.note.bottom, "Artwork intrudes into hero copy");
+    assert.equal(await page.locator(".rn-hero-copy > .rn-eyebrow").count(), 0);
+    await page.locator(".rn-hero-actions").getByRole("link", { name: "Explore the demo" }).waitFor();
     const visible = Math.min(height, geometry.device.bottom) - Math.max(0, geometry.device.top);
     assert.ok(geometry.device.bottom <= height, "Dashboard does not fit on first screen");
     assert.deepEqual(errors, []);

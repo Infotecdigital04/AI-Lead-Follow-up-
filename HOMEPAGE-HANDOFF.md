@@ -20,6 +20,8 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ## Reference design
 
+Keep the hero copy calm: no extra all-caps eyebrow, a single short supporting sentence, one prominent demo CTA, and a subdued secondary link. The animated ribbons start inside the product scene below the reassurance, not behind text or controls. These scoped hero rules live in `typography.css`; do not reintroduce negative ribbon offsets over the copy.
+
 The hero deliberately uses a quieter 500 weight and 36-64px height-aware type scale after user feedback that the global 88px/700 heading overwhelmed the dashboard. Preserve the final hero overrides in `typography.css`, including short-laptop viewport rules. Do not enlarge this headline back to the global section scale; keep the readable body and control sizes elsewhere unchanged.
 
 The middle of the homepage now includes `HomeSections` from `src/home-sections.jsx` and scoped `src/home-sections.css`: an illustrative three-step automotive service journey followed by a dark pricing band. They sit between the existing dark workspace and industry sections. The phone artwork uses the existing car asset ONLY as a labelled automotive example. All visible calls to action lead to existing demos or plan signup. Pricing reuses `PlanCards` in `src/public.jsx` with optional `exploreLabels`; monthly/yearly calculations, country-based currency and the payment-approval notice remain shared with `/pricing`. Do not duplicate the price book or suggest live payment availability.

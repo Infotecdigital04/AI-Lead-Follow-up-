@@ -330,7 +330,6 @@ export function StudioHome() {
       <main id="main">
         <section className="rn-hero" aria-labelledby="rn-headline">
           <div className="rn-hero-copy">
-            <p className="rn-eyebrow">YOUR WORK. BEAUTIFULLY CONNECTED.</p>
             <h1 className="rn-sr-only">
               Relaynest: AI lead follow-up and client portal
             </h1>
@@ -340,19 +339,18 @@ export function StudioHome() {
               <span>More connection.</span>
             </h2>
             <p className="rn-hero-description">
-              Your leads, your work, your clients. One beautifully connected
-              workspace.
+              Leads, follow-ups and client work. All in one place.
             </p>
             <div className="rn-hero-actions">
               <Link className="rn-pill" to="/demo/overview">
-                Explore the workspace <ArrowRight size={17} />
+                Explore the demo <ArrowRight size={17} />
               </Link>
               <a className="rn-text-link" href="#product">
                 See it in action
               </a>
             </div>
             <p className="rn-reassurance">
-              No signup. No card. Just a look around.
+              No signup or card required.
             </p>
           </div>
           <div className="rn-hero-scene">
@@ -569,3 +567,4 @@ export function StudioHome() {
     </div>
   );
 }
+

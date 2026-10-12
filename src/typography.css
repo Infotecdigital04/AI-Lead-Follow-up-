@@ -327,6 +327,41 @@ body {
   font-weight: 500;
   line-height: 1.06;
 }
+:root .rn-home .rn-hero {
+  padding-top: 32px;
+}
+:root .rn-home .rn-hero-description {
+  max-width: 480px;
+  margin-top: 16px;
+}
+:root .rn-home .rn-hero-actions {
+  margin-top: 22px;
+  gap: 28px;
+}
+:root .rn-home .rn-hero-actions .rn-pill {
+  box-shadow: none;
+  padding-inline: 24px;
+}
+:root .rn-home .rn-hero-actions .rn-text-link {
+  border-bottom: 0;
+  font-weight: 500;
+  color: #5b605e;
+}
+:root .rn-home .rn-hero-actions .rn-text-link:hover {
+  color: var(--rn-green);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+:root .rn-home .rn-reassurance {
+  margin-top: 12px;
+}
+:root .rn-home .rn-hero-scene {
+  margin-top: 24px;
+}
+/* Artwork belongs to the product scene, clear of the copy and controls. */
+:root .rn-home .rn-ribbon-motion {
+  top: 16px;
+}
 :root
   .rn-home
   :is(
@@ -789,11 +824,8 @@ body {
   :root .rn-home {
     --heading-hero: 44px;
   }
-  :root .rn-home .rn-hero-copy > .rn-eyebrow {
-    margin-bottom: 6px;
-  }
   :root .rn-home .rn-hero-description {
-    margin-top: 8px;
+    margin-top: 12px;
   }
 }
 @media (max-width: 760px) and (max-height: 740px) {
@@ -809,19 +841,16 @@ body {
     height: 56px;
   }
   :root .rn-home .rn-hero {
-    padding-top: 0;
-  }
-  :root .rn-home .rn-hero-copy > .rn-eyebrow {
-    margin-bottom: 4px;
+    padding-top: 12px;
   }
   :root .rn-home .rn-hero-actions {
-    margin-top: 8px;
+    margin-top: 16px;
   }
   :root .rn-home .rn-reassurance {
-    margin-top: 4px;
+    margin-top: 8px;
   }
   :root .rn-home .rn-hero-scene {
-    margin-top: 8px;
+    margin-top: 20px;
     padding-bottom: 12px;
   }
   :root .rn-home .rn-device-inner {
