@@ -853,64 +853,148 @@ body {
     margin-top: 20px;
     padding-bottom: 12px;
   }
+}
+
+/* Preserve a landscape tablet frame instead of compressing it to the fold. */
+@media (min-width: 761px) {
+  :root .rn-home .rn-device {
+    aspect-ratio: 4 / 3;
+    display: grid;
+  }
   :root .rn-home .rn-device-inner {
-    min-height: 280px;
+    min-height: 0;
   }
   :root .rn-home .rn-device-main {
-    padding-block: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
   }
   :root .rn-home .rn-device-top {
-    min-height: 20px;
-    margin-bottom: 4px;
+    min-height: 30px;
+    margin-bottom: 16px;
   }
   :root .rn-home .rn-device-main > h2 {
-    font-size: 20px;
+    font-size: 26px;
+    font-weight: 600;
   }
   :root .rn-home .rn-device-grid {
-    margin-top: 8px;
+    flex: 1;
+    margin-top: 22px;
+    gap: 14px;
+    min-height: 0;
   }
   :root .rn-home .rn-focus-list {
-    padding-block: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px;
   }
   :root .rn-home .rn-focus-heading {
-    margin-bottom: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
   }
   :root .rn-home .rn-focus-item {
-    min-height: 40px;
-    padding-block: 4px;
+    flex: 1;
+    min-height: 64px;
+    padding-block: 12px;
   }
-  :root .rn-home .rn-task-icon {
-    width: 26px;
-    height: 26px;
+  :root .rn-home .rn-focus-item strong {
+    font-size: 12px;
+  }
+  :root .rn-home .rn-focus-item small {
+    font-size: 10px;
+  }
+  :root .rn-home .rn-all-tasks {
+    margin-top: 16px;
+    min-height: 24px;
+    font-size: 10px;
   }
   :root .rn-home .rn-device-sidebar {
-    padding-block: 10px;
+    padding-block: 24px 18px;
   }
   :root .rn-home .rn-device-brand {
-    margin-bottom: 8px;
+    margin-bottom: 24px;
   }
   :root .rn-home .rn-device-sidebar nav > a,
   :root .rn-home .rn-device-bottom > a {
-    min-height: 27px;
-    padding-block: 5px;
+    min-height: 40px;
+    padding-block: 10px;
   }
   :root .rn-home .rn-device-bottom {
-    padding-top: 6px;
+    padding-top: 16px;
+  }
+  :root .rn-home .rn-device-rail {
+    display: flex;
+    flex-direction: column;
   }
   :root .rn-home .rn-calendar {
-    padding-block: 8px;
-  }
-  :root .rn-home .rn-calendar > div:first-child {
-    margin-bottom: 6px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px;
   }
   :root .rn-home .rn-calendar-days {
-    row-gap: 2px;
+    flex: 1;
+    align-content: space-evenly;
+    row-gap: 6px;
   }
   :root .rn-home .rn-calendar-days > * {
-    min-height: 12px;
+    width: 20px;
+    height: 20px;
+    min-height: 20px;
+    justify-self: center;
+    font-size: 10px;
   }
   :root .rn-home .rn-service-mini {
-    padding-block: 6px;
+    min-height: 96px;
+    margin-top: 14px;
+    padding-block: 16px;
+  }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  :root .rn-home .rn-device-main {
+    padding: 14px;
+    min-height: 0;
+  }
+  :root .rn-home .rn-device-top {
+    margin-bottom: 10px;
+  }
+  :root .rn-home .rn-device-main > h2 {
+    font-size: 22px;
+  }
+  :root .rn-home .rn-device-grid {
+    margin-top: 14px;
+    gap: 10px;
+  }
+  :root .rn-home .rn-focus-list {
+    padding: 10px;
+  }
+  :root .rn-home .rn-focus-heading {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  :root .rn-home .rn-focus-item {
+    min-height: 54px;
+    padding-block: 8px;
+  }
+  :root .rn-home .rn-all-tasks {
+    margin-top: 10px;
+  }
+  :root .rn-home .rn-calendar {
+    padding: 10px;
+  }
+  :root .rn-home .rn-calendar-days {
+    row-gap: 4px;
+  }
+  :root .rn-home .rn-calendar-days > * {
+    width: 100%;
+    max-width: 18px;
+    height: 18px;
+    min-height: 18px;
+  }
+  :root .rn-home .rn-service-mini {
+    min-height: 76px;
+    margin-top: 10px;
+    padding-block: 10px;
   }
 }
 

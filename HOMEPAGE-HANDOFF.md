@@ -20,6 +20,8 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ## Reference design
 
+The hero dashboard now uses a 4:3 landscape tablet frame above 760px, per the user's request for an iPad-like taller screen. Task rows and calendar expand within it. Let short laptop screens scroll to the bottom of the tablet; do not compress its height to keep the entire device above the fold. The mobile layout remains compact. `scripts/hero-balance-check.mjs` checks this aspect ratio and the complete unclipped frame.
+
 Keep the hero copy calm: no extra all-caps eyebrow, a single short supporting sentence, one prominent demo CTA, and a subdued secondary link. The animated ribbons start inside the product scene below the reassurance, not behind text or controls. These scoped hero rules live in `typography.css`; do not reintroduce negative ribbon offsets over the copy.
 
 The hero deliberately uses a quieter 500 weight and 36-64px height-aware type scale after user feedback that the global 88px/700 heading overwhelmed the dashboard. Preserve the final hero overrides in `typography.css`, including short-laptop viewport rules. Do not enlarge this headline back to the global section scale; keep the readable body and control sizes elsewhere unchanged.

@@ -19,7 +19,7 @@ try {
     const geometry = await page.evaluate(() => {
       const box = selector => {
         const r = document.querySelector(selector).getBoundingClientRect();
-        return { top: r.top, bottom: r.bottom, height: r.height };
+        return { top: r.top, bottom: r.bottom, height: r.height, width: r.width };
       };
       const heading = document.querySelector(".rn-hero-copy h2");
       return {
@@ -43,10 +43,25 @@ try {
     assert.ok(geometry.ribbon.top > geometry.note.bottom, "Artwork intrudes into hero copy");
     assert.equal(await page.locator(".rn-hero-copy > .rn-eyebrow").count(), 0);
     await page.locator(".rn-hero-actions").getByRole("link", { name: "Explore the demo" }).waitFor();
+    const clipped = await page.locator(".rn-device-inner").evaluate(frame => {
+      const bounds = frame.getBoundingClientRect();
+      return [...frame.querySelectorAll("a, .rn-calendar-days > *")].filter(el => {
+        if (!el.getClientRects().length) return false;
+        const r = el.getBoundingClientRect();
+        return r.bottom > bounds.bottom + 2 || r.right > bounds.right + 2;
+      }).map(el => el.textContent.trim());
+    });
+    assert.deepEqual(clipped, [], "Tablet content clipped by frame");
     const visible = Math.min(height, geometry.device.bottom) - Math.max(0, geometry.device.top);
-    assert.ok(geometry.device.bottom <= height, "Dashboard does not fit on first screen");
+    if (width > 760) {
+      assert.ok(Math.abs(geometry.device.width / geometry.device.height - 4 / 3) < 0.06,
+        "Landscape tablet proportions lost");
+    } else {
+      assert.ok(geometry.device.bottom <= height, "Mobile dashboard does not fit on first screen");
+    }
     assert.deepEqual(errors, []);
     await page.screenshot({ path: `test-results/hero-balance/${width}-${height}.png` });
+    await page.locator(".rn-device").screenshot({ path: `test-results/hero-balance/tablet-${width}-${height}.png` });
     console.log(JSON.stringify({ width, height, ...geometry, visibleRatio: visible / geometry.device.height }));
     await page.close();
   }
