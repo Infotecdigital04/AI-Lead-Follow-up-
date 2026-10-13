@@ -3,17 +3,13 @@ import { Link } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
-  CalendarDays,
   Check,
   ChevronRight,
-  Home,
   Layers3,
   Mail,
-  MessageCircle,
   Pause,
   Play,
   Plus,
-  Users,
   X,
 } from "lucide-react";
 import "./home-finale.css";
@@ -188,7 +184,7 @@ function TourContent({ step }) {
   );
 }
 
-function WalkthroughDialog({ onClose }) {
+export function WalkthroughDialog({ onClose }) {
   const dialog = useRef(null),
     progress = useRef(null);
   const [step, setStep] = useState(0),
@@ -244,8 +240,8 @@ function WalkthroughDialog({ onClose }) {
         if (!reduced)
           timeline.fromTo(
             dialog.current.querySelector(".rn-tour-content"),
-            { y: 10, opacity: 0.4 },
-            { y: 0, opacity: 1, duration: 0.4 },
+            { y: 10 },
+            { y: 0, duration: 0.4 },
             0,
           );
       })
@@ -353,189 +349,33 @@ function WalkthroughDialog({ onClose }) {
   );
 }
 
-function WalkthroughPreview() {
-  return (
-    <div className="rn-walk-device" aria-hidden="true">
-      <aside>
-        <strong>
-          <span />
-          Relaynest
-        </strong>
-        {[
-          [Home, "Today"],
-          [Users, "Leads"],
-          [Users, "Clients"],
-          [Layers3, "Services"],
-          [CalendarDays, "Calendar"],
-        ].map(([Icon, label], i) => (
-          <div key={label} className={i === 0 ? "selected" : ""}>
-            <Icon size={18} />
-            <span>{label}</span>
-          </div>
-        ))}
-      </aside>
-      <div className="rn-walk-main">
-        <div className="rn-walk-topline">
-          <span>SAMPLE WORKSPACE</span>
-          <small>Thursday, 12 March</small>
-        </div>
-        <h3>Today's focus</h3>
-        <div className="rn-walk-grid">
-          <div className="rn-walk-tasks">
-            {[
-              [
-                Check,
-                "Follow up with Olivia",
-                "New enquiry / Sent 2 days ago",
-                "9:00 am",
-              ],
-              [
-                MessageCircle,
-                "Review service progress",
-                "3 active clients",
-                "11:00 am",
-              ],
-              [
-                CalendarDays,
-                "Confirm tomorrow's appointment",
-                "Consultation with James",
-                "4:00 pm",
-              ],
-            ].map(([Icon, title, text, time], i) => (
-              <div key={title}>
-                <span className={"rn-walk-icon rn-walk-icon-" + i}>
-                  <Icon size={20} />
-                </span>
-                <div>
-                  <strong>{title}</strong>
-                  <small>{text}</small>
-                </div>
-                <time>{time}</time>
-                <ChevronRight size={15} />
-              </div>
-            ))}
-          </div>
-          <div className="rn-walk-calendar">
-            <strong>March 2026</strong>
-            <div>
-              {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-                <b key={i}>{d}</b>
-              ))}
-              {Array.from({ length: 42 }, (_, i) => (
-                <span className={i === 17 ? "today" : ""} key={i}>
-                  {i < 6 || i > 36 ? "" : i - 5}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function HomeExtras() {
-  const [open, setOpen] = useState(false);
   return (
-    <>
-      <section
-        className="rn-walkthrough"
-        id="walkthrough"
-        aria-labelledby="rn-walkthrough-title"
-      >
-        <div className="rn-walk-heading rn-reveal">
-          <p className="rn-eyebrow">SEE THE WORKSPACE IN ACTION</p>
-          <h2 id="rn-walkthrough-title">
-            See how your day
-            <br />
-            comes together.
-          </h2>
-          <p>
-            Explore leads, follow-ups and service progress in one connected
-            workspace.
-          </p>
-        </div>
-        <div className="rn-walk-frame rn-reveal">
-          <img
-            className="rn-walk-backdrop"
-            src="/walkthrough-desk.webp"
-            alt=""
-            width="1440"
-            height="960"
-            loading="lazy"
-          />
-          <WalkthroughPreview />
-          <div className="rn-walk-draft" aria-hidden="true">
-            <div>
-              <span>
-                <Mail size={16} />
-              </span>
-              <strong>Follow-up draft</strong>
-              <small>To: Olivia</small>
-            </div>
-            <p>
-              Hi Olivia,
-              <br />
-              Thanks for your enquiry. I'd love to welcome you in next week.
-              Here are a few available times...
-            </p>
-          </div>
-          <button
-            className="rn-walk-play"
-            aria-label="Play product walkthrough"
-            title="Play product walkthrough"
-            onClick={() => setOpen(true)}
-          >
-            <Play size={27} fill="currentColor" />
-          </button>
-        </div>
-        <p className="rn-walk-caption">Product walkthrough preview</p>
-        <ol className="rn-walk-steps">
-          {chapters.map((item, i) => (
-            <li key={item.title}>
-              <span>0{i + 1}</span>
-              {item.title}
-            </li>
-          ))}
-        </ol>
-        <div className="rn-walk-demo">
-          <Link to="/demo/overview">
-            Explore the live demo <ArrowRight size={17} />
-          </Link>
-          <p>No signup. No card.</p>
-        </div>
-      </section>
-      <section
-        className="rn-faq-section"
-        id="faq"
-        aria-labelledby="rn-faq-title"
-      >
-        <div className="rn-faq-intro rn-reveal">
-          <p className="rn-eyebrow">BEFORE YOU CHOOSE</p>
-          <h2 id="rn-faq-title">
-            Good questions.
-            <br />
-            Clear answers.
-          </h2>
-          <p>Get to know Relaynest before your next step.</p>
-          <a href="mailto:info@infotecdigital.com">
-            Talk to us <ArrowRight size={16} />
-          </a>
-        </div>
-        <div className="rn-faq-list rn-reveal">
-          {faqs.map(([question, answer], i) => (
-            <details key={question} open={i === 0}>
-              <summary>
-                {question}
-                <Plus size={19} />
-              </summary>
-              <div>{answer}</div>
-            </details>
-          ))}
-        </div>
-      </section>
-      {open && <WalkthroughDialog onClose={() => setOpen(false)} />}
-    </>
+    <section className="rn-faq-section" id="faq" aria-labelledby="rn-faq-title">
+      <div className="rn-faq-intro rn-reveal">
+        <p className="rn-eyebrow">BEFORE YOU CHOOSE</p>
+        <h2 id="rn-faq-title">
+          Good questions.
+          <br />
+          Clear answers.
+        </h2>
+        <p>Get to know Relaynest before your next step.</p>
+        <a href="mailto:info@infotecdigital.com">
+          Talk to us <ArrowRight size={16} />
+        </a>
+      </div>
+      <div className="rn-faq-list rn-reveal">
+        {faqs.map(([question, answer], i) => (
+          <details key={question} open={i === 0}>
+            <summary>
+              {question}
+              <Plus size={19} />
+            </summary>
+            <div>{answer}</div>
+          </details>
+        ))}
+      </div>
+    </section>
   );
 }
 

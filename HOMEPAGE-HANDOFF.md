@@ -2,54 +2,49 @@
 
 Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-client-portal`, Cloudflare Worker `ai-lead-follow-up`.
 
-## Active files
+## Active design (13 October 2026)
 
-- `src/typography.css`: the final shared typography layer, imported after the page styles in `src/main.jsx`. Uses only the native Apple-first system stack, with no downloaded fonts. DM Sans and Manrope imports and dependencies are removed. Type tokens cover desktop/mobile body, cards, controls and supporting copy. Headings use bounded `clamp()` sizes with discrete responsive steps; preserve these tokens instead of adding smaller page-specific overrides. All button targets have a 44px height floor. Decorative product previews retain a separate proportional type scale with a 9px minimum for visible text.
-- `scripts/typography-check.mjs`: tests public routes, all demo pages, client portal, lead editor, and browser-fixture authenticated/onboarding/subscription states at 1440, 1024, 768 and 390px. Verifies system font inheritance, no font downloads, minimum text sizes, touch targets and overflow. Signed-in tests use intercepted sample responses, not a real paid account. Run against the preview with `node scripts/typography-check.mjs`; set `TEST_BASE_URL` for live checks.
+The homepage uses an asymmetric hero: clear left-aligned copy and a readable, opaque three-task product preview on the right. Preserve the exact headline "Keep every lead moving forward.", demo and compare-plans CTAs, and "No signup. No card." reassurance. The ribbon artwork is a quiet accent behind the interface, never behind essential copy.
 
-- `src/studio-home.jsx`: active homepage in both `src/main.jsx` and `src/prerender.jsx`.
-- `src/studio-home.css`: homepage styling, scoped under `.rn-home`.
-- `src/home-motion.js`: lazy-loaded GSAP and ScrollTrigger, ambient ribbon/follow-up movement, entrance reveals and scroll-controlled dashboard perspective. No pinned hero. Reduced motion and explicit ambient pause are supported; cleanup runs when leaving the route.
-- `public/ribbon-sculpture.webp`: generated mint-glass and brushed-metal artwork; HTML UI and text are separate from the image.
-- `public/industry-automotive.webp` and `public/industry-salon.webp`: generated illustrative photography used ONLY for their labelled business categories. Do not use generic car/furniture photos in the hero. Creative/professional tabs show relevant product views instead.
-- `scripts/reference-check.mjs`: current responsive, motion, pause, category, route-cleanup and SSR checks. Older studio/motion scripts target the retired layout.
-- `public/*-complete.jpg`: complete app captures. `workspace-preview.jpg` is the old, truncated image; do not switch back to it.
-- `scripts/capture-complete.mjs`: recaptures the three demo pages, including their actual page footers.
+Page order: hero, combined enquiry-to-delivery product story, industry examples, shared pricing, FAQ, final CTA/footer. The old separate workspace, journey and full-page walkthrough sections have been retired. The walkthrough remains accessible through the product-story button and an accessible modal.
 
-`homev2.jsx`, `homev2.css`, and the old `Home` export in `public.jsx` are not the active homepage. `PlanCards` in `public.jsx` is shared with the pricing page; do not introduce conflicting price tables. Payments remain subject to provider activation.
+The product story contains three sample-data close-ups: capture the enquiry, prepare the follow-up, share service progress. Automotive imagery is used only in the explicitly labelled automotive example. Industry tabs use relevant automotive/salon artwork or existing product captures. Do not invent testimonials, payment availability or capabilities.
 
-## Reference design
+## Files and scope
 
-The hero dashboard now uses a 4:3 landscape tablet frame above 760px, per the user's request for an iPad-like taller screen. Task rows and calendar expand within it. Let short laptop screens scroll to the bottom of the tablet; do not compress its height to keep the entire device above the fold. The mobile layout remains compact. `scripts/hero-balance-check.mjs` checks this aspect ratio and the complete unclipped frame.
+- `src/studio-home.jsx`: active homepage for both the client router and prerendering. Owns the mobile navigation, three-task preview, industry selector and walkthrough dialog state.
+- `src/home-refined.css`: final homepage layout and typography layer, scoped under `.rn-refined`. Imported after `typography.css` in `src/main.jsx`. Make new homepage adjustments here rather than stacking overrides in old tablet hero rules.
+- `src/home-sections.jsx`: `ProductStory` and `HomePricing`. Pricing reuses `PlanCards` from `src/public.jsx`; never duplicate or alter the price book for visual changes.
+- `src/home-finale.jsx`: exported `WalkthroughDialog`, native FAQ disclosures and closing CTA/footer. The modal supports playback/pause, chapter navigation, Escape, focus restoration and reduced motion.
+- `src/home-motion.js`: dynamically loaded GSAP and ScrollTrigger. Brief geometric entrances, floating sculpture/draft, scroll-linked story panels and subtle product/footer motion. No opacity animation, pinned hero or hidden essential text. Ambient movement has a pause control and pauses when the page is hidden. Preserve cleanup on route changes.
+- `src/typography.css`: shared native font stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif. No downloaded font files. Homepage body is 18px desktop / 16px mobile; product details and support text are at least 13px.
+- Older `studio-home.css`, `home-sections.css` and `home-finale.css` remain foundational styles. Retired hero selectors in these files and typography.css do not govern the new hero.
+- `homev2.jsx`, `homev2.css` and the old Home export in public.jsx are not the active homepage.
 
-Keep the hero copy calm: no extra all-caps eyebrow, a single short supporting sentence, one prominent demo CTA, and a subdued secondary link. The animated ribbons start inside the product scene below the reassurance, not behind text or controls. These scoped hero rules live in `typography.css`; do not reintroduce negative ribbon offsets over the copy.
+## Verification
 
-The hero deliberately uses a quieter 500 weight and 36-64px height-aware type scale after user feedback that the global 88px/700 heading overwhelmed the dashboard. Preserve the final hero overrides in `typography.css`, including short-laptop viewport rules. Do not enlarge this headline back to the global section scale; keep the readable body and control sizes elsewhere unchanged.
+Run `npm run build`, then `npm test`. Start the local worker preview with `$env:PORT='8793'; node scripts/local-preview.mjs`.
 
-The middle of the homepage now includes `HomeSections` from `src/home-sections.jsx` and scoped `src/home-sections.css`: an illustrative three-step automotive service journey followed by a dark pricing band. They sit between the existing dark workspace and industry sections. The phone artwork uses the existing car asset ONLY as a labelled automotive example. All visible calls to action lead to existing demos or plan signup. Pricing reuses `PlanCards` in `src/public.jsx` with optional `exploreLabels`; monthly/yearly calculations, country-based currency and the payment-approval notice remain shared with `/pricing`. Do not duplicate the price book or suggest live payment availability.
+- `node scripts/refined-home-check.mjs`: active homepage suite at 1440, 1024, 768, 390 and 320px. Checks section order, readable previews, geometry, GSAP movement/pause, walkthrough controls and focus restoration, industry selection, monthly/yearly and currency pricing, plan routes, mobile navigation, reduced motion, blocked animation imports and prerendered content without JavaScript. Writes screenshots and results to test-results/refined-home.
+- `node scripts/typography-check.mjs`: broader public/demo/portal/account typography coverage. Authenticated states use intercepted fixtures, not a real paid account.
+- Set `TEST_BASE_URL` to test deployment instead of localhost.
+- Older reference-check, hero-balance-check and finale-check scripts target retired layouts; use the refined homepage suite for the current composition.
 
-The user supplied a light hero with sculptural jade/silver ribbons, a tablet-like sample dashboard, a dark workspace section, contextual industry photos, and a very compact dark footer. Preserve this composition. The hero is responsive HTML with sample data, not a screenshot of the full app. Keep its full frame visible within its section; do not use fixed-height cropping. The real app remains reachable through the demo links. Homepage English copy is not a claim of complete translation coverage.
+Inspect screenshots as well as assertions. Product previews must remain opaque and unclipped; page height should follow content rather than fixed viewport crops. Hovering an industry photograph intentionally scales it within its clipped image container; text must stay within bounds.
 
-Artwork was generated with the built-in ImageGen tool and optimized as WebP. Prompts: (1) two broad interlocking pale-jade glass and satin champagne-silver ribbon loops on a warm-white studio floor, no text/tablet/UI; (2) black sports coupe in a clean premium detailing workshop, no logos or people; (3) boutique salon with circular mirror, chair and beauty products, no logos or people. These are illustrative assets, not customer endorsements.
+## Pricing and backend
+
+Keep existing routes, demo behavior, currency selection, monthly/yearly calculations and checkout guards unchanged. Plan CTAs remain exploration/signup links while subscriptions await payment-provider approval. The disclaimer and feature lists come from the existing shared pricing components.
+
+## Artwork
+
+Existing assets are illustrative artwork, not customer endorsements:
+- ribbon-sculpture.webp: pale jade and brushed-metal interlocking ribbons.
+- industry-automotive.webp / industry-salon.webp: category-specific illustrative photography.
+- closing-sculpture.webp: intertwined pale-jade loops in a dark emerald setting.
+- Complete product captures end in -complete.jpg; workspace-preview.jpg is a retired cropped capture.
+No new generated assets were required for this refinement.
 
 ## Working with Claude or Codex
 
-## Walkthrough, FAQ and closing section
-
-`src/home-finale.jsx` and `src/home-finale.css` add the walkthrough, six native expandable FAQs, and compact dark closing CTA/footer. `HomeExtras` follows industries; `ClosingFooter` replaces the old footer. The play button opens an accessible native dialog with three sample-data chapters, GSAP playback, pause and chapter controls, Escape dismissal and focus restoration. This is an interactive illustration, not a recorded video or a live AI request. Reduced-motion users start paused. All demo links lead to existing routes. The FAQs continue to work without JavaScript.
-
-`src/home-motion.js` handles scroll reveals, walkthrough frame motion and closing artwork parallax. FAQ toggle events refresh ScrollTrigger positions. Keep the final footer selectors specific enough to override the older generic footer styles. Do not crop the sculpture or turn the dashboard into a background image.
-
-Run `node scripts/finale-check.mjs` against the local preview (port 8793) or set `TEST_BASE_URL` for live verification. It covers 320, 390, 768, 1034 and 1440 pixel widths, artwork, playback, chapter routes, keyboard FAQs, focus restoration, reduced motion and SSR. `scripts/reference-check.mjs` now uses the closing CTA for its route-cleanup check.
-
-### New generated artwork
-
-Mode: built-in ImageGen, optimized to 1440px WebP. These are decorative illustrations, not customer photographs.
-
-- `public/walkthrough-desk.webp`: Prompt: "Create a landscape 1536x1024 photorealistic website product showcase BACKGROUND. Calm modern workspace in soft daylight, pale sage wall, light green stone desktop across bottom, small leafy plant in ivory ceramic pot at extreme left, small ivory pencil cup at extreme right, subtle shadows from window and leaves on right wall. Large EMPTY central 80 percent of composition reserved for a separate HTML dashboard to be overlaid. No computer, no laptop, no tablet, no screen, no text, no typography, no logos, no people. Premium architectural product photography. Clean pale sage/white palette, natural true-to-life surfaces, softly lit but sharp visible objects, refined minimal framing. Desk low in frame, wall behind. Horizontal composition."
-- `public/closing-sculpture.webp`: Prompt: "Premium photorealistic abstract sculpture for a SaaS website closing banner, landscape 1536x1024. Two beautifully intertwined sculptural oval loops made of pale jade satin-finish ceramic with subtle polished edges, physical interlocking form, resting on a dark emerald stone studio floor, positioned only in the RIGHT THIRD of a wide frame. Strong soft directional light from upper right catches the jade surfaces, elegant realistic contact shadows, deep almost black emerald #0b1914 studio background. Left two thirds nearly empty dark #0b1914 with subtle natural illumination, reserved for HTML copy. All parts of sculpture fully visible, no cropping. Rich material microtexture, tactile premium industrial design photograph, sophisticated minimal composition. No text, no letters, no logos, no people, no spheres, no floating orbs, no bokeh."
-
-### Collaboration
-
-Fetch the current deployment branch before editing; preserve newer commits. Push small commits to this branch to trigger Cloudflare. Avoid force pushes. Keep homepage styling scoped to prevent global footer rules leaking in. Run `npm run build`, inspect desktop/mobile screenshots at several scroll positions, and check the complete bottom edge of the images. Respect reduced motion and retain real links and controls. Do not add fake customer counts or claims of activated integrations.
-
+Fetch the deployment branch before editing and preserve newer commits. Keep changes scoped; do not force-push or reset unrelated local work. Prefer one final scoped homepage layer over global CSS overrides. Rebuild, inspect responsive screenshots and run the active checks before deployment. Keep essential content visible if GSAP fails, honor reduced motion and retain real links and controls.

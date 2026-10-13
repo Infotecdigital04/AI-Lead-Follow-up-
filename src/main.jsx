@@ -10,6 +10,7 @@ import "./signature.css";
 import { Pricing, Login, Checkout, Legal, NotFound } from "./public.jsx";
 import { StudioHome as HomeV2 } from "./studio-home.jsx";
 import "./typography.css";
+import "./home-refined.css";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));
 function RouteMetadata() {

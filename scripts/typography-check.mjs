@@ -182,7 +182,7 @@ try {
       ) {
         if (path === "/") {
           for (const selector of [
-            ".rn-hero",
+            ".rn-lead-hero",
             "#journey",
             "#pricing",
             "#solutions",
