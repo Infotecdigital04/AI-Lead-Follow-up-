@@ -9,6 +9,7 @@ import {
   Menu,
   Pause,
   Play,
+  Search,
   Settings,
   Sparkles,
   UserRound,
@@ -123,6 +124,14 @@ function FocusPreview() {
       <div className="rn-preview-main">
         <div className="rn-preview-top">
           <span>Sample workspace</span>
+          <Link
+            className="rn-preview-search"
+            to="/demo/leads"
+            aria-label="Search sample leads"
+            title="Search sample leads"
+          >
+            <Search size={18} />
+          </Link>
           <span
             className="rn-preview-avatar"
             aria-label="Sample user Alex Carter"
@@ -282,7 +291,9 @@ export function StudioHome() {
                 height="1024"
                 fetchPriority="high"
               />
-              <FocusPreview />
+              <div className="rn-product-tilt">
+                <FocusPreview />
+              </div>
               <div className="rn-lead-draft">
                 <div>
                   <Sparkles size={18} />

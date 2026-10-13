@@ -94,8 +94,8 @@
   display: grid;
   grid-template-columns: minmax(0, 0.93fr) minmax(0, 1.07fr);
   align-items: center;
-  gap: 40px;
-  padding-block: 54px 76px;
+  gap: 48px;
+  padding-block: 58px 46px;
 }
 :root .rn-refined .rn-lead-copy {
   position: relative;
@@ -113,9 +113,9 @@
 }
 :root .rn-refined .rn-lead-description {
   margin-top: 26px;
-  max-width: 460px;
-  font-size: 18px;
-  line-height: 1.55;
+  max-width: 445px;
+  font-size: 21px;
+  line-height: 1.45;
 }
 :root .rn-refined .rn-lead-actions {
   display: flex;
@@ -135,7 +135,7 @@
   list-style: none;
   padding: 18px 0 0;
   border-top: 1px solid #ced6cf;
-  margin: 42px 0 0;
+  margin: 64px 0 0;
   color: #54625a;
   font-size: 13px;
 }
@@ -146,7 +146,7 @@
 }
 :root .rn-refined .rn-lead-visual {
   position: relative;
-  padding: 20px 0 76px;
+  padding: 20px 0 64px;
   isolation: isolate;
   min-width: 0;
 }
@@ -154,24 +154,32 @@
   position: absolute;
   z-index: -1;
   width: 110%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
-  top: -70px;
-  left: 12%;
+  top: -100px;
+  left: 26%;
+  mix-blend-mode: multiply;
   pointer-events: none;
+}
+:root .rn-refined .rn-product-tilt {
+  transform: perspective(1500px) rotateY(-9deg) rotateX(3deg) rotateZ(3deg);
+  transform-origin: 50% 60%;
 }
 :root .rn-refined .rn-focus-preview {
   display: grid;
   grid-template-columns: 94px minmax(0, 1fr);
-  border: 1px solid #b9c3b8;
+  border: 1px solid #bfc4ba;
   border-radius: 8px;
-  padding: 5px;
-  background: #e4e6dc;
+  padding: 3px;
+  background: linear-gradient(135deg, #fff 0%, #cbcec5 55%, #f3f4ee 100%);
   transform-origin: center;
-  box-shadow: 0 24px 38px -22px #13281e55;
+  box-shadow:
+    0 2px 1px #fff inset,
+    2px 4px 0 #b7bcb2,
+    0 32px 35px -18px #172a2359;
 }
 :root .rn-refined .rn-preview-rail {
-  background: #112c21;
+  background: linear-gradient(130deg, #1a3b2e, #071c14 85%);
   color: #e4efe6;
   padding: 20px 8px 14px;
   display: flex;
@@ -215,7 +223,7 @@
   margin-top: auto;
 }
 :root .rn-refined .rn-preview-main {
-  background: #f8f8f4;
+  background: linear-gradient(125deg, #fffefa, #f2f2ee);
   min-width: 0;
   padding: 24px;
   border-radius: 0 4px 4px 0;
@@ -239,6 +247,17 @@
   color: #354c3b;
   font-size: 13px;
 }
+:root .rn-refined .rn-preview-search {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  color: #253d30;
+  border: 1px solid #e2e5de;
+  border-radius: 50%;
+  background: #fffefa;
+}
 :root .rn-refined .rn-preview-main h2 {
   font-size: 28px;
   margin-top: 12px;
@@ -254,10 +273,10 @@
   grid-template-columns: 42px minmax(0, 1fr) 16px;
   align-items: center;
   gap: 12px;
-  min-height: 94px;
-  padding: 16px 12px;
+  min-height: 104px;
+  padding: 18px 14px;
   border: 1px solid #e1e7df;
-  background: #fff;
+  background: #fffefb;
   border-radius: 8px;
   transition:
     border-color 0.2s,
@@ -302,14 +321,16 @@
 }
 :root .rn-refined .rn-lead-draft {
   position: relative;
-  width: 330px;
+  width: 350px;
   max-width: calc(100% - 60px);
-  margin: -12px -12px -60px auto;
+  margin: -28px -12px -60px auto;
   padding: 20px;
-  background: #fff;
+  background: #fcfcf9;
   border: 1px solid #d9e1d8;
   border-radius: 8px;
-  box-shadow: 0 14px 30px -20px #172d2055;
+  box-shadow:
+    0 2px 0 #fff inset,
+    0 18px 28px -10px #12261f4d;
 }
 :root .rn-refined .rn-lead-draft > div {
   display: flex;
@@ -329,6 +350,8 @@
 :root .rn-refined .rn-lead-draft p {
   font-size: 15px;
   margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #dce1d8;
 }
 :root .rn-refined .rn-lead-visual .rn-motion-toggle {
   bottom: 14px;
@@ -339,7 +362,7 @@
   background: #faf9f6;
 }
 :root .rn-refined .rn-story {
-  background: #102b21;
+  background: #0b2119;
   color: #f3f8f2;
   padding-block: 80px;
   scroll-margin-top: 80px;
@@ -422,12 +445,21 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 405px;
-  padding: 24px;
-  border: 1px solid #c5d3c8;
+  min-height: 425px;
+  padding: 28px;
+  border: 1px solid #c6cec3;
   border-radius: 8px;
-  background: #fafbf7;
+  background: linear-gradient(130deg, #fffefb, #efefea);
   color: #182b22;
+  box-shadow:
+    0 2px 0 #ffffff inset,
+    0 24px 36px -18px #0009;
+}
+:root .rn-refined .rn-enquiry-closeup {
+  rotate: -1.5deg;
+}
+:root .rn-refined .rn-draft-closeup {
+  rotate: 1deg;
 }
 :root .rn-refined .rn-closeup-heading {
   display: flex;
@@ -468,7 +500,9 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  background: #d7eade;
+  background: #d0e7d8;
+  border: 4px solid #fefefa;
+  box-shadow: 0 3px 8px #14291c12;
   border-radius: 50%;
   font-size: 18px;
   flex: none;
@@ -527,6 +561,8 @@
   font-size: 16px;
   margin: 20px 0 22px;
   line-height: 1.65;
+  padding-left: 16px;
+  border-left: 2px solid #c5dbcc;
 }
 :root .rn-refined .rn-review-note {
   font-size: 13px;
@@ -647,11 +683,14 @@
   margin-top: 34px;
 }
 :root .rn-refined .rn-industry-card {
-  min-height: 310px;
+  min-height: 360px;
   border-radius: 8px;
 }
 :root .rn-refined .rn-industry-card > div {
-  padding: 28px 70px 24px 26px;
+  padding: 0;
+  left: 28px;
+  right: 80px;
+  bottom: 28px;
 }
 :root .rn-refined .rn-industry-card h3 {
   font-size: 24px;
@@ -846,6 +885,9 @@
   }
 }
 @media (max-width: 1000px) {
+  :root .rn-refined .rn-product-tilt {
+    transform: perspective(1500px) rotateY(-5deg) rotateZ(1.5deg);
+  }
   :root .rn-refined .rn-header {
     height: 72px;
   }
@@ -927,6 +969,15 @@
   }
 }
 @media (max-width: 760px) {
+  :root .rn-refined .rn-product-tilt {
+    transform: none;
+  }
+  :root .rn-refined .rn-preview-search {
+    display: none;
+  }
+  :root .rn-refined :is(.rn-enquiry-closeup, .rn-draft-closeup) {
+    rotate: none;
+  }
   :root .rn-home.rn-refined {
     --text-body: 16px;
     --text-card: 15px;
@@ -1084,7 +1135,10 @@
     min-height: 300px;
   }
   :root .rn-refined .rn-industry-card > div {
-    padding: 24px 64px 22px 20px;
+    padding: 0;
+    left: 20px;
+    right: 64px;
+    bottom: 22px;
   }
   :root .rn-refined .rn-industry-card h3 {
     font-size: 23px;

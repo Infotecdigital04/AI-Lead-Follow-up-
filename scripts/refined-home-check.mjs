@@ -58,6 +58,18 @@ try {
     await page.locator('[data-motion="gsap"]').waitFor();
     await page.waitForTimeout(1200);
     assert.equal(await page.locator(".rn-preview-task").count(), 3);
+    assert.equal(
+      await page.locator(".rn-preview-search").getAttribute("href"),
+      "/demo/leads",
+    );
+    const tilt = await page
+      .locator(".rn-product-tilt")
+      .evaluate((el) => getComputedStyle(el).transform);
+    assert.equal(
+      tilt === "none",
+      width <= 760,
+      "Product perspective must flatten on mobile",
+    );
     assert.equal(await page.locator(".rn-story-step").count(), 3);
     assert.equal(
       await page.locator(".rn-walkthrough,.rn-journey,.rn-dark-stage").count(),

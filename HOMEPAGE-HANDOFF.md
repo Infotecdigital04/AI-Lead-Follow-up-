@@ -6,6 +6,8 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 The homepage uses an asymmetric hero: clear left-aligned copy and a readable, opaque three-task product preview on the right. Preserve the exact headline "Keep every lead moving forward.", demo and compare-plans CTAs, and "No signup. No card." reassurance. The ribbon artwork is a quiet accent behind the interface, never behind essential copy.
 
+The reference-fidelity pass adds a separate `.rn-product-tilt` perspective wrapper around the animated preview, porcelain-like opaque surfaces, a raised draft panel and gently angled story close-ups. The outer wrapper keeps CSS perspective independent of GSAP transforms. Mobile removes perspective and card rotation for legibility. Preserve the corrected single inset on industry captions; do not combine padding with the older absolute-position offsets.
+
 Page order: hero, combined enquiry-to-delivery product story, industry examples, shared pricing, FAQ, final CTA/footer. The old separate workspace, journey and full-page walkthrough sections have been retired. The walkthrough remains accessible through the product-story button and an accessible modal.
 
 The product story contains three sample-data close-ups: capture the enquiry, prepare the follow-up, share service progress. Automotive imagery is used only in the explicitly labelled automotive example. Industry tabs use relevant automotive/salon artwork or existing product captures. Do not invent testimonials, payment availability or capabilities.
