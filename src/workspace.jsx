@@ -35,6 +35,7 @@ import {
   Trash2,
   Pencil,
   Printer,
+  Eye,
   RotateCcw,
   Filter,
   ChevronDown,
@@ -107,6 +108,7 @@ export default function Workspace({ demo = false }) {
     [query, setQuery] = useState(""),
     [filter, setFilter] = useState("All"),
     [editor, setEditor] = useState(null),
+    [preview, setPreview] = useState(null),
     [selected, setSelected] = useState(null),
     [draft, setDraft] = useState(null),
     [toast, setToast] = useState(""),
@@ -914,6 +916,7 @@ export default function Workspace({ demo = false }) {
                       rows={visible}
                       kind={page}
                       select={setSelected}
+                      onPreview={setPreview}
                     />
                   )}
                 </>
@@ -937,16 +940,38 @@ export default function Workspace({ demo = false }) {
           {toast}
         </div>
       )}
-      {editor && (
-        <RecordEditor
-          record={editor}
-          onClose={() => setEditor(null)}
-          onSave={async (data) => {
-            const result = await save(editor.kind, data, editor.id);
-            setEditor(null);
-            if (selected?.id === result.id) setSelected(result);
-            setToast(editor.id ? "Changes saved." : "Record added.");
-          }}
+      {editor &&
+        (editor.kind === "invoices" ? (
+          <InvoiceEditor
+            record={editor}
+            records={records}
+            business={session?.business || session?.name}
+            onPreview={setPreview}
+            onClose={() => setEditor(null)}
+            onSave={async (data) => {
+              const result = await save(editor.kind, data, editor.id);
+              setEditor(null);
+              if (selected?.id === result.id) setSelected(result);
+              setToast(editor.id ? "Invoice saved." : "Invoice created.");
+            }}
+          />
+        ) : (
+          <RecordEditor
+            record={editor}
+            onClose={() => setEditor(null)}
+            onSave={async (data) => {
+              const result = await save(editor.kind, data, editor.id);
+              setEditor(null);
+              if (selected?.id === result.id) setSelected(result);
+              setToast(editor.id ? "Changes saved." : "Record added.");
+            }}
+          />
+        ))}
+      {preview && (
+        <InvoicePreview
+          record={preview}
+          business={session?.business || session?.name}
+          onClose={() => setPreview(null)}
         />
       )}
       {selected && (
@@ -1198,7 +1223,7 @@ function LeadTable({ rows, onSelect, full = false }) {
     </div>
   );
 }
-function GenericTable({ rows, kind, select }) {
+function GenericTable({ rows, kind, select, onPreview }) {
   if (!rows.length) return <Empty />;
   return (
     <section className="panel table-scroll">
@@ -1244,14 +1269,26 @@ function GenericTable({ rows, kind, select }) {
                 )}
               </td>
               <td>
-                <button
-                  className="icon-button"
-                  title="View details"
-                  aria-label={`View ${r.data.name || r.data.number}`}
-                  onClick={() => select(r)}
-                >
-                  <ChevronRight size={17} />
-                </button>
+                <div className="inline-actions">
+                  {kind === "invoices" && onPreview && (
+                    <button
+                      className="icon-button"
+                      title="Preview invoice"
+                      aria-label={`Preview ${r.data.number}`}
+                      onClick={() => onPreview(r)}
+                    >
+                      <Eye size={17} />
+                    </button>
+                  )}
+                  <button
+                    className="icon-button"
+                    title="View details"
+                    aria-label={`View ${r.data.name || r.data.number}`}
+                    onClick={() => select(r)}
+                  >
+                    <ChevronRight size={17} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -1480,6 +1517,515 @@ function Reports({ records }) {
         )}
       </section>
     </>
+  );
+}
+function invoiceTotals(d) {
+  const items = Array.isArray(d.items) ? d.items : [];
+  const subtotal = items.reduce(
+    (s, it) => s + (Number(it.qty) || 0) * (Number(it.rate) || 0),
+    0,
+  );
+  const hasItems = items.length > 0;
+  const base = hasItems ? subtotal : Number(d.amount) || 0;
+  const discount = Math.min(Number(d.discount) || 0, base);
+  const taxed = base - discount;
+  const tax = (taxed * (Number(d.taxRate) || 0)) / 100;
+  const total = Math.round((taxed + tax) * 100) / 100;
+  return { subtotal, hasItems, base, discount, tax, total };
+}
+function nextInvoiceNumber(records) {
+  const nums = (records || [])
+    .filter((r) => r.kind === "invoices")
+    .map((r) => {
+      const m = String(r.data.number || "").match(/(\d+)\s*$/);
+      return m ? parseInt(m[1], 10) : 0;
+    });
+  return "INV-" + ((nums.length ? Math.max(...nums) : 1000) + 1);
+}
+function InvoiceEditor({
+  record,
+  records,
+  business,
+  onPreview,
+  onClose,
+  onSave,
+}) {
+  const { t } = useTranslation();
+  const today = new Date().toISOString().slice(0, 10);
+  const [d, setD] = useState(() => {
+    const b = record.data || {};
+    const hasItems = Array.isArray(b.items) && b.items.length;
+    return {
+      number: b.number || nextInvoiceNumber(records),
+      customer: b.customer || "",
+      email: b.email || "",
+      currency: b.currency || "USD",
+      issued: b.issued || today,
+      due: b.due || "",
+      items: hasItems
+        ? b.items
+        : b.amount
+          ? []
+          : [{ description: "", qty: 1, rate: 0 }],
+      amount: b.amount || 0,
+      discount: b.discount || 0,
+      taxRate: b.taxRate || 0,
+      paid: b.paid || 0,
+      notes: b.notes || "",
+      terms: b.terms || "",
+      assignee: b.assignee || "",
+    };
+  });
+  const [more, setMore] = useState(false);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const totals = invoiceTotals(d);
+  const set = (patch) => setD((p) => ({ ...p, ...patch }));
+  const setItem = (i, patch) =>
+    setD((p) => ({
+      ...p,
+      items: p.items.map((it, idx) => (idx === i ? { ...it, ...patch } : it)),
+    }));
+  const addItem = () =>
+    setD((p) => ({
+      ...p,
+      items: [...p.items, { description: "", qty: 1, rate: 0 }],
+    }));
+  const removeItem = (i) =>
+    setD((p) => ({ ...p, items: p.items.filter((_, idx) => idx !== i) }));
+  function buildCandidate() {
+    const tot = invoiceTotals(d);
+    const amount = tot.total > 0 ? tot.total : Number(d.amount) || 0;
+    const status =
+      Number(d.paid) >= amount
+        ? "Paid"
+        : Number(d.paid) > 0
+          ? "Partial"
+          : "Pending";
+    return {
+      number: d.number,
+      customer: d.customer,
+      email: d.email,
+      currency: d.currency,
+      issued: d.issued,
+      due: d.due,
+      items: (d.items || [])
+        .filter((it) => (it.description || "").trim() || Number(it.rate) > 0)
+        .map((it) => ({
+          description: it.description || "",
+          qty: Number(it.qty) || 0,
+          rate: Number(it.rate) || 0,
+        })),
+      discount: Number(d.discount) || 0,
+      taxRate: Number(d.taxRate) || 0,
+      amount,
+      paid: Number(d.paid) || 0,
+      status,
+      notes: d.notes || "",
+      terms: d.terms || "",
+      assignee: d.assignee || "",
+    };
+  }
+  async function submit(e) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      const { schemas } = await import("../server/schemas");
+      await onSave(schemas.invoices.parse(buildCandidate()));
+    } catch (err) {
+      setError(err.issues?.[0]?.message || err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  const balance = Math.max(0, totals.total - (Number(d.paid) || 0));
+  return (
+    <Modal
+      title={record.id ? "Edit invoice" : "New invoice"}
+      onClose={onClose}
+      wide
+    >
+      <form onSubmit={submit}>
+        <div className="modal-body inv-editor">
+          <div className="inv-top">
+            <label className="field">
+              <span>Customer *</span>
+              <input
+                required
+                value={d.customer}
+                onChange={(e) => set({ customer: e.target.value })}
+                placeholder="Client name"
+              />
+            </label>
+            <label className="field">
+              <span>Email</span>
+              <input
+                type="email"
+                value={d.email}
+                onChange={(e) => set({ email: e.target.value })}
+                placeholder="client@email.com"
+              />
+            </label>
+            <label className="field">
+              <span>Invoice #</span>
+              <input
+                required
+                value={d.number}
+                onChange={(e) => set({ number: e.target.value })}
+              />
+            </label>
+            <label className="field">
+              <span>Currency</span>
+              <select
+                value={d.currency}
+                onChange={(e) => set({ currency: e.target.value })}
+              >
+                {currencies.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </label>
+            <label className="field">
+              <span>Issued</span>
+              <input
+                type="date"
+                value={d.issued}
+                onChange={(e) => set({ issued: e.target.value })}
+              />
+            </label>
+            <label className="field">
+              <span>Due</span>
+              <input
+                type="date"
+                value={d.due}
+                onChange={(e) => set({ due: e.target.value })}
+              />
+            </label>
+          </div>
+
+          <div className="inv-items">
+            <div className="inv-items-head">
+              <span>Description</span>
+              <span>Qty</span>
+              <span>Rate</span>
+              <span>Amount</span>
+              <span />
+            </div>
+            {d.items.map((it, i) => (
+              <div className="inv-row" key={i}>
+                <input
+                  className="inv-desc"
+                  value={it.description}
+                  onChange={(e) => setItem(i, { description: e.target.value })}
+                  placeholder="Service or item"
+                />
+                <input
+                  className="inv-num"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={it.qty}
+                  onChange={(e) => setItem(i, { qty: Number(e.target.value) })}
+                />
+                <input
+                  className="inv-num"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={it.rate}
+                  onChange={(e) => setItem(i, { rate: Number(e.target.value) })}
+                />
+                <span className="inv-amt">
+                  {money(
+                    (Number(it.qty) || 0) * (Number(it.rate) || 0),
+                    d.currency,
+                  )}
+                </span>
+                <button
+                  type="button"
+                  className="icon-button"
+                  title="Remove line"
+                  onClick={() => removeItem(i)}
+                >
+                  <Trash2 size={15} />
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="text-button inv-add"
+              onClick={addItem}
+            >
+              <Plus size={15} />
+              Add line item
+            </button>
+          </div>
+
+          <div className="inv-summary">
+            {totals.hasItems ? (
+              <div className="inv-sum-row">
+                <span>Subtotal</span>
+                <b>{money(totals.subtotal, d.currency)}</b>
+              </div>
+            ) : (
+              <label className="inv-sum-row">
+                <span>Amount</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={d.amount}
+                  onChange={(e) => set({ amount: Number(e.target.value) })}
+                />
+              </label>
+            )}
+            <label className="inv-sum-row">
+              <span>Discount</span>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={d.discount}
+                onChange={(e) => set({ discount: Number(e.target.value) })}
+              />
+            </label>
+            <label className="inv-sum-row">
+              <span>Tax %</span>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={d.taxRate}
+                onChange={(e) => set({ taxRate: Number(e.target.value) })}
+              />
+            </label>
+            <div className="inv-sum-row inv-total">
+              <span>Total</span>
+              <b>{money(totals.total, d.currency)}</b>
+            </div>
+            <label className="inv-sum-row">
+              <span>Paid</span>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={d.paid}
+                onChange={(e) => set({ paid: Number(e.target.value) })}
+              />
+            </label>
+            <div className="inv-sum-row inv-due">
+              <span>Balance due</span>
+              <b>{money(balance, d.currency)}</b>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="text-button inv-more"
+            onClick={() => setMore((m) => !m)}
+          >
+            <ChevronDown
+              size={15}
+              style={{ transform: more ? "rotate(180deg)" : "none" }}
+            />
+            {more ? "Fewer options" : "More options"}
+          </button>
+          {more && (
+            <div className="inv-more-grid">
+              <label className="field full">
+                <span>Notes to client</span>
+                <textarea
+                  rows="2"
+                  maxLength="2000"
+                  value={d.notes}
+                  onChange={(e) => set({ notes: e.target.value })}
+                  placeholder="Thank you for your business!"
+                />
+              </label>
+              <label className="field full">
+                <span>Terms</span>
+                <textarea
+                  rows="2"
+                  maxLength="2000"
+                  value={d.terms}
+                  onChange={(e) => set({ terms: e.target.value })}
+                  placeholder="Payment due within 7 days."
+                />
+              </label>
+              <label className="field">
+                <span>Assigned to</span>
+                <input
+                  value={d.assignee}
+                  onChange={(e) => set({ assignee: e.target.value })}
+                />
+              </label>
+            </div>
+          )}
+
+          {error && (
+            <p className="error full" role="alert">
+              {error}
+            </p>
+          )}
+        </div>
+        <div className="modal-actions inv-actions">
+          <button
+            type="button"
+            className="button secondary"
+            onClick={() => onPreview({ ...record, data: buildCandidate() })}
+          >
+            <Eye size={16} />
+            Preview
+          </button>
+          <span className="inv-spacer" />
+          <button type="button" className="button secondary" onClick={onClose}>
+            {t("cancel")}
+          </button>
+          <button className="button primary" disabled={busy}>
+            <Check size={16} />
+            {busy ? "Saving..." : record.id ? "Save invoice" : "Create invoice"}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+function InvoicePreview({ record, business, onClose }) {
+  const d = record.data || {};
+  const tot = invoiceTotals(d);
+  const items = Array.isArray(d.items) ? d.items : [];
+  const biz = business || "Your business";
+  const balance = Math.max(0, tot.total - (Number(d.paid) || 0));
+  return (
+    <Modal title="Invoice preview" onClose={onClose} wide>
+      <div className="modal-body">
+        <div className="inv-doc">
+          <div className="inv-doc-head">
+            <div>
+              <div className="inv-doc-biz">{biz}</div>
+              <div className="inv-doc-kind">INVOICE</div>
+            </div>
+            <div className="inv-doc-meta">
+              <div>
+                <span>Invoice #</span>
+                <b>{d.number}</b>
+              </div>
+              {d.issued && (
+                <div>
+                  <span>Issued</span>
+                  <b>{dateLabel(d.issued)}</b>
+                </div>
+              )}
+              {d.due && (
+                <div>
+                  <span>Due</span>
+                  <b>{dateLabel(d.due)}</b>
+                </div>
+              )}
+              <div>
+                <span>Status</span>
+                <Badge>{d.status || "Pending"}</Badge>
+              </div>
+            </div>
+          </div>
+          <div className="inv-doc-billto">
+            <span>Bill to</span>
+            <b>{d.customer || "—"}</b>
+            {d.email && <div>{d.email}</div>}
+          </div>
+          <table className="inv-doc-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.length ? (
+                items.map((it, i) => (
+                  <tr key={i}>
+                    <td>{it.description || "—"}</td>
+                    <td>{it.qty}</td>
+                    <td>{money(it.rate, d.currency)}</td>
+                    <td>
+                      {money(
+                        (Number(it.qty) || 0) * (Number(it.rate) || 0),
+                        d.currency,
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td>Services rendered</td>
+                  <td>1</td>
+                  <td>{money(d.amount, d.currency)}</td>
+                  <td>{money(d.amount, d.currency)}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className="inv-doc-totals">
+            <div>
+              <span>Subtotal</span>
+              <b>
+                {money(
+                  tot.hasItems ? tot.subtotal : Number(d.amount) || 0,
+                  d.currency,
+                )}
+              </b>
+            </div>
+            {tot.discount > 0 && (
+              <div>
+                <span>Discount</span>
+                <b>-{money(tot.discount, d.currency)}</b>
+              </div>
+            )}
+            {Number(d.taxRate) > 0 && (
+              <div>
+                <span>Tax ({d.taxRate}%)</span>
+                <b>{money(tot.tax, d.currency)}</b>
+              </div>
+            )}
+            <div className="inv-doc-grand">
+              <span>Total</span>
+              <b>{money(tot.total, d.currency)}</b>
+            </div>
+            {Number(d.paid) > 0 && (
+              <div>
+                <span>Paid</span>
+                <b>-{money(d.paid, d.currency)}</b>
+              </div>
+            )}
+            <div className="inv-doc-grand inv-doc-balance">
+              <span>Balance due</span>
+              <b>{money(balance, d.currency)}</b>
+            </div>
+          </div>
+          {d.notes && (
+            <div className="inv-doc-notes">
+              <span>Notes</span>
+              <p>{d.notes}</p>
+            </div>
+          )}
+          {d.terms && (
+            <div className="inv-doc-notes">
+              <span>Terms</span>
+              <p>{d.terms}</p>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="modal-actions">
+        <button type="button" className="button secondary" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    </Modal>
   );
 }
 function RecordEditor({ record, onClose, onSave }) {
