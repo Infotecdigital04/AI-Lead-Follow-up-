@@ -111,8 +111,22 @@ export const schemas = {
         .string()
         .regex(/^[A-Z]{3}$/)
         .default("USD"),
+      issued: date,
       due: date,
       status: z.enum(["Pending", "Partial", "Paid"]).default("Pending"),
+      items: z
+        .array(
+          z.object({
+            description: text.default(""),
+            qty: z.number().min(0).max(1e6).default(1),
+            rate: z.number().min(0).max(1e9).default(0),
+          }),
+        )
+        .max(100)
+        .default([]),
+      discount: z.number().min(0).max(1e9).default(0),
+      taxRate: z.number().min(0).max(100).default(0),
+      terms: text.default(""),
     })
     .refine((d) => d.paid <= d.amount, {
       message: "Payment cannot exceed the invoice total.",
