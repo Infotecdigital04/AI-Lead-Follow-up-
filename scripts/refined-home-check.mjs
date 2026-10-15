@@ -94,6 +94,13 @@ try {
     if (width > 1000)
       assert.ok(copy.x + copy.width <= preview.x + 2, "Hero columns overlap");
     else assert.ok(preview.y >= copy.y + copy.height, "Stacked hero overlaps");
+    if (width > 1000) {
+      const hero = await page.locator(".rn-lead-hero").boundingBox();
+      assert.ok(
+        hero.y + hero.height <= height,
+        "Desktop hero should fit the first viewport",
+      );
+    }
     await page.screenshot({ path: `${out}/hero-${width}.png` });
     const before = await page
       .locator(".rn-lead-sculpture")
@@ -106,6 +113,8 @@ try {
       before,
     );
     await page.getByRole("button", { name: "Pause ambient animation" }).click();
+    // Clicking may scroll the control into view; let scroll-linked parallax settle.
+    await page.waitForTimeout(1000);
     const stopped = await page
       .locator(".rn-lead-sculpture")
       .evaluate((el) => getComputedStyle(el).transform);
@@ -197,12 +206,30 @@ try {
       .click();
     assert.ok(page.url().includes("/login?plan=growth&interval=monthly"));
     await page.goto(base);
+    await page.locator('[data-motion="gsap"]').waitFor();
     await page.locator("#faq details").nth(2).locator("summary").click();
     assert.ok(
       await page
         .locator("#faq details")
         .nth(2)
         .evaluate((el) => el.open),
+    );
+    await page.waitForTimeout(350);
+    const summary = page.locator("#faq details").nth(2).locator("summary");
+    await summary.focus();
+    await page.keyboard.press("Enter");
+    await page.waitForFunction(
+      () => !document.querySelectorAll("#faq details")[2].open,
+    );
+    await summary.click();
+    await summary.click();
+    await summary.click();
+    await page.waitForTimeout(350);
+    assert.ok(
+      await page
+        .locator("#faq details")
+        .nth(2)
+        .evaluate((el) => el.open && !el.style.height && !el.style.overflow),
     );
     if (width <= 760) {
       await page

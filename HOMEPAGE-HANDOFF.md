@@ -2,7 +2,7 @@
 
 Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-client-portal`, Cloudflare Worker `ai-lead-follow-up`.
 
-## Active design (13 October 2026)
+## Active design (15 October 2026)
 
 The homepage uses an asymmetric hero: clear left-aligned copy and a readable, opaque three-task product preview on the right. Preserve the exact headline "Keep every lead moving forward.", demo and compare-plans CTAs, and "No signup. No card." reassurance. The ribbon artwork is a quiet accent behind the interface, never behind essential copy.
 
@@ -18,8 +18,8 @@ The product story contains three sample-data close-ups: capture the enquiry, pre
 - `src/home-refined.css`: final homepage layout and typography layer, scoped under `.rn-refined`. Imported after `typography.css` in `src/main.jsx`. Make new homepage adjustments here rather than stacking overrides in old tablet hero rules.
 - `src/home-sections.jsx`: `ProductStory` and `HomePricing`. Pricing reuses `PlanCards` from `src/public.jsx`; never duplicate or alter the price book for visual changes.
 - `src/home-finale.jsx`: exported `WalkthroughDialog`, native FAQ disclosures and closing CTA/footer. The modal supports playback/pause, chapter navigation, Escape, focus restoration and reduced motion.
-- `src/home-motion.js`: dynamically loaded GSAP and ScrollTrigger. Brief geometric entrances, floating sculpture/draft, scroll-linked story panels and subtle product/footer motion. No opacity animation, pinned hero or hidden essential text. Ambient movement has a pause control and pauses when the page is hidden. Preserve cleanup on route changes.
-- `src/typography.css`: shared native font stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif. No downloaded font files. Homepage body is 18px desktop / 16px mobile; product details and support text are at least 13px.
+- `src/home-motion.js`: dynamically loaded GSAP and ScrollTrigger. Brief staggered hero entrances, partially visible fades (never opacity zero), section reveals, progressive story lines, industry changes and closing parallax. Content is visible before JS loads, and scroll reveals start only on entry. Native FAQ details gain interruptible height/opacity transitions; reduced-motion and no-JS keep native behavior. Multiple FAQ items may remain open, preserving the existing behavior. Ambient movement has a pause control and pauses when the page is hidden. Preserve context, listener and animation-frame cleanup on route changes.
+- `src/typography.css`: shared Apple-first native stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif. These are local font names only, with no downloaded font files. Homepage body is 18px desktop / 16px mobile; product details and support text are at least 13px.
 - Older `studio-home.css`, `home-sections.css` and `home-finale.css` remain foundational styles. Retired hero selectors in these files and typography.css do not govern the new hero.
 - `homev2.jsx`, `homev2.css` and the old Home export in public.jsx are not the active homepage.
 

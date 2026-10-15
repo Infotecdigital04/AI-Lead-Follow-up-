@@ -194,6 +194,9 @@ export function StudioHome() {
     motion.current?.pause(paused);
   }, [paused]);
   useEffect(() => {
+    root.current?.dispatchEvent(new Event("relaynest:industry-change"));
+  }, [industry]);
+  useEffect(() => {
     if (!menu) return;
     const close = (e) => {
       if (e.key === "Escape") {
@@ -261,7 +264,10 @@ export function StudioHome() {
             <div className="rn-lead-copy">
               <p className="rn-eyebrow">CLIENT WORK, CONNECTED.</p>
               <h1 id="rn-headline">
-                Keep every lead <span>moving forward.</span>
+                <span className="rn-title-line">Keep every lead</span>{" "}
+                <span className="rn-title-line rn-title-accent">
+                  moving forward.
+                </span>
               </h1>
               <p className="rn-lead-description">
                 Manage leads, prepare follow-ups and track client work in one

@@ -1,4 +1,17 @@
 /* Scoped replacement sections; shared app and checkout styling stays separate. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :root .rn-refined :is(.rn-closeup, .rn-home-pricing .plan) {
+    transition: translate 220ms ease;
+  }
+  :root .rn-refined :is(.rn-closeup:hover, .rn-home-pricing .plan:hover) {
+    translate: 0 -4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root .rn-refined .rn-industry-card:hover > img {
+    transform: none;
+  }
+}
 :root .rn-home.rn-refined {
   --text-body: 18px;
   --text-card: 16px;
@@ -42,7 +55,7 @@
   justify-content: center;
   gap: 12px;
   min-height: 48px;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 13px 22px;
   font-size: 16px;
   font-weight: 600;
@@ -95,27 +108,30 @@
   grid-template-columns: minmax(0, 0.93fr) minmax(0, 1.07fr);
   align-items: center;
   gap: 48px;
-  padding-block: 58px 46px;
+  padding-block: 26px 28px;
 }
 :root .rn-refined .rn-lead-copy {
   position: relative;
   z-index: 2;
   min-width: 0;
+  top: -16px;
 }
 :root .rn-refined .rn-lead-copy h1 {
   font-size: 60px;
   max-width: 600px;
   font-weight: 700;
 }
-:root .rn-refined .rn-lead-copy h1 span {
-  color: var(--rn-green);
+:root .rn-refined .rn-title-line {
   display: block;
+}
+:root .rn-refined .rn-title-accent {
+  color: var(--rn-green);
 }
 :root .rn-refined .rn-lead-description {
   margin-top: 26px;
   max-width: 445px;
-  font-size: 21px;
-  line-height: 1.45;
+  font-size: 18px;
+  line-height: 1.55;
 }
 :root .rn-refined .rn-lead-actions {
   display: flex;
@@ -135,7 +151,7 @@
   list-style: none;
   padding: 18px 0 0;
   border-top: 1px solid #ced6cf;
-  margin: 64px 0 0;
+  margin: 40px 0 0;
   color: #54625a;
   font-size: 13px;
 }
@@ -146,22 +162,25 @@
 }
 :root .rn-refined .rn-lead-visual {
   position: relative;
-  padding: 20px 0 64px;
+  padding: 20px 0 52px;
   isolation: isolate;
   min-width: 0;
 }
 :root .rn-refined .rn-lead-sculpture {
   position: absolute;
   z-index: -1;
-  width: 110%;
+  width: 90%;
   height: auto;
   object-fit: contain;
-  top: -100px;
-  left: 26%;
+  top: -72px;
+  left: 34%;
+  opacity: 0.5;
   mix-blend-mode: multiply;
   pointer-events: none;
 }
 :root .rn-refined .rn-product-tilt {
+  width: 92%;
+  margin-left: auto;
   transform: perspective(1500px) rotateY(-9deg) rotateX(3deg) rotateZ(3deg);
   transform-origin: 50% 60%;
 }
@@ -225,7 +244,7 @@
 :root .rn-refined .rn-preview-main {
   background: linear-gradient(125deg, #fffefa, #f2f2ee);
   min-width: 0;
-  padding: 24px;
+  padding: 20px;
   border-radius: 0 4px 4px 0;
 }
 :root .rn-refined .rn-preview-top {
@@ -265,16 +284,16 @@
 }
 :root .rn-refined .rn-preview-tasks {
   display: grid;
-  gap: 14px;
-  margin-top: 26px;
+  gap: 12px;
+  margin-top: 20px;
 }
 :root .rn-refined .rn-preview-task {
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr) 16px;
   align-items: center;
   gap: 12px;
-  min-height: 104px;
-  padding: 18px 14px;
+  min-height: 92px;
+  padding: 14px 12px;
   border: 1px solid #e1e7df;
   background: #fffefb;
   border-radius: 8px;
@@ -753,7 +772,7 @@
 }
 :root .rn-refined .rn-home-pricing .plan > .button {
   min-height: 48px;
-  border-radius: 8px;
+  border-radius: 16px;
   font-size: 16px;
 }
 :root .rn-refined .rn-home-pricing .plan-ribbon {
@@ -782,7 +801,7 @@
   font-size: 46px;
 }
 :root .rn-refined .rn-faq-list summary {
-  font-size: 17px;
+  font-size: 16px;
   padding-block: 20px;
   padding-inline-end: 6px;
 }
@@ -886,6 +905,7 @@
 }
 @media (max-width: 1000px) {
   :root .rn-refined .rn-product-tilt {
+    width: 100%;
     transform: perspective(1500px) rotateY(-5deg) rotateZ(1.5deg);
   }
   :root .rn-refined .rn-header {
@@ -899,6 +919,7 @@
   }
   :root .rn-refined .rn-lead-copy {
     max-width: 640px;
+    top: 0;
   }
   :root .rn-refined .rn-lead-copy h1 {
     font-size: 56px;
