@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { Language } from "./ui";
+import { Brand, BrandIcon } from "./brand";
 import { createHomeMotion } from "./home-motion";
 import { ProductStory, HomePricing } from "./home-sections";
 import { HomeExtras, ClosingFooter, WalkthroughDialog } from "./home-finale";
@@ -77,11 +78,7 @@ const focusItems = [
 ];
 
 function Wordmark() {
-  return (
-    <Link to="/" className="rn-wordmark" aria-label="Relaynest home">
-      Relaynest<span>.</span>
-    </Link>
-  );
+  return <Brand className="rn-wordmark" />;
 }
 function FocusPreview() {
   return (
@@ -92,7 +89,7 @@ function FocusPreview() {
           className="rn-preview-brand"
           aria-label="Open Relaynest demo"
         >
-          R<span>.</span>
+          <BrandIcon />
         </Link>
         <nav aria-label="Sample workspace">
           {[

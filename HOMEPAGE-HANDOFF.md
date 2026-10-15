@@ -4,6 +4,12 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ## Active design (15 October 2026)
 
+### Supplied branding
+
+`src/brand.jsx` shares the supplied logo across public, login, workspace and portal pages. Use the default light variant on light surfaces and `tone="dark"` on dark surfaces. `src/brand.css` is imported last and handles responsive sizing. The hero preview uses the geometric mark, also used for browser and Apple touch icons. Assets in `public/brand` are cropped/compressed originals, not AI regenerations. Do not replace them with a typed wordmark or the retired R icon.
+
+`scripts/prepare-brand-assets.mjs` accepts the original icon, dark-logo and light-logo PNG paths, in that order, and generates the web assets with Sharp. Run `node scripts/brand-check.mjs` against the local preview (default port 8796), or set `TEST_BASE_URL`, to check logo loading, sizing and icon endpoints across five page types and five widths.
+
 The homepage uses an asymmetric hero: clear left-aligned copy and a readable, opaque three-task product preview on the right. Preserve the exact headline "Keep every lead moving forward.", demo and compare-plans CTAs, and "No signup. No card." reassurance. The ribbon artwork is a quiet accent behind the interface, never behind essential copy.
 
 The reference-fidelity pass adds a separate `.rn-product-tilt` perspective wrapper around the animated preview, porcelain-like opaque surfaces, a raised draft panel and gently angled story close-ups. The outer wrapper keeps CSS perspective independent of GSAP transforms. Mobile removes perspective and card rotation for legibility. Preserve the corrected single inset on industry captions; do not combine padding with the older absolute-position offsets.
@@ -41,11 +47,12 @@ Keep existing routes, demo behavior, currency selection, monthly/yearly calculat
 ## Artwork
 
 Existing assets are illustrative artwork, not customer endorsements:
+
 - ribbon-sculpture.webp: pale jade and brushed-metal interlocking ribbons.
 - industry-automotive.webp / industry-salon.webp: category-specific illustrative photography.
 - closing-sculpture.webp: intertwined pale-jade loops in a dark emerald setting.
 - Complete product captures end in -complete.jpg; workspace-preview.jpg is a retired cropped capture.
-No new generated assets were required for this refinement.
+  No new generated assets were required for this refinement.
 
 ## Working with Claude or Codex
 

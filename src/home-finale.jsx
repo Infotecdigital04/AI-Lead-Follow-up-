@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { Brand } from "./brand";
 import {
   ArrowLeft,
   ArrowRight,
@@ -416,10 +417,7 @@ export function ClosingFooter() {
         </div>
       </section>
       <footer className="rn-footer rn-final-footer">
-        <Link to="/" className="rn-wordmark" aria-label="Relaynest home">
-          <span className="rn-footer-dot" />
-          Relaynest
-        </Link>
+        <Brand className="rn-wordmark" tone="dark" />
         <small>© {new Date().getFullYear()} Infotec Digital</small>
         <nav aria-label="Legal">
           <Link to="/privacy">Privacy</Link>

@@ -1,0 +1,78 @@
+/* The supplied light/dark artwork is preserved, with its empty margins trimmed. */
+:root .rn-brand.rn-brand {
+  display: inline-flex;
+  align-items: center;
+  width: 176px;
+  max-width: 100%;
+  min-height: 44px;
+  flex-shrink: 0;
+  padding: 0;
+  gap: 0;
+  line-height: 1;
+}
+:root .rn-brand.rn-brand .rn-brand-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  border-radius: 0;
+  object-fit: contain;
+}
+:root .rn-brand-light .rn-brand-image {
+  mix-blend-mode: multiply;
+}
+:root .rn-brand-dark .rn-brand-image {
+  mix-blend-mode: lighten;
+}
+:root .rn-preview-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0;
+}
+:root .rn-preview-brand .rn-brand-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: contain;
+  mix-blend-mode: lighten;
+}
+:root .client-footer .rn-brand.rn-brand {
+  width: 128px;
+  vertical-align: middle;
+}
+@media (max-width: 760px) {
+  :root .rn-header .rn-brand.rn-brand,
+  :root .auth-top .rn-brand.rn-brand,
+  :root .client-header .rn-brand.rn-brand,
+  :root .site-nav .rn-brand.rn-brand {
+    width: 120px;
+  }
+  :root .rn-refined .rn-nav {
+    gap: 10px;
+  }
+  :root .rn-refined .rn-nav-actions .rn-small {
+    white-space: nowrap;
+  }
+  :root .rn-preview-brand .rn-brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media (max-width: 360px) {
+  :root .rn-header .rn-brand.rn-brand,
+  :root .auth-top .rn-brand.rn-brand,
+  :root .client-header .rn-brand.rn-brand,
+  :root .site-nav .rn-brand.rn-brand {
+    width: 100px;
+  }
+  :root .rn-refined .rn-nav-actions .rn-small {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+  :root .rn-refined .rn-nav-actions .rn-small svg {
+    display: none;
+  }
+}

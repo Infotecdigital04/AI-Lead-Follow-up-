@@ -3,14 +3,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowUpRight, X, Globe2, Check, Inbox } from "lucide-react";
 import { languages } from "./i18n";
-export function Brand() {
-  return (
-    <Link to="/" className="brand">
-      <img src="/favicon.svg" width="32" height="32" alt="" />
-      relaynest<span className="brand-dot">.</span>
-    </Link>
-  );
-}
+import { Brand } from "./brand";
+export { Brand };
 export function Language() {
   const { i18n, t } = useTranslation();
   return (
@@ -210,4 +204,3 @@ export function CheckItem({ children }) {
     </li>
   );
 }
-
