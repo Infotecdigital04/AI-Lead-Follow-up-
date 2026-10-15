@@ -388,6 +388,56 @@ app.get("/api/portal/:id", async (c) => {
     return error(c, "Service not found for this account.", 404);
   return c.json(clientJob(parseRow(row)));
 });
+// Public online booking — no sign-in. Customers book; it lands as a lead.
+app.get("/api/book/:id", async (c) => {
+  const row = await c.env.DB.prepare("SELECT name FROM businesses WHERE id=?")
+    .bind(c.req.param("id"))
+    .first();
+  if (!row) return error(c, "Booking page not found.", 404);
+  return c.json({ name: row.name });
+});
+app.post("/api/book/:id", async (c) => {
+  const businessId = c.req.param("id");
+  const biz = await c.env.DB.prepare("SELECT id FROM businesses WHERE id=?")
+    .bind(businessId)
+    .first();
+  if (!biz) return error(c, "Booking page not found.", 404);
+  if (!(await rate(c, `book:${businessId}`, 40, 3600)))
+    return error(c, "Too many requests. Please try again later.", 429);
+  const body = z
+    .object({
+      name: z.string().trim().min(1).max(160),
+      email: z.union([z.email(), z.literal("")]).default(""),
+      phone: z.string().trim().max(160).default(""),
+      service: z.string().trim().min(1).max(160),
+      slot: z.string().trim().max(160).default(""),
+      notes: z.string().trim().max(1000).default(""),
+    })
+    .parse(await c.req.json());
+  const data = schemas.leads.parse({
+    name: body.name,
+    email: body.email,
+    phone: body.phone,
+    service: body.service,
+    source: "Booking",
+    status: "Appointment Booked",
+    temperature: "Warm",
+    followup: "",
+    value: 0,
+    currency: "USD",
+    assignee: "",
+    notes:
+      `Online booking — requested ${body.slot || "no time given"}.` +
+      (body.notes ? ` Note: ${body.notes}` : ""),
+  });
+  const id = crypto.randomUUID();
+  await c.env.DB.prepare(
+    "INSERT INTO records(id,business_id,kind,data) VALUES (?,?,?,?)",
+  )
+    .bind(id, businessId, "leads", JSON.stringify(data))
+    .run();
+  return c.json({ ok: true }, 201);
+});
 app.post("/api/billing/checkout", async (c) => {
   const u = await user(c);
   if (!u) return error(c, "Please sign in.", 401);
