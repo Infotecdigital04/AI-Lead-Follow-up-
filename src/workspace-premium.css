@@ -30,8 +30,8 @@
   --rn-shadow-sm: 0 1px 2px #0e1f1c0d;
   --rn-r: 14px;
   --rn-r-sm: 10px;
-  --rn-dsp: "Manrope", var(--font-system, -apple-system, system-ui, sans-serif);
-  --rn-body: "DM Sans", var(--font-system, -apple-system, system-ui, sans-serif);
+  --rn-dsp: "Inter", var(--font-system, -apple-system, system-ui, sans-serif);
+  --rn-body: "Inter", var(--font-system, -apple-system, system-ui, sans-serif);
   background: var(--rn-canvas);
   color: var(--rn-ink);
   font-family: var(--rn-body);
@@ -48,7 +48,7 @@
 @media (max-width: 980px) {
   .app-shell .app-main { margin-inline-start: 0; }
 }
-.app-shell .sidebar .brand { font-family: var(--rn-dsp); font-weight: 800; letter-spacing: -0.03em; }
+.app-shell .sidebar .brand { font-family: var(--rn-dsp); font-weight: 750; letter-spacing: -0.02em; }
 .app-shell .business-switch {
   border: 1px solid var(--rn-line);
   border-radius: var(--rn-r-sm);
@@ -111,8 +111,8 @@
 }
 .app-shell .workspace-heading h1 {
   font-family: var(--rn-dsp);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   font-size: 26px;
   color: var(--rn-ink);
 }
@@ -132,8 +132,8 @@
 .app-shell .stat-icon { border-radius: 9px; background: var(--rn-teal-soft); color: var(--rn-teal-ink); width: 32px; height: 32px; }
 .app-shell .stat > strong {
   font-family: var(--rn-dsp);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   font-size: 30px;
   font-variant-numeric: tabular-nums;
   color: var(--rn-ink);
@@ -147,7 +147,7 @@
   box-shadow: var(--rn-shadow);
 }
 .app-shell .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--rn-line); }
-.app-shell .panel-header h2 { font-family: var(--rn-dsp); font-weight: 750; font-size: 14.5px; }
+.app-shell .panel-header h2 { font-family: var(--rn-dsp); font-weight: 700; font-size: 14.5px; letter-spacing: -0.01em; }
 .app-shell .subtle-link { color: var(--rn-teal-ink); font-weight: 600; }
 .app-shell .subtle-link:hover { color: var(--rn-teal-deep); }
 
@@ -203,6 +203,57 @@
 .app-shell .live-dot { background: var(--rn-teal); box-shadow: 0 0 0 3px var(--rn-teal-soft); }
 .app-shell .pipeline-dot { border-radius: 50%; }
 .app-shell ::selection { background: var(--rn-teal-soft); }
+
+/* ---- Focus ring: replace the harsh blue default with a soft teal ring ---- */
+.app-shell a:focus-visible,
+.app-shell button:focus-visible,
+.app-shell input:focus-visible,
+.app-shell select:focus-visible,
+.app-shell textarea:focus-visible,
+.app-shell [tabindex]:focus-visible {
+  outline: 2px solid var(--rn-teal);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.app-shell input:focus-visible,
+.app-shell select:focus-visible,
+.app-shell textarea:focus-visible {
+  outline-offset: 1px;
+  border-color: var(--rn-teal);
+  box-shadow: 0 0 0 3px var(--rn-teal-soft);
+}
+
+/* ---- Modern select control (native open list is OS-drawn and can't be restyled) ---- */
+.app-shell select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--rn-surface);
+  border: 1px solid var(--rn-line-2);
+  border-radius: 9px;
+  padding: 7px 32px 7px 12px;
+  font-family: var(--rn-body);
+  font-weight: 550;
+  font-size: 13px;
+  color: var(--rn-ink);
+  line-height: 1.4;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237d8d88' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color .14s, box-shadow .14s;
+}
+.app-shell select:hover { border-color: var(--rn-teal); }
+.app-shell .topbar-right .language select { min-height: 36px; }
+
+/* The search input also gets the premium treatment */
+.app-shell .search-input,
+.app-shell input[type="text"],
+.app-shell input[type="search"],
+.app-shell input[type="email"] {
+  border-radius: 10px;
+  border: 1px solid var(--rn-line-2);
+}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
