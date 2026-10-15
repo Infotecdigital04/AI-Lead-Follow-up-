@@ -4,13 +4,15 @@ import {
   ArrowUpRight,
   CheckCheck,
   Clock3,
-  ListFilter,
+  ChevronDown,
+  ChevronRight,
   MessageCircle,
   SquareCheckBig,
   Layers3,
 } from "lucide-react";
 import { today, dateLabel } from "./data";
 import { focusItems } from "./focus.js";
+import "./workspace-polish.css";
 
 const kinds = {
   leads: ["Follow-ups", MessageCircle],
@@ -41,21 +43,25 @@ export function DailyFocus({ records, base, onSelect }) {
           </span>
           <h2 id="focus-heading">
             {items.length
-              ? "A clear place to start."
+              ? "Your next steps."
               : "Nothing due. Room to breathe."}
           </h2>
           <p>
             {items.length
-              ? `${items.length} due items${overdue ? `, including ${overdue} overdue` : ""}. Oldest first.`
+              ? `${items.length} items need your attention. Oldest first.`
               : "No dated follow-ups, tasks or services are due today."}
           </p>
         </div>
-        <Link to={`${base}/tasks`} className="text-button">
-          All tasks <ArrowUpRight size={16} />
-        </Link>
+        <div className="focus-top-actions">
+          {overdue > 0 && (
+            <span className="focus-overdue-count">{overdue} overdue</span>
+          )}
+          <Link to={`${base}/tasks`} className="text-button">
+            All tasks <ArrowUpRight size={16} />
+          </Link>
+        </div>
       </div>
       <div className="focus-filters" aria-label="Filter daily focus">
-        <ListFilter size={16} aria-hidden="true" />
         {[
           ["all", "All"],
           ...Object.entries(kinds).map(([key, [label]]) => [key, label]),
@@ -77,6 +83,13 @@ export function DailyFocus({ records, base, onSelect }) {
           </button>
         ))}
       </div>
+      {visible.length > 0 && (
+        <div className="focus-column-labels" aria-hidden="true">
+          <span>Next step</span>
+          <span>Due</span>
+          <span />
+        </div>
+      )}
       <div className="focus-results" aria-live="polite">
         {visible.length ? (
           visible.map(({ record, due, action }) => {
@@ -93,18 +106,20 @@ export function DailyFocus({ records, base, onSelect }) {
                 <span className="focus-record">
                   <strong>{record.data.name || record.data.title}</strong>
                   <small>
-                    {label} /{" "}
+                    {label}
+                    <span aria-hidden="true"> · </span>
                     {record.data.service ||
                       record.data.customer ||
                       record.data.status}
                   </small>
                 </span>
                 <span className={due < date ? "focus-due past" : "focus-due"}>
-                  {due < date ? `Overdue / ${dateLabel(due)}` : "Due today"}
+                  <span>{due < date ? "Overdue" : "Today"}</span>
+                  <time dateTime={due}>{dateLabel(due)}</time>
                 </span>
                 <span className="focus-action">
-                  {action}
-                  <ArrowUpRight size={16} />
+                  <span className="sr-only">{action}</span>
+                  <ChevronRight size={18} aria-hidden="true" />
                 </span>
               </button>
             );
@@ -120,13 +135,22 @@ export function DailyFocus({ records, base, onSelect }) {
           </div>
         )}
       </div>
-      {filtered.length > 3 && (
-        <button
-          className="focus-expand text-button"
-          onClick={() => setExpanded(!expanded)}
-        >
-          {expanded ? "Show fewer" : `Show all ${filtered.length} due items`}
-        </button>
+      {filtered.length > 0 && (
+        <div className="focus-bottom">
+          <span>
+            Showing {visible.length} of {filtered.length}
+          </span>
+          {filtered.length > 3 && (
+            <button
+              className="focus-expand text-button"
+              aria-expanded={expanded}
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? "Show fewer" : `View all ${filtered.length}`}
+              <ChevronDown size={16} aria-hidden="true" />
+            </button>
+          )}
+        </div>
       )}
     </section>
   );
