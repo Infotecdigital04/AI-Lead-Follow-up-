@@ -335,7 +335,16 @@ export const fields = {
     ["service", "text", true],
     [
       "source",
-      ["Website", "Google", "Meta", "WhatsApp", "Referral", "Manual", "CSV"],
+      [
+        "Website",
+        "Google",
+        "Meta",
+        "WhatsApp",
+        "Referral",
+        "Booking",
+        "Manual",
+        "CSV",
+      ],
     ],
     ["status", leadStatuses],
     ["temperature", ["Warm", "Hot", "Cold"]],

@@ -15,6 +15,7 @@ import "./brand.css";
 import "./workspace-premium.css";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));
+const Booking = lazy(() => import("./booking.jsx"));
 function RouteMetadata() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -47,6 +48,7 @@ export function App() {
           <Route path="/demo/*" element={<Workspace demo />} />
           <Route path="/app/*" element={<Workspace />} />
           <Route path="/portal/:id" element={<Portal />} />
+          <Route path="/book/:id" element={<Booking />} />
           <Route path="/privacy" element={<Legal type="privacy" />} />
           <Route path="/terms" element={<Legal type="terms" />} />
           <Route path="/refunds" element={<Legal type="refunds" />} />

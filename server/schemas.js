@@ -20,6 +20,7 @@ export const schemas = {
         "Meta",
         "WhatsApp",
         "Referral",
+        "Booking",
         "Manual",
         "CSV",
       ])
