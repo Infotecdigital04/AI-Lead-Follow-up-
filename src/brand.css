@@ -18,12 +18,6 @@
   border-radius: 0;
   object-fit: contain;
 }
-:root .rn-brand-light .rn-brand-image {
-  mix-blend-mode: multiply;
-}
-:root .rn-brand-dark .rn-brand-image {
-  mix-blend-mode: lighten;
-}
 :root .rn-preview-brand {
   display: flex;
   align-items: center;
@@ -37,7 +31,6 @@
   height: 40px;
   border-radius: 6px;
   object-fit: contain;
-  mix-blend-mode: lighten;
 }
 :root .client-footer .rn-brand.rn-brand {
   width: 128px;

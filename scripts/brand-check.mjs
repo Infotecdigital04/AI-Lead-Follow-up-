@@ -57,11 +57,11 @@ try {
       if (route === "/") {
         assert.equal(
           await page.locator(".rn-brand-dark img").getAttribute("src"),
-          "/brand/logo-dark.webp",
+          "/brand/logo-dark.webp?v=nest2",
         );
         assert.equal(
           await page.locator(".rn-preview-brand img").getAttribute("src"),
-          "/brand/mark.webp",
+          "/brand/mark.webp?v=nest2",
         );
         await page.screenshot({
           path: `test-results/brand/header-${width}.png`,
@@ -75,18 +75,61 @@ try {
     await page.close();
   }
   for (const asset of [
-    "/favicon-16.png?v=nest1",
-    "/favicon-32.png?v=nest1",
-    "/favicon.ico?v=nest1",
-    "/apple-touch-icon.png?v=nest1",
+    "/favicon-16.png?v=nest2",
+    "/favicon-32.png?v=nest2",
+    "/favicon.ico?v=nest2",
+    "/apple-touch-icon.png?v=nest2",
     "/favicon.svg",
   ]) {
     const response = await fetch(base + asset);
     assert.equal(response.status, 200, asset);
     assert.match(response.headers.get("content-type"), /image/);
   }
+  const alphaPage = await browser.newPage();
+  await alphaPage.goto(base);
+  for (const asset of [
+    "/brand/logo-light.webp?v=nest2",
+    "/brand/logo-dark.webp?v=nest2",
+    "/brand/mark.webp?v=nest2",
+    "/favicon-16.png?v=nest2",
+    "/favicon-32.png?v=nest2",
+    "/apple-touch-icon.png?v=nest2",
+  ]) {
+    const alpha = await alphaPage.evaluate(async (src) => {
+      const img = new Image();
+      img.src = src;
+      await img.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let transparent = 0;
+      for (let i = 3; i < data.length; i += 4) if (data[i] === 0) transparent++;
+      return {
+        ratio: transparent / (canvas.width * canvas.height),
+        corners: [
+          data[3],
+          data[canvas.width * 4 - 1],
+          data[(canvas.height - 1) * canvas.width * 4 + 3],
+          data[data.length - 1],
+        ],
+      };
+    }, asset);
+    assert.deepEqual(
+      alpha.corners,
+      [0, 0, 0, 0],
+      `${asset}: transparent corners`,
+    );
+    assert.ok(
+      alpha.ratio > 0.15,
+      `${asset}: background must remain transparent`,
+    );
+  }
+  await alphaPage.close();
   console.log(
-    `Branding checks passed: ${checked} page/viewport combinations and 5 icon URLs.`,
+    `Branding checks passed: ${checked} page/viewport combinations, 5 icon URLs and 6 transparent assets.`,
   );
 } finally {
   await browser.close();

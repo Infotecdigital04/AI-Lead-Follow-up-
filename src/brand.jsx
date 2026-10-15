@@ -10,9 +10,9 @@ export function Brand({ className = "brand", tone = "light" }) {
     >
       <img
         className="rn-brand-image"
-        src={`/brand/logo-${tone}.webp`}
+        src={`/brand/logo-${tone}.webp?v=nest2`}
         width="704"
-        height={tone === "dark" ? "175" : "164"}
+        height={tone === "dark" ? "183" : "164"}
         alt="Relaynest"
         decoding="async"
       />
@@ -24,7 +24,7 @@ export function BrandIcon() {
   return (
     <img
       className="rn-brand-icon"
-      src="/brand/mark.webp"
+      src="/brand/mark.webp?v=nest2"
       width="40"
       height="40"
       alt="Relaynest"

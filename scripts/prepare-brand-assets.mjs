@@ -8,19 +8,24 @@ if (!icon || !dark || !light) {
   );
 }
 await mkdir("public/brand", { recursive: true });
+for (const source of [icon, dark, light]) {
+  if (!(await sharp(source).metadata()).hasAlpha) {
+    throw new Error(`A transparent original is required: ${source}`);
+  }
+}
 const wordmarks = [
   [light, "logo-light", { left: 225, top: 295, width: 1330, height: 310 }],
-  [dark, "logo-dark", { left: 280, top: 300, width: 1210, height: 300 }],
+  [dark, "logo-dark", { left: 216, top: 274, width: 1340, height: 348 }],
 ];
 for (const [source, name, crop] of wordmarks) {
   await sharp(source)
     .extract(crop)
     .resize({ width: 704 })
-    .webp({ quality: 94 })
+    .webp({ quality: 94, alphaQuality: 100 })
     .toFile(`public/brand/${name}.webp`);
 }
 const mark = () =>
-  sharp(icon).extract({ left: 248, top: 272, width: 760, height: 760 });
+  sharp(icon).extract({ left: 170, top: 210, width: 940, height: 940 });
 await mark()
   .resize(256, 256)
   .webp({ quality: 94 })

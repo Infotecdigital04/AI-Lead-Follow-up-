@@ -6,6 +6,8 @@ Deployment: `Infotecdigital04/AI-Lead-Follow-up-`, branch `codex/relaynest-clien
 
 ### Supplied branding
 
+The current originals are the user-supplied transparent replacements. Preserve their alpha channel and do not add background-blending styles. `nest2` versions invalidate old opaque logos/icons. Asset checks verify transparent corners and background coverage. The preparation script rejects inputs without an alpha channel; supplied edge details are retained, not regenerated.
+
 `src/brand.jsx` shares the supplied logo across public, login, workspace and portal pages. Use the default light variant on light surfaces and `tone="dark"` on dark surfaces. `src/brand.css` is imported last and handles responsive sizing. The hero preview uses the geometric mark, also used for browser and Apple touch icons. Assets in `public/brand` are cropped/compressed originals, not AI regenerations. Do not replace them with a typed wordmark or the retired R icon.
 
 `scripts/prepare-brand-assets.mjs` accepts the original icon, dark-logo and light-logo PNG paths, in that order, and generates the web assets with Sharp. Run `node scripts/brand-check.mjs` against the local preview (default port 8796), or set `TEST_BASE_URL`, to check logo loading, sizing and icon endpoints across five page types and five widths.
