@@ -12,6 +12,7 @@ import { StudioHome as HomeV2 } from "./studio-home.jsx";
 import "./typography.css";
 import "./home-refined.css";
 import "./brand.css";
+import "./workspace-premium.css";
 const Workspace = lazy(() => import("./workspace.jsx"));
 const Portal = lazy(() => import("./portal.jsx"));
 function RouteMetadata() {

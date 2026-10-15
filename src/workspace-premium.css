@@ -1,0 +1,211 @@
+/* ============================================================
+   workspace-premium.css
+   Premium visual overhaul for the Relaynest product dashboard.
+   Purely presentational — restyles existing classes, no markup
+   or logic changes. Imported LAST so it wins the cascade.
+   Scoped under .app-shell so the marketing pages are untouched.
+   ============================================================ */
+
+.app-shell {
+  --rn-ink: #0e1f1c;
+  --rn-sub: #566762;
+  --rn-faint: #8595909a;
+  --rn-faint-solid: #7d8d88;
+  --rn-line: #e4ece9;
+  --rn-line-2: #d6e2de;
+  --rn-teal: #087f70;
+  --rn-teal-ink: #0a6d60;
+  --rn-teal-deep: #064a41;
+  --rn-teal-soft: #e8f3f1;
+  --rn-canvas: #eef3f2;
+  --rn-surface: #ffffff;
+  --rn-surface-2: #f3f7f6;
+  --rn-good: #1f9d63;
+  --rn-good-soft: #e4f4ec;
+  --rn-warn: #bd7d06;
+  --rn-warn-soft: #f8efd9;
+  --rn-crit: #cf3f3a;
+  --rn-crit-soft: #fae6e5;
+  --rn-shadow: 0 1px 2px #0e1f1c0a, 0 10px 28px -16px #0e1f1c26;
+  --rn-shadow-sm: 0 1px 2px #0e1f1c0d;
+  --rn-r: 14px;
+  --rn-r-sm: 10px;
+  --rn-dsp: "Manrope", var(--font-system, -apple-system, system-ui, sans-serif);
+  --rn-body: "DM Sans", var(--font-system, -apple-system, system-ui, sans-serif);
+  background: var(--rn-canvas);
+  color: var(--rn-ink);
+  font-family: var(--rn-body);
+}
+
+/* ---- Sidebar ---- */
+.app-shell .sidebar {
+  width: 248px;
+  background: var(--rn-surface);
+  border-inline-end: 1px solid var(--rn-line);
+  padding: 22px 14px 0;
+}
+.app-shell .app-main { margin-inline-start: 248px; }
+@media (max-width: 980px) {
+  .app-shell .app-main { margin-inline-start: 0; }
+}
+.app-shell .sidebar .brand { font-family: var(--rn-dsp); font-weight: 800; letter-spacing: -0.03em; }
+.app-shell .business-switch {
+  border: 1px solid var(--rn-line);
+  border-radius: var(--rn-r-sm);
+  background: var(--rn-surface-2);
+  padding: 10px 11px;
+}
+.app-shell .business-switch strong { font-family: var(--rn-dsp); font-weight: 700; }
+.app-shell .sidebar nav a {
+  border-radius: 9px;
+  color: var(--rn-sub);
+  font-weight: 550;
+  padding: 9px 11px;
+  margin-bottom: 1px;
+  transition: background .14s, color .14s;
+}
+.app-shell .sidebar nav a:hover { background: var(--rn-surface-2); color: var(--rn-ink); }
+.app-shell .sidebar nav a.active {
+  background: var(--rn-teal-soft);
+  color: var(--rn-teal-ink);
+  font-weight: 650;
+}
+.app-shell .sidebar nav a.active svg { color: var(--rn-teal-ink); }
+.app-shell .nav-count {
+  background: var(--rn-teal);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 1px 7px;
+}
+.app-shell .sidebar nav a:not(.active) .nav-count { background: var(--rn-surface-2); color: var(--rn-sub); }
+.app-shell .sidebar-demo {
+  border-radius: var(--rn-r-sm);
+  background: linear-gradient(160deg, var(--rn-teal-soft), #f4f9f8);
+  border: 1px solid var(--rn-line);
+}
+
+/* ---- Topbar ---- */
+.app-shell .app-topbar {
+  height: 68px;
+  background: #ffffffd9;
+  backdrop-filter: saturate(1.2) blur(8px);
+  border-bottom: 1px solid var(--rn-line);
+  padding: 0 30px;
+}
+.app-shell .breadcrumb strong { color: var(--rn-ink); font-weight: 600; }
+.app-shell .demo-bar {
+  background: var(--rn-teal-soft);
+  border-bottom: 1px solid var(--rn-line);
+  color: var(--rn-teal-ink);
+}
+
+/* ---- Headings ---- */
+.app-shell .workspace-content { padding: 30px 30px 40px; }
+.app-shell .page-kicker {
+  color: var(--rn-faint-solid);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.app-shell .workspace-heading h1 {
+  font-family: var(--rn-dsp);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 26px;
+  color: var(--rn-ink);
+}
+.app-shell .workspace-heading p { color: var(--rn-sub); }
+
+/* ---- Stat cards ---- */
+.app-shell .stats-grid { gap: 16px; }
+.app-shell .stat {
+  border: 1px solid var(--rn-line);
+  border-radius: var(--rn-r);
+  box-shadow: var(--rn-shadow);
+  padding: 18px 18px 16px;
+  transition: box-shadow .18s, transform .18s;
+}
+.app-shell .stat:hover { box-shadow: 0 2px 4px #0e1f1c0d, 0 20px 40px -20px #0e1f1c33; transform: translateY(-1px); }
+.app-shell .stat-label { color: var(--rn-sub); font-weight: 550; }
+.app-shell .stat-icon { border-radius: 9px; background: var(--rn-teal-soft); color: var(--rn-teal-ink); width: 32px; height: 32px; }
+.app-shell .stat > strong {
+  font-family: var(--rn-dsp);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+  color: var(--rn-ink);
+}
+.app-shell .stat-sub { color: var(--rn-faint-solid); }
+
+/* ---- Panels ---- */
+.app-shell .panel {
+  border: 1px solid var(--rn-line);
+  border-radius: var(--rn-r);
+  box-shadow: var(--rn-shadow);
+}
+.app-shell .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--rn-line); }
+.app-shell .panel-header h2 { font-family: var(--rn-dsp); font-weight: 750; font-size: 14.5px; }
+.app-shell .subtle-link { color: var(--rn-teal-ink); font-weight: 600; }
+.app-shell .subtle-link:hover { color: var(--rn-teal-deep); }
+
+/* ---- Buttons ---- */
+.app-shell .button { border-radius: 10px; font-weight: 600; transition: filter .15s, box-shadow .15s, background .15s; }
+.app-shell .button.primary {
+  background: linear-gradient(150deg, var(--rn-teal), var(--rn-teal-deep));
+  border-color: transparent;
+  box-shadow: 0 6px 16px -8px var(--rn-teal);
+}
+.app-shell .button.primary:hover { background: linear-gradient(150deg, var(--rn-teal), var(--rn-teal-deep)); filter: brightness(1.07); }
+.app-shell .button.secondary { border: 1px solid var(--rn-line-2); border-radius: 10px; box-shadow: var(--rn-shadow-sm); }
+.app-shell .button.secondary:hover { border-color: var(--rn-teal); color: var(--rn-teal-ink); background: #fff; }
+.app-shell .icon-button { border-radius: 9px; }
+.app-shell .icon-button:hover { background: var(--rn-teal-soft); color: var(--rn-teal-ink); }
+.app-shell .icon-button.bordered { border: 1px solid var(--rn-line); border-radius: 9px; }
+
+/* ---- Badges ---- */
+.app-shell .badge { border-radius: 999px; padding: 4px 10px; font-weight: 600; }
+.app-shell .badge.green { background: var(--rn-good-soft); color: var(--rn-good); }
+.app-shell .badge.orange { background: var(--rn-warn-soft); color: var(--rn-warn); }
+.app-shell .badge.amber { background: var(--rn-warn-soft); color: var(--rn-warn); }
+.app-shell .badge.blue { background: #e7eefb; color: #2f6bd1; }
+.app-shell .badge.gray { background: var(--rn-surface-2); color: var(--rn-sub); }
+.app-shell .badge.violet { background: #f1edfb; color: #7860a9; }
+
+/* ---- Avatars ---- */
+.app-shell .avatar { border-radius: 9px; font-weight: 700; font-family: var(--rn-dsp); }
+
+/* ---- Tables ---- */
+.app-shell .lead-table { border-collapse: collapse; }
+.app-shell .lead-table th {
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--rn-faint-solid);
+  font-weight: 600;
+}
+.app-shell .lead-table tbody tr { transition: background .12s; }
+.app-shell .lead-table tbody tr:hover { background: var(--rn-surface-2); }
+.app-shell .lead-table td { border-bottom: 1px solid var(--rn-line); }
+
+/* ---- Reports ---- */
+.app-shell .report-panel { border-radius: var(--rn-r); box-shadow: var(--rn-shadow); }
+.app-shell .report-bar { border-radius: 999px; }
+.app-shell .report-bar > span,
+.app-shell .report-bar > div { border-radius: 999px; }
+
+/* ---- Modals ---- */
+.app-shell .modal-body, .modal-card, .modal { border-radius: 16px; }
+
+/* ---- Misc polish ---- */
+.app-shell .live-dot { background: var(--rn-teal); box-shadow: 0 0 0 3px var(--rn-teal-soft); }
+.app-shell .pipeline-dot { border-radius: 50%; }
+.app-shell ::selection { background: var(--rn-teal-soft); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .stat, .app-shell .button, .app-shell .sidebar nav a { transition: none; }
+  .app-shell .stat:hover { transform: none; }
+}
