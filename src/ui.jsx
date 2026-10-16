@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useId, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowUpRight, X, Globe2, Check, Inbox } from "lucide-react";
@@ -65,8 +65,15 @@ export function Empty({ title, children }) {
     </div>
   );
 }
-export function Modal({ title, children, onClose, wide = false }) {
+export function Modal({
+  title,
+  children,
+  onClose,
+  wide = false,
+  className = "",
+}) {
   const ref = useRef();
+  const titleId = useId();
   useEffect(() => {
     const old = document.activeElement;
     const dlg = ref.current;
@@ -87,13 +94,14 @@ export function Modal({ title, children, onClose, wide = false }) {
   return (
     <dialog
       ref={ref}
-      className={wide ? "modal wide" : "modal"}
+      className={`${wide ? "modal wide" : "modal"} ${className}`}
+      aria-labelledby={titleId}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div className="modal-head">
-        <h2>{title}</h2>
+        <h2 id={titleId}>{title}</h2>
         <button
           className="icon-button"
           aria-label="Close"

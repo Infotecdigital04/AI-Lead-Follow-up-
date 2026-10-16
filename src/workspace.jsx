@@ -61,6 +61,7 @@ import {
 } from "./data";
 import { PlanCards, openCheckout } from "./public";
 import { DailyFocus } from "./focus.jsx";
+import "./platform-ui.css";
 
 const navigation = [
   ["overview", LayoutDashboard],
@@ -780,7 +781,7 @@ export default function Workspace({ demo = false }) {
                             value={filter}
                             onChange={(e) => setFilter(e.target.value)}
                           >
-                            <option>All</option>
+                            <option value="All">All statuses</option>
                             {(page === "leads"
                               ? leadStatuses
                               : page === "jobs"
@@ -836,6 +837,26 @@ export default function Workspace({ demo = false }) {
                         <Download size={17} />
                       </button>
                     </div>
+                  </div>
+                  <div className="record-result-bar">
+                    <span role="status">
+                      {visible.length}{" "}
+                      {visible.length === 1 ? "record" : "records"}
+                      {query || filter !== "All"
+                        ? " matching your filters"
+                        : ""}
+                    </span>
+                    {(query || filter !== "All") && (
+                      <button
+                        className="text-button"
+                        onClick={() => {
+                          setQuery("");
+                          setFilter("All");
+                        }}
+                      >
+                        <RotateCcw size={15} /> Clear filters
+                      </button>
+                    )}
                   </div>
                   {page === "leads" ? (
                     <section className="panel">
@@ -945,7 +966,7 @@ export default function Workspace({ demo = false }) {
           <InvoiceEditor
             record={editor}
             records={records}
-            business={session?.business || session?.name}
+            business={demo ? "Northside Auto" : session?.business?.name}
             onPreview={setPreview}
             onClose={() => setEditor(null)}
             onSave={async (data) => {
@@ -970,7 +991,7 @@ export default function Workspace({ demo = false }) {
       {preview && (
         <InvoicePreview
           record={preview}
-          business={session?.business || session?.name}
+          business={demo ? "Northside Auto" : session?.business?.name}
           onClose={() => setPreview(null)}
         />
       )}
@@ -1155,7 +1176,7 @@ function LeadTable({ rows, onSelect, full = false }) {
   if (!rows.length) return <Empty />;
   return (
     <div className="table-scroll">
-      <table className="lead-table">
+      <table className="lead-table record-table">
         <thead>
           <tr>
             <th>{t("name")}</th>
@@ -1182,17 +1203,17 @@ function LeadTable({ rows, onSelect, full = false }) {
                   </span>
                 </button>
               </td>
-              <td>
+              <td data-label={t("service")}>
                 <span className="service-name">{r.data.service}</span>
                 <span className="table-secondary">
                   {full ? r.data.assignee || "Unassigned" : r.data.source}
                 </span>
               </td>
-              <td>
+              <td data-label={t("status")}>
                 <Badge>{r.data.status}</Badge>
               </td>
-              {full && <td>{r.data.source}</td>}
-              <td>
+              {full && <td data-label={t("source")}>{r.data.source}</td>}
+              <td data-label={t("followup")}>
                 <span
                   className={
                     overdue(r.data.followup) &&
@@ -1227,7 +1248,7 @@ function GenericTable({ rows, kind, select, onPreview }) {
   if (!rows.length) return <Empty />;
   return (
     <section className="panel table-scroll">
-      <table>
+      <table className="record-table">
         <thead>
           <tr>
             <th>{kind === "customers" ? "Customer" : "Invoice"}</th>
@@ -1246,22 +1267,22 @@ function GenericTable({ rows, kind, select, onPreview }) {
                   {r.data.name || r.data.number}
                 </button>
               </td>
-              <td>
+              <td data-label={kind === "customers" ? "Email" : "Customer"}>
                 {kind === "customers"
                   ? r.data.email || "Not provided"
                   : r.data.customer}
               </td>
-              <td>
+              <td data-label={kind === "customers" ? "Phone" : "Total"}>
                 {kind === "customers"
                   ? r.data.phone || "Not provided"
                   : money(r.data.amount, r.data.currency)}
               </td>
-              <td>
+              <td data-label={kind === "customers" ? "Company" : "Outstanding"}>
                 {kind === "customers"
                   ? r.data.company || "Individual"
                   : money(r.data.amount - r.data.paid, r.data.currency)}
               </td>
-              <td>
+              <td data-label={kind === "customers" ? "Assigned to" : "Status"}>
                 {kind === "customers" ? (
                   r.data.assignee || "Unassigned"
                 ) : (
@@ -1595,7 +1616,7 @@ function InvoiceEditor({
     setD((p) => ({ ...p, items: p.items.filter((_, idx) => idx !== i) }));
   function buildCandidate() {
     const tot = invoiceTotals(d);
-    const amount = tot.total > 0 ? tot.total : Number(d.amount) || 0;
+    const amount = tot.total;
     const status =
       Number(d.paid) >= amount
         ? "Paid"
@@ -1632,6 +1653,10 @@ function InvoiceEditor({
     setError("");
     try {
       const { schemas } = await import("../server/schemas");
+      if (totals.total <= 0)
+        throw new Error(
+          "The invoice total must be greater than zero. Check the amounts and discount.",
+        );
       await onSave(schemas.invoices.parse(buildCandidate()));
     } catch (err) {
       setError(err.issues?.[0]?.message || err.message);
@@ -1645,18 +1670,36 @@ function InvoiceEditor({
       title={record.id ? "Edit invoice" : "New invoice"}
       onClose={onClose}
       wide
+      className="invoice-editor-dialog"
     >
       <form onSubmit={submit}>
         <div className="modal-body inv-editor">
+          <div className="inv-section-heading">
+            <Receipt size={20} />
+            <div>
+              <h3>Invoice details</h3>
+              <p>
+                {business || "Your business"} <span> / </span> {d.number}
+              </p>
+            </div>
+          </div>
           <div className="inv-top">
             <label className="field">
               <span>Customer *</span>
               <input
                 required
                 value={d.customer}
+                list="invoice-customers"
                 onChange={(e) => set({ customer: e.target.value })}
                 placeholder="Client name"
               />
+              <datalist id="invoice-customers">
+                {records
+                  .filter((r) => r.kind === "customers")
+                  .map((r) => (
+                    <option key={r.id} value={r.data.name} />
+                  ))}
+              </datalist>
             </label>
             <label className="field">
               <span>Email</span>
@@ -1699,12 +1742,14 @@ function InvoiceEditor({
               <input
                 type="date"
                 value={d.due}
+                min={d.issued || undefined}
                 onChange={(e) => set({ due: e.target.value })}
               />
             </label>
           </div>
 
           <div className="inv-items">
+            <h3 className="inv-items-title">Services & items</h3>
             <div className="inv-items-head">
               <span>Description</span>
               <span>Qty</span>
@@ -1714,28 +1759,49 @@ function InvoiceEditor({
             </div>
             {d.items.map((it, i) => (
               <div className="inv-row" key={i}>
-                <input
-                  className="inv-desc"
-                  value={it.description}
-                  onChange={(e) => setItem(i, { description: e.target.value })}
-                  placeholder="Service or item"
-                />
-                <input
-                  className="inv-num"
-                  type="number"
-                  min="0"
-                  step="1"
-                  value={it.qty}
-                  onChange={(e) => setItem(i, { qty: Number(e.target.value) })}
-                />
-                <input
-                  className="inv-num"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={it.rate}
-                  onChange={(e) => setItem(i, { rate: Number(e.target.value) })}
-                />
+                <label className="inv-line-description">
+                  <span>Description</span>
+                  <input
+                    className="inv-desc"
+                    required
+                    aria-label={`Description for line ${i + 1}`}
+                    value={it.description}
+                    onChange={(e) =>
+                      setItem(i, { description: e.target.value })
+                    }
+                    placeholder="Service or item"
+                  />
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input
+                    className="inv-num"
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    required
+                    aria-label={`Quantity for line ${i + 1}`}
+                    value={it.qty}
+                    onChange={(e) =>
+                      setItem(i, { qty: Number(e.target.value) })
+                    }
+                  />
+                </label>
+                <label>
+                  <span>Rate ({d.currency})</span>
+                  <input
+                    className="inv-num"
+                    required
+                    aria-label={`Rate for line ${i + 1}`}
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={it.rate}
+                    onChange={(e) =>
+                      setItem(i, { rate: Number(e.target.value) })
+                    }
+                  />
+                </label>
                 <span className="inv-amt">
                   {money(
                     (Number(it.qty) || 0) * (Number(it.rate) || 0),
@@ -1746,6 +1812,7 @@ function InvoiceEditor({
                   type="button"
                   className="icon-button"
                   title="Remove line"
+                  aria-label={`Remove line ${i + 1}`}
                   onClick={() => removeItem(i)}
                 >
                   <Trash2 size={15} />
@@ -1763,6 +1830,7 @@ function InvoiceEditor({
           </div>
 
           <div className="inv-summary">
+            <h3>Invoice summary</h3>
             {totals.hasItems ? (
               <div className="inv-sum-row">
                 <span>Subtotal</span>
@@ -1781,12 +1849,13 @@ function InvoiceEditor({
               </label>
             )}
             <label className="inv-sum-row">
-              <span>Discount</span>
+              <span>Discount ({d.currency})</span>
               <input
                 type="number"
                 min="0"
                 step="0.01"
                 value={d.discount}
+                max={totals.base}
                 onChange={(e) => set({ discount: Number(e.target.value) })}
               />
             </label>
@@ -1812,6 +1881,7 @@ function InvoiceEditor({
                 min="0"
                 step="0.01"
                 value={d.paid}
+                max={totals.total}
                 onChange={(e) => set({ paid: Number(e.target.value) })}
               />
             </label>
@@ -1824,16 +1894,18 @@ function InvoiceEditor({
           <button
             type="button"
             className="text-button inv-more"
+            aria-expanded={more}
+            aria-controls="invoice-extra-fields"
             onClick={() => setMore((m) => !m)}
           >
             <ChevronDown
               size={15}
               style={{ transform: more ? "rotate(180deg)" : "none" }}
             />
-            {more ? "Fewer options" : "More options"}
+            Notes, terms & assignment
           </button>
           {more && (
-            <div className="inv-more-grid">
+            <div className="inv-more-grid" id="invoice-extra-fields">
               <label className="field full">
                 <span>Notes to client</span>
                 <textarea
@@ -1874,7 +1946,10 @@ function InvoiceEditor({
           <button
             type="button"
             className="button secondary"
-            onClick={() => onPreview({ ...record, data: buildCandidate() })}
+            onClick={(e) => {
+              if (e.currentTarget.form.reportValidity())
+                onPreview({ ...record, data: buildCandidate() });
+            }}
           >
             <Eye size={16} />
             Preview
@@ -1899,7 +1974,12 @@ function InvoicePreview({ record, business, onClose }) {
   const biz = business || "Your business";
   const balance = Math.max(0, tot.total - (Number(d.paid) || 0));
   return (
-    <Modal title="Invoice preview" onClose={onClose} wide>
+    <Modal
+      title="Invoice preview"
+      onClose={onClose}
+      wide
+      className="invoice-preview-dialog"
+    >
       <div className="modal-body">
         <div className="inv-doc">
           <div className="inv-doc-head">
@@ -1935,40 +2015,47 @@ function InvoicePreview({ record, business, onClose }) {
             <b>{d.customer || "—"}</b>
             {d.email && <div>{d.email}</div>}
           </div>
-          <table className="inv-doc-table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Rate</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.length ? (
-                items.map((it, i) => (
-                  <tr key={i}>
-                    <td>{it.description || "—"}</td>
-                    <td>{it.qty}</td>
-                    <td>{money(it.rate, d.currency)}</td>
-                    <td>
-                      {money(
-                        (Number(it.qty) || 0) * (Number(it.rate) || 0),
-                        d.currency,
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
+          <div
+            className="inv-document-table-scroll"
+            tabIndex={0}
+            role="region"
+            aria-label="Invoice line items"
+          >
+            <table className="inv-doc-table">
+              <thead>
                 <tr>
-                  <td>Services rendered</td>
-                  <td>1</td>
-                  <td>{money(d.amount, d.currency)}</td>
-                  <td>{money(d.amount, d.currency)}</td>
+                  <th>Description</th>
+                  <th>Qty</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {items.length ? (
+                  items.map((it, i) => (
+                    <tr key={i}>
+                      <td>{it.description || "—"}</td>
+                      <td>{it.qty}</td>
+                      <td>{money(it.rate, d.currency)}</td>
+                      <td>
+                        {money(
+                          (Number(it.qty) || 0) * (Number(it.rate) || 0),
+                          d.currency,
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td>Services rendered</td>
+                    <td>1</td>
+                    <td>{money(d.amount, d.currency)}</td>
+                    <td>{money(d.amount, d.currency)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
           <div className="inv-doc-totals">
             <div>
               <span>Subtotal</span>
@@ -2321,6 +2408,21 @@ function Detail({
 }
 function SettingsPage({ demo, session, onReset }) {
   const { t } = useTranslation();
+  const [copyStatus, setCopyStatus] = useState("");
+  const bookingId = demo ? "demo" : session?.business?.id;
+  const bookingUrl = bookingId
+    ? `${window.location.origin}/book/${encodeURIComponent(bookingId)}`
+    : "";
+  async function copyBookingLink() {
+    try {
+      await navigator.clipboard.writeText(bookingUrl);
+      setCopyStatus("Booking link copied.");
+    } catch {
+      setCopyStatus(
+        "Copy is unavailable. Select the link and copy it manually.",
+      );
+    }
+  }
   return (
     <div className="settings-sections">
       <section>
@@ -2339,6 +2441,44 @@ function SettingsPage({ demo, session, onReset }) {
             {demo ? "Demo" : session?.subscription?.status || "Inactive"}
           </Badge>
         </div>
+      </section>
+      <section>
+        <h2>Online booking</h2>
+        <p>
+          Share a link so clients can request an appointment. Requests arrive in
+          Leads with the Booking source; confirm availability with the client.
+        </p>
+        {bookingUrl && (
+          <div className="booking-link-controls">
+            <label className="field">
+              <span>{demo ? "Sample booking link" : "Your booking link"}</span>
+              <input
+                readOnly
+                value={bookingUrl}
+                onFocus={(e) => e.target.select()}
+              />
+            </label>
+            <div className="inline-actions">
+              <button className="button secondary" onClick={copyBookingLink}>
+                <Copy size={16} /> Copy link
+              </button>
+              <a
+                className="button secondary"
+                href={bookingUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open booking page <ExternalLink size={16} />
+              </a>
+            </div>
+            <p className="muted" role="status">
+              {copyStatus ||
+                (demo
+                  ? "Demo requests stay in this browser. No customer messages are sent."
+                  : "Clients do not need an account to send a request.")}
+            </p>
+          </div>
+        )}
       </section>
       <section>
         <h2>Preferences</h2>
