@@ -4,6 +4,7 @@ import { bodyLimit } from "hono/body-limit";
 import { z } from "zod";
 import { schemas } from "./schemas.js";
 import { hash, verifyPaddle, clientJob, canAccessRecord } from "./security.js";
+import { runReminders } from "./reminders.js";
 
 const app = new Hono();
 const parseRow = (row) => ({ ...row, data: JSON.parse(row.data) });
@@ -550,4 +551,10 @@ app.onError((err, c) => {
   return error(c, "Something went wrong. Please try again.", 500);
 });
 app.notFound((c) => error(c, "Not found.", 404));
-export default app;
+
+export default {
+  fetch: app.fetch,
+  scheduled(event, env, ctx) {
+    ctx.waitUntil(runReminders(env));
+  },
+};
