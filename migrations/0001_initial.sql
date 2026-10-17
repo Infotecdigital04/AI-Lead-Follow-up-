@@ -1,0 +1,13 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE users (id TEXT PRIMARY KEY, email TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE businesses (id TEXT PRIMARY KEY, name TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE memberships (user_id TEXT NOT NULL UNIQUE REFERENCES users(id), business_id TEXT NOT NULL REFERENCES businesses(id), role TEXT NOT NULL CHECK(role IN ('owner','staff')), PRIMARY KEY(user_id,business_id));
+CREATE TABLE sessions (token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), expires_at INTEGER NOT NULL);
+CREATE TABLE login_codes (email TEXT PRIMARY KEY, code_hash TEXT NOT NULL, expires_at INTEGER NOT NULL, attempts INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE rate_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, reset_at INTEGER NOT NULL);
+CREATE TABLE records (id TEXT PRIMARY KEY, business_id TEXT NOT NULL REFERENCES businesses(id), kind TEXT NOT NULL, data TEXT NOT NULL CHECK(json_valid(data)), created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE INDEX records_business_kind ON records(business_id,kind);
+CREATE TABLE subscriptions (business_id TEXT PRIMARY KEY REFERENCES businesses(id), provider_id TEXT UNIQUE, status TEXT NOT NULL DEFAULT 'inactive', plan TEXT, event_at TEXT NOT NULL DEFAULT '1970-01-01T00:00:00Z');
+CREATE TABLE webhook_events (id TEXT PRIMARY KEY, received_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE audit_logs (id TEXT PRIMARY KEY, business_id TEXT NOT NULL, user_id TEXT NOT NULL, action TEXT NOT NULL, record_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE INDEX audit_business ON audit_logs(business_id,created_at);

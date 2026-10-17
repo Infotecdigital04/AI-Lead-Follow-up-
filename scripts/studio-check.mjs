@@ -1,0 +1,60 @@
+import { chromium } from "playwright";
+import assert from "node:assert/strict";
+import { mkdir } from "node:fs/promises";
+const base = process.env.TEST_BASE_URL || "http://127.0.0.1:8793";
+const browser = await chromium.launch({ headless: true, channel: "msedge" });
+const errors = [];
+await mkdir("test-results", { recursive: true });
+try {
+  const page = await browser.newPage();
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("response", (response) => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+  for (const [width, height] of [[1440,900],[1366,768],[768,1024],[390,844],[320,667]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto(base);
+    await page.locator(".rn-home").waitFor();
+    await page.locator(".rn-motion").waitFor();
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({ path:`test-results/studio-${width}.png` });
+    const layout = await page.evaluate(() => ({ width:innerWidth, scroll:document.documentElement.scrollWidth, heroBottom:document.querySelector('.rn-hero').getBoundingClientRect().bottom, imageLoaded:document.querySelector('.rn-hero-product img').naturalWidth > 0 }));
+    assert.ok(layout.scroll <= width + 1, `Overflow at ${width}: ${layout.scroll}`);
+    assert.ok(layout.heroBottom < height, `Next section missing at ${width}`);
+    assert.ok(layout.imageLoaded, 'Hero image missing');
+    console.log({width, ...layout});
+  }
+  await page.setViewportSize({width:1440,height:900});
+  await page.goto(base);
+  await page.locator('.rn-motion').waitFor();
+  await page.getByRole('button', { name:'Service tracking', exact:true }).click();
+  assert.equal(await page.locator('.rn-product-story h3').textContent(),'Good work. All together.');
+  await page.getByRole('button', { name:'Client portal', exact:true }).click();
+  assert.equal(await page.locator('.rn-screen-link').getAttribute('href'),'/portal/demo');
+  await page.getByRole('button', { name:'Creative studios', exact:true }).click();
+  assert.equal(await page.locator('.rn-client-line strong').textContent(),'Alex Morgan');
+  await page.locator('.rn-pricing select').selectOption('INR');
+  assert.match(await page.locator('.plan .price').first().textContent(),/2,999/);
+  await page.getByRole('button',{name:/Yearly/}).click();
+  assert.match(await page.locator('.plan .price').first().textContent(),/2,399/);
+  await page.locator('.rn-faq summary').first().click();
+  assert.ok(await page.locator('.rn-faq details').first().evaluate(e=>e.open));
+  for (const el of await page.locator('.rn-reveal').all()) { await el.scrollIntoViewIfNeeded(); await page.waitForTimeout(100); }
+  await page.waitForTimeout(700);
+  assert.equal(await page.locator('.rn-reveal:not(.rn-visible)').count(),0);
+  await page.screenshot({path:'test-results/studio-full.png',fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(base);
+  await page.locator('.rn-motion').waitFor();
+  await page.getByRole('button',{name:'Open menu'}).click();
+  assert.ok(await page.locator('#rn-mobile-nav').isVisible());
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#rn-mobile-nav').count(),0);
+  const reduced = await browser.newPage({reducedMotion:'reduce'});
+  await reduced.goto(base);
+  assert.equal(await reduced.locator('.rn-home').evaluate(e=>e.classList.contains('rn-motion')),false);
+  assert.equal(await reduced.locator('.rn-reveal').first().evaluate(e=>getComputedStyle(e).opacity),'1');
+  const nojs = await browser.newPage({javaScriptEnabled:false});
+  await nojs.goto(base);
+  assert.equal(await nojs.locator('h1').textContent(),'Relaynest.');
+  assert.deepEqual(errors,[]);
+  console.log('Product tabs, industry examples, currency, billing, FAQ, menu, scroll reveals, reduced motion and prerender passed.');
+} finally { await browser.close(); }
