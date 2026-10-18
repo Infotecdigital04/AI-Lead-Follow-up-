@@ -10,6 +10,11 @@ const app = new Hono();
 const parseRow = (row) => ({ ...row, data: JSON.parse(row.data) });
 const error = (c, message, status = 400) => c.json({ error: message }, status);
 const active = (s) => s && ["active", "trialing"].includes(s.status);
+// Reads a value from env whether it's a plain var (string) or a Secrets Store binding (async .get()).
+async function secret(env, name) {
+  const v = env[name];
+  return v && typeof v.get === "function" ? await v.get() : v;
+}
 async function rate(c, key, limit, seconds) {
   const now = Math.floor(Date.now() / 1000);
   const row = await c.env.DB.prepare(
@@ -71,17 +76,23 @@ app.use("/api/*", async (c, next) => {
   if (size > 65536) return error(c, "Request too large.", 413);
   await next();
 });
-app.get("/api/config", (c) =>
-  c.json({
+app.get("/api/config", async (c) => {
+  const [resendKey, otpSecret] = await Promise.all([
+    secret(c.env, "RESEND_API_KEY"),
+    secret(c.env, "OTP_SECRET"),
+  ]);
+  return c.json({
     country: c.req.raw.cf?.country || "US",
-    authReady: !!(c.env.RESEND_API_KEY && c.env.OTP_SECRET),
+    authReady: !!(resendKey && otpSecret),
     billingReady: !!(c.env.PADDLE_API_KEY && c.env.PADDLE_CLIENT_TOKEN),
     paddleToken: c.env.PADDLE_CLIENT_TOKEN || "",
     paddleEnvironment: c.env.PADDLE_ENV || "sandbox",
-  }),
-);
+  });
+});
 app.post("/api/auth/request", async (c) => {
-  if (!c.env.RESEND_API_KEY || !c.env.OTP_SECRET)
+  const resendKey = await secret(c.env, "RESEND_API_KEY");
+  const otpSecret = await secret(c.env, "OTP_SECRET");
+  if (!resendKey || !otpSecret)
     return error(
       c,
       "Account sign-in is not open yet. You can explore the demo without an account.",
@@ -105,14 +116,14 @@ app.post("/api/auth/request", async (c) => {
   )
     .bind(
       normalized,
-      await hash(`${c.env.OTP_SECRET}:${normalized}:${code}`),
+      await hash(`${otpSecret}:${normalized}:${code}`),
       Date.now() + 600000,
     )
     .run();
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${c.env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${resendKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -131,7 +142,8 @@ app.post("/api/auth/request", async (c) => {
   return c.json({ ok: true });
 });
 app.post("/api/auth/verify", async (c) => {
-  if (!c.env.OTP_SECRET) return error(c, "Sign-in is not configured.", 503);
+  const otpSecret = await secret(c.env, "OTP_SECRET");
+  if (!otpSecret) return error(c, "Sign-in is not configured.", 503);
   const input = z
     .object({ email: z.email(), code: z.string().regex(/^\d{6}$/) })
     .parse(await c.req.json());
@@ -145,7 +157,7 @@ app.post("/api/auth/verify", async (c) => {
   if (
     !code ||
     code.code_hash !==
-      (await hash(`${c.env.OTP_SECRET}:${email}:${input.code}`))
+      (await hash(`${otpSecret}:${email}:${input.code}`))
   )
     return error(c, "This code is invalid or expired.");
   const consumed = await c.env.DB.prepare(
@@ -340,7 +352,8 @@ app.post("/api/workspace/draft", async (c) => {
   return c.json({ text: result.response, source: "ai" });
 });
 app.post("/api/workspace/send", async (c) => {
-  if (!c.env.RESEND_API_KEY)
+  const resendKey = await secret(c.env, "RESEND_API_KEY");
+  if (!resendKey)
     return error(c, "Email delivery is not configured.", 503);
   const { id, text: message } = z
     .object({ id: z.string(), text: z.string().trim().min(1).max(5000) })
@@ -361,7 +374,7 @@ app.post("/api/workspace/send", async (c) => {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${c.env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${resendKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -509,52 +522,34 @@ app.post("/api/billing/webhook", async (c) => {
     .bind(event.event_id)
     .first();
   if (seen) return c.json({ ok: true });
-  if (!event.event_type?.startsWith("subscription."))
-    return c.json({ ok: true });
-  const d = event.data,
-    bid = d.custom_data?.business_id;
-  if (!bid) return error(c, "Missing business mapping.", 422);
-  const exists = await c.env.DB.prepare("SELECT id FROM businesses WHERE id=?")
-    .bind(bid)
-    .first();
-  if (!exists) return error(c, "Unknown business.", 422);
-  const validStatuses = [
-    "active",
-    "trialing",
-    "past_due",
-    "paused",
-    "canceled",
-  ];
-  if (!validStatuses.includes(d.status))
-    return error(c, "Unknown subscription status.", 422);
-  // The subscription event, not the checkout redirect, controls access. Older events cannot overwrite newer state.
-  await c.env.DB.batch([
-    c.env.DB.prepare(
-      "INSERT INTO subscriptions(business_id,provider_id,status,plan,event_at) VALUES (?,?,?,?,?) ON CONFLICT(business_id) DO UPDATE SET provider_id=excluded.provider_id,status=excluded.status,plan=excluded.plan,event_at=excluded.event_at WHERE excluded.event_at>subscriptions.event_at",
-    ).bind(
-      bid,
-      d.id,
-      d.status,
-      d.custom_data.plan || "starter",
-      event.occurred_at,
-    ),
-    c.env.DB.prepare(
-      "INSERT OR IGNORE INTO webhook_events(id) VALUES (?)",
-    ).bind(event.event_id),
-  ]);
-  return c.json({ ok: true });
-});
-app.onError((err, c) => {
-  if (err instanceof z.ZodError)
-    return error(c, err.issues[0]?.message || "Please check your input.");
-  console.error("Request failed", c.req.path, err.name);
-  return error(c, "Something went wrong. Please try again.", 500);
-});
-app.notFound((c) => error(c, "Not found.", 404));
+  if (!event.event_type?.startsWith("subscripz[Û‹ˆŠJBˆ™]\›ˆËšœÛÛŠÈÚÎˆYHJNÂˆÛÛœİH]™[™]KˆšYH˜İ\İÛWÙ]OË˜\Ú[™\Ü×ÚYÂˆYˆ
+XšY
+H™]\›ˆ\œ›ÜŠË“Z\ÜÚ[™È\Ú[™\ÜÈX\[™Ëˆ‹ŒŠNÂˆÛÛœİ^\İÈH]ØZ]Ë™[‹‘‹œ™\\™J”ÑSPÕY”“ÓH\Ú[™\ÜÙ\ÈÒT‘HYOÈŠBˆ˜š[™
+šY
+Bˆ™š\œİ
 
-export default {
-  fetch: app.fetch,
-  scheduled(event, env, ctx) {
-    ctx.waitUntil(runReminders(env));
-  },
-};
+NÂˆYˆ
+Y^\İÊH™]\›ˆ\œ›ÜŠË•[šÛ›İÛˆ\Ú[™\ÜËˆ‹ŒŠNÂˆÛÛœİ˜[Yİ]\Ù\ÈHÂˆ˜Xİ]™H‹ˆšX[[™È‹ˆœ\İÙYH‹ˆœ]\ÙY‹ˆ˜Ø[˜Ù[Y‹ˆNÂˆYˆ
+]˜[Yİ]\Ù\Ëš[˜ÛY\Êœİ]\ÊJBˆ™]\›ˆ\œ›ÜŠË•[šÛ›İÛˆİXœØÜš\[Ûˆİ]\Ëˆ‹ŒŠNÂˆËÈHİXœØÜš\[Ûˆ]™[›İHÚXÚÛİ]™Y\™XİÛÛ›ÛÈXØÙ\ÜËˆÛ\ˆ]™[ÈØ[››İİ™\Üš]H™]Ù\ˆİ]K‚ˆ]ØZ]Ë™[‹‘‹˜˜]Ú
+ÂˆË™[‹‘‹œ™\\™Jˆ’S”ÑT•S•ÈİXœØÜš\[ÛœÊ\Ú[™\Ü×ÚY›İšY\—ÚYİ]\Ë[‹]™[Ø]
+HSQTÈ
+ËËËËÊHÓˆÓÓ‘“PÕ
+\Ú[™\Ü×ÚY
+HÈTUHÑU›İšY\—ÚYY^ÛYYœ›İšY\—ÚYİ]\ÏY^ÛYYœİ]\Ë[Y^ÛYYœ[‹]™[Ø]Y^ÛYY™]™[Ø]ÒT‘H^ÛYY™]™[Ø]œİXœØÜš\[ÛœË™]™[Ø]‹ˆ
+K˜š[™
+ˆšYˆšYˆœİ]\Ëˆ˜İ\İÛWÙ]Kœ[ˆœİ\\ˆ‹ˆ]™[›ØØİ\œ™YØ]ˆ
+KˆË™[‹‘‹œ™\\™Jˆ’S”ÑT•ÔˆQÓ“Ô‘HS•ÈÙXšÛÚ×Ù]™[ÊY
+HSQTÈ
+ÊH‹ˆ
+K˜š[™
+]™[™]™[ÚY
+KˆJNÂˆ™]\›ˆËšœÛÛŠÈÚÎˆYHJNÂŸJNÂ˜\›Û‘\œ›ÜŠ
+\œ‹ÊHOˆÂˆYˆ
+\œˆ[œİ[˜Ù[Ùˆ‹–›Ù\œ›ÜŠBˆ™]\›ˆ\œ›ÜŠË\œ‹š\ÜİY\ÖÌOË›Y\ÜØYÙH”X\ÙHÚXÚÈ[İ\ˆ[œ]ˆŠNÂˆÛÛœÛÛK™\œ›ÜŠ”™\]Y\İ˜Z[Y‹Ëœ™\Kœ]\œ‹›˜[YJNÂˆ™]\›ˆ\œ›ÜŠË”ÛÛY][™ÈÙ[Ü›Û™ËˆX\ÙHHYØZ[‹ˆ‹L
+NÂŸJNÂ˜\››İ›İ[™
+
+ÊHOˆ\œ›ÜŠË“›İ›İ[™ˆ‹
+JNÂ‚™^ÜY˜][Âˆ™]Úˆ\™™]ÚˆØÚY[Y
+]™[[‹İ
+HÂˆİØZ][[
+[”™[Z[™\œÊ[ŠJNÂˆKŸNÂ

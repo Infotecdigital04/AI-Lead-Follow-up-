@@ -2,7 +2,11 @@
 // Emails each active workspace owner a digest of leads due for follow-up today.
 // Reminders go to the owner (not to customers), so this stays low-risk.
 export async function runReminders(env) {
-  if (!env.RESEND_API_KEY || !env.EMAIL_FROM) return;
+  const resendKey =
+    env.RESEND_API_KEY && typeof env.RESEND_API_KEY.get === "function"
+      ? await env.RESEND_API_KEY.get()
+      : env.RESEND_API_KEY;
+  if (!resendKey || !env.EMAIL_FROM) return;
   const today = new Date().toISOString().slice(0, 10);
   const { results: owners } = await env.DB.prepare(
     "SELECT b.id AS business_id, b.name AS business_name, u.email AS email " +
@@ -51,7 +55,7 @@ export async function runReminders(env) {
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          Authorization: `Bearer ${resendKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
