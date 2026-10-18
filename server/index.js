@@ -522,34 +522,52 @@ app.post("/api/billing/webhook", async (c) => {
     .bind(event.event_id)
     .first();
   if (seen) return c.json({ ok: true });
-  if (!event.event_type?.startsWith("subscripz[Ы‹€ЉJB€™]\›€ЛљњЫЫЉИЪО€ќYHJNВ€ЫЫњЭH]™[ќ™]K€љYHЭ\ЭЫWЩ]OЛќ\Ъ[™\ЬЧЪYВ€Y€
-XљY
-H™]\›€\њ›ЬЉЛ“Z\ЬЪ[™Иќ\Ъ[™\ЬИX\[™Л€‹ЊЉNВ€ЫЫњЭ^\ЭИH]ШZ]Л™[ќ‹‘‹њ™\\™J”СSPХY”“УHќ\Ъ[™\ЬЩ\ИТT‘HYOИЉB€љ[™
-љY
-B€™љ\њЭ
+  if (!event.event_type?.startsWith("subscription."))
+    return c.json({ ok: true });
+  const d = event.data,
+    bid = d.custom_data?.business_id;
+  if (!bid) return error(c, "Missing business mapping.", 422);
+  const exists = await c.env.DB.prepare("SELECT id FROM businesses WHERE id=?")
+    .bind(bid)
+    .first();
+  if (!exists) return error(c, "Unknown business.", 422);
+  const validStatuses = [
+    "active",
+    "trialing",
+    "past_due",
+    "paused",
+    "canceled",
+  ];
+  if (!validStatuses.includes(d.status))
+    return error(c, "Unknown subscription status.", 422);
+  // The subscription event, not the checkout redirect, controls access. Older events cannot overwrite newer state.
+  await c.env.DB.batch([
+    c.env.DB.prepare(
+      "INSERT INTO subscriptions(business_id,provider_id,status,plan,event_at) VALUES (?,?,?,?,?) ON CONFLICT(business_id) DO UPDATE SET provider_id=excluded.provider_id,status=excluded.status,plan=excluded.plan,event_at=excluded.event_at WHERE excluded.event_at>subscriptions.event_at",
+    ).bind(
+      bid,
+      d.id,
+      d.status,
+      d.custom_data.plan || "starter",
+      event.occurred_at,
+    ),
+    c.env.DB.prepare(
+      "INSERT OR IGNORE INTO webhook_events(id) VALUES (?)",
+    ).bind(event.event_id),
+  ]);
+  return c.json({ ok: true });
+});
+app.onError((err, c) => {
+  if (err instanceof z.ZodError)
+    return error(c, err.issues[0]?.message || "Please check your input.");
+  console.error("Request failed", c.req.path, err.name);
+  return error(c, "Something went wrong. Please try again.", 500);
+});
+app.notFound((c) => error(c, "Not found.", 404));
 
-NВ€Y€
-Y^\ЭКH™]\›€\њ›ЬЉЛ•[љЫ›ЭЫ€ќ\Ъ[™\ЬЛ€‹ЊЉNВ€ЫЫњЭ[YЭ]\Щ\ИHВ€XЭ]™H‹€ќљX[[™И‹€њ\ЭЩYH‹€њ]\ЩY‹€Ш[Щ[Y‹€NВ€Y€
-][YЭ]\Щ\Лљ[ЫY\КњЭ]\КJB€™]\›€\њ›ЬЉЛ•[љЫ›ЭЫ€ЭXњШЬљ\[Ы€Э]\Л€‹ЊЉNВ€ЛИHЭXњШЬљ\[Ы€]™[ќ›ЭHЪXЪЫЭ]™Y\™XЭЫЫќ›ЫИXШЩ\ЬЛ€Ы\€]™[ќИШ[››ЭЭ™\ќЬљ]H™]Щ\€Э]K‚€]ШZ]Л™[ќ‹‘‹]Ъ
-В€Л™[ќ‹‘‹њ™\\™J€’S”СT•S•ИЭXњШЬљ\[ЫњКќ\Ъ[™\ЬЧЪY›ЭљY\—ЪYЭ]\Л[‹]™[ќШ]
-HђSQTИ
-ЛЛЛЛКHУ€УУ‘“PХ
-ќ\Ъ[™\ЬЧЪY
-HИTUHСU›ЭљY\—ЪYY^ЫYYњ›ЭљY\—ЪYЭ]\ПY^ЫYYњЭ]\Л[ЏY^ЫYYњ[‹]™[ќШ]Y^ЫYY™]™[ќШ]ТT‘H^ЫYY™]™[ќШ]њЭXњШЬљ\[ЫњЛ™]™[ќШ]‹€
-Kљ[™
-€љY€љY€њЭ]\Л€Э\ЭЫWЩ]Kњ[€њЭ\ќ\€‹€]™[ќ›ШШЭ\њ™YШ]€
-K€Л™[ќ‹‘‹њ™\\™J€’S”СT•Ф€QУ“Ф‘HS•ИЩXљЫЪЧЩ]™[ќКY
-HђSQTИ
-КH‹€
-Kљ[™
-]™[ќ™]™[ќЪY
-K€JNВ€™]\›€ЛљњЫЫЉИЪО€ќYHJNВџJNВ\›Ы‘\њ›ЬЉ
-\њ‹КHO€В€Y€
-\њ€[њЭ[Щ[Щ€‹–›Щ\њ›ЬЉB€™]\›€\њ›ЬЉЛ\њ‹љ\ЬЭY\ЦМOЛ›Y\ЬШYЩH”X\ЩHЪXЪИ[Э\€[њ]€ЉNВ€ЫЫњЫЫK™\њ›ЬЉ”™\]Y\ЭZ[Y‹Лњ™\Kњ]\њ‹›[YJNВ€™]\›€\њ›ЬЉЛ”ЫЫY][™ИЩ[ќЬ›Ы™Л€X\ЩHћHYШZ[‹€‹L
-NВџJNВ\››Э›Э[™
-
-КHO€\њ›ЬЉЛ“›Э›Э[™€‹
-JNВ‚™^ЬќY][В€™]Ъ€\™™]Ъ€ШЪY[Y
-]™[ќ[ќ‹Э
-HВ€ЭќШZ][ќ[
-ќ[”™[Z[™\њК[ќЉJNВ€KџNВ
+export default {
+  fetch: app.fetch,
+  scheduled(event, env, ctx) {
+    ctx.waitUntil(runReminders(env));
+  },
+};
