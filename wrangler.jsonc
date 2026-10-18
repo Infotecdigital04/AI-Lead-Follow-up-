@@ -20,7 +20,7 @@
   "vars": {
     "APP_ORIGIN": "https://relaynest.infotecdigital.com",
     "PADDLE_ENV": "sandbox",
-    "EMAIL_FROM": "Relaynest <hello@infotecdigital.com>",
+    "EMAIL_FROM": "Relaynest <hello@send.infotecdigital.com>",
   },
   "triggers": {
     "crons": ["0 8 * * *"],
