@@ -1,0 +1,417 @@
+/* The hero's copy and product occupy separate rows, including on short screens. */
+.signature-header {
+  background: #141918;
+  border-bottom-color: #333d37;
+  color: #f5f7f5;
+}
+.signature-header .brand,
+.signature-header .brand-dot,
+.signature-header .login-link {
+  color: #f5f7f5;
+}
+.signature-header .site-nav > nav,
+.signature-header .language,
+.signature-header .language select {
+  color: #bdcbc3;
+}
+.signature-header .language select {
+  background: #141918;
+}
+.signature-header .mobile-toggle {
+  color: #eff4f0;
+}
+@media (max-width: 900px) {
+  .signature-header .site-nav nav {
+    background: #141918;
+    border-color: #46574c;
+  }
+}
+.signature-hero {
+  --signature-blue: #2854df;
+  position: relative;
+  padding: 34px 32px 0;
+  background: #141918;
+  color: #f5f7f5;
+  overflow: clip;
+}
+.signature-copy {
+  max-width: 960px;
+  margin: auto;
+  text-align: center;
+}
+.signature-kicker {
+  display: block;
+  color: #b9c9c0;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+.signature-copy h1 {
+  margin: 6px 0 8px;
+  font-size: 80px;
+  font-weight: 750;
+  line-height: 1.05;
+  color: #f5f7f5;
+}
+.signature-copy h1 span {
+  color: #ceeca0;
+}
+.signature-copy h2 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 550;
+}
+.signature-copy > p {
+  max-width: 630px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #b5c3bb;
+}
+.signature-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 20px;
+}
+.premium .signature-actions .primary,
+.site-nav .button.primary {
+  color: #fff;
+  background: #2854df;
+  border-color: #2854df;
+  border-radius: 5px;
+  box-shadow: none;
+}
+.premium .signature-actions .primary:hover,
+.site-nav .button.primary:hover {
+  background: #1b3daa;
+  border-color: #1b3daa;
+}
+.signature-actions .button {
+  min-height: 46px;
+  padding: 12px 20px;
+  font-size: 13px;
+}
+.signature-tour {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #eef3ee;
+}
+.signature-tour:hover {
+  color: #ceeca0;
+}
+.signature-copy > .signature-reassurance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: #bdcdc3;
+}
+.signature-reassurance svg {
+  color: #ceeca0;
+  flex-shrink: 0;
+}
+.signature-stage {
+  position: relative;
+  max-width: 1110px;
+  margin: 30px auto 0;
+}
+.signature-stage-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 3px 12px;
+  color: #bbcbbf;
+  font-size: 10px;
+}
+.signature-stage-label > span,
+.signature-stage-label a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.signature-status {
+  width: 6px;
+  height: 6px;
+  background: #ceeca0;
+  border-radius: 50%;
+}
+.signature-product {
+  display: block;
+  height: 280px;
+  overflow: hidden;
+  border: 1px solid #7e9085;
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  box-shadow: 0 -8px 38px #293d6912;
+}
+.signature-product picture,
+.signature-product img {
+  display: block;
+  width: 100%;
+}
+.signature-product img {
+  height: auto;
+  transform: translateY(calc(var(--hero-shift, 0px) * -0.5));
+}
+.signature-product:hover {
+  border-color: #7894dc;
+}
+.signature-bottom {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1110px;
+  min-height: 44px;
+  margin: auto;
+  color: #b6c5bc;
+  font-size: 9px;
+  border-top: 1px solid #46574c;
+}
+.signature-bottom .motion-control {
+  position: static;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border-color: #58665e;
+  color: #d8e2db;
+}
+.audience-ribbon {
+  gap: 64px;
+  padding: 25px 24px;
+  color: #46516c;
+  border-color: #e5e9f0;
+}
+.audience-ribbon > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.audience-ribbon > span:first-child svg {
+  color: #2854df;
+}
+.audience-ribbon > span:nth-child(2) svg {
+  color: #bd634f;
+}
+.audience-ribbon > span:nth-child(3) svg {
+  color: #147461;
+}
+.product-showcase {
+  background: #f7f8fb;
+  color: #1b2233;
+  padding-top: 72px;
+}
+.showcase-heading .premium-eyebrow {
+  color: #4e6082;
+}
+.showcase-heading h2 {
+  color: #192133;
+  font-weight: 550;
+}
+.showcase-heading p,
+.showcase-description p {
+  color: #58657d;
+}
+.showcase-tabs button {
+  border-color: #c7cfdf;
+  color: #4b5b79;
+}
+.showcase-tabs button[aria-selected="true"] {
+  background: #dbe5ff;
+  border-color: #dbe5ff;
+  color: #173375;
+}
+.showcase-browser {
+  background: #242b3b;
+}
+.showcase-image-link {
+  border-color: #4a556e;
+}
+.showcase-description > a,
+.showcase-bottom a {
+  color: #244aa9;
+}
+.premium .closing {
+  background: #e5ecff;
+  color: #18274d;
+}
+.premium .closing .primary {
+  background: #2854df;
+  border-color: #2854df;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-motion="on"] .signature-copy {
+    animation: premium-entry 600ms ease both;
+  }
+  [data-motion="on"] .signature-stage {
+    animation: premium-entry 800ms ease both;
+  }
+}
+[data-motion="off"] .signature-product img {
+  transform: none;
+}
+@media (min-width: 1600px) {
+  .signature-hero {
+    padding-top: 46px;
+  }
+  .signature-copy h1 {
+    font-size: 92px;
+  }
+  .signature-stage {
+    max-width: 1240px;
+    margin-top: 36px;
+  }
+  .signature-product {
+    height: 340px;
+  }
+  .signature-bottom {
+    max-width: 1240px;
+  }
+}
+@media (min-width: 901px) and (max-height: 800px) {
+  .signature-hero {
+    padding-top: 18px;
+  }
+  .signature-kicker {
+    display: none;
+  }
+  .signature-copy h1 {
+    font-size: 56px;
+    margin-block: 4px 6px;
+  }
+  .signature-copy h2 {
+    font-size: 23px;
+    margin-bottom: 8px;
+  }
+  .signature-actions {
+    margin-top: 14px;
+  }
+  .signature-stage {
+    margin-top: 18px;
+  }
+  .signature-product {
+    height: 224px;
+  }
+  .signature-bottom {
+    min-height: 30px;
+  }
+}
+@media (max-width: 900px) {
+  .signature-hero {
+    padding: 32px 24px 0;
+  }
+  .signature-copy h1 {
+    font-size: 68px;
+  }
+  .signature-copy h2 {
+    font-size: 24px;
+  }
+  .signature-product {
+    height: 240px;
+  }
+  .audience-ribbon {
+    gap: 18px 30px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px) {
+  .signature-hero {
+    padding: 26px 20px 0;
+  }
+  .signature-kicker {
+    font-size: 8px;
+  }
+  .signature-copy h1 {
+    font-size: 52px;
+    margin: 10px 0 12px;
+  }
+  .signature-copy h2 {
+    font-size: 23px;
+    max-width: 340px;
+    margin: 0 auto 12px;
+    text-wrap: balance;
+  }
+  .signature-copy > p {
+    font-size: 12px;
+    max-width: 330px;
+  }
+  .signature-actions {
+    gap: 4px;
+    margin-top: 17px;
+    flex-direction: column;
+  }
+  .signature-actions .button {
+    min-width: 200px;
+  }
+  .signature-tour {
+    font-size: 12px;
+    min-height: 36px;
+  }
+  .signature-copy > .signature-reassurance {
+    margin-top: 6px;
+    font-size: 10px;
+  }
+  .signature-stage {
+    margin-top: 26px;
+  }
+  .signature-stage-label {
+    font-size: 8px;
+    padding-bottom: 10px;
+  }
+  .signature-stage-label > a {
+    display: none;
+  }
+  .signature-product {
+    height: 190px;
+  }
+  .signature-product img {
+    height: auto;
+  }
+  .signature-bottom {
+    font-size: 8px;
+    min-height: 42px;
+  }
+  .audience-ribbon {
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 24px;
+  }
+  .audience-ribbon > span {
+    flex: 1 1 100%;
+  }
+}
+@media (max-width: 600px) and (max-height: 720px) {
+  .signature-hero {
+    padding-top: 18px;
+  }
+  .signature-copy h1 {
+    font-size: 45px;
+    margin-block: 8px;
+  }
+  .signature-copy h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .signature-actions {
+    margin-top: 12px;
+  }
+  .signature-stage {
+    margin-top: 20px;
+  }
+  .signature-product {
+    height: 100px;
+  }
+}
+

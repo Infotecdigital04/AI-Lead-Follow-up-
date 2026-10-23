@@ -1,0 +1,661 @@
+/* Final, workspace-scoped UI layer. Marketing and backend behavior are unchanged. */
+:root .app-shell {
+  --rn-body:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --rn-dsp: var(--rn-body);
+  --rn-r: 8px;
+  --rn-shadow: 0 1px 3px #172c2110;
+  font-family: var(--rn-body);
+}
+:root .app-shell *,
+:root .app-shell *::before,
+:root .app-shell *::after {
+  letter-spacing: 0;
+}
+:root .app-shell .button {
+  border-radius: 6px;
+  min-height: 44px;
+  font-size: 15px;
+  line-height: 1.2;
+}
+:root .app-shell .button.primary {
+  background: #16634d;
+  box-shadow: none;
+  border: 1px solid #16634d;
+}
+:root .app-shell .button.primary:hover {
+  background: #104d3b;
+  filter: none;
+}
+:root .app-shell .button.secondary {
+  border-radius: 6px;
+  box-shadow: 0 1px 2px #162d2110;
+}
+:root .app-shell .icon-button {
+  border-radius: 6px;
+  min-width: 44px;
+  min-height: 44px;
+}
+:root .app-shell .record-toolbar {
+  gap: 16px;
+  margin-bottom: 0;
+  padding: 0;
+  align-items: center;
+}
+:root .app-shell .record-toolbar .search-input {
+  flex: 1;
+  max-width: 430px;
+  border-radius: 6px;
+  min-height: 46px;
+  background: white;
+}
+:root .app-shell .search-input input {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  min-width: 0;
+  background: transparent;
+  font-size: 15px;
+}
+:root .app-shell .record-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+:root .app-shell select {
+  min-height: 44px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: var(--rn-body);
+}
+:root .app-shell .filter-select {
+  border: 0;
+  padding: 0;
+  gap: 8px;
+}
+:root .app-shell .record-result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  color: #64756c;
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+:root .app-shell .record-result-bar .text-button {
+  min-height: 44px;
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  font-size: 13px;
+}
+:root .app-shell .record-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+:root .app-shell .record-table th {
+  background: #f4f7f5;
+  color: #53685b;
+  font-size: 13px;
+  line-height: 1.5;
+  text-transform: none;
+  font-weight: 600;
+  padding: 13px 16px;
+}
+:root .app-shell .nav-count {
+  font-size: 13px;
+  min-width: 22px;
+  min-height: 20px;
+}
+:root .app-shell .record-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-bottom: 1px solid #e5ebe7;
+}
+:root .app-shell .record-table tr:last-child td {
+  border-bottom: 0;
+}
+:root .app-shell .record-table tbody tr:hover {
+  background: #f6faf7;
+}
+:root .app-shell .record-table .person-button {
+  min-height: 44px;
+}
+:root .app-shell .record-table .person-button strong {
+  font-weight: 600;
+  font-size: 14px;
+}
+:root .app-shell .record-table .table-secondary,
+:root .app-shell .record-table .person-button small {
+  color: #64766c;
+  font-size: 13px;
+}
+:root .app-shell .record-table .text-button {
+  min-height: 44px;
+  text-align: left;
+  font-weight: 600;
+}
+:root .app-shell .panel-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+:root .app-shell .job-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 3px #132e2010;
+}
+:root .app-shell .job-card button {
+  text-align: left;
+}
+:root .app-shell .job-card select {
+  width: 100%;
+}
+:root .app-shell .task-row {
+  padding-block: 18px;
+  gap: 16px;
+}
+:root .app-shell .task-row > button {
+  text-align: left;
+  min-width: 0;
+}
+:root .app-shell .task-row strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+:root .app-shell .settings-sections {
+  max-width: 920px;
+}
+:root .app-shell .settings-sections > section {
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+  padding: 28px 0;
+  border: 0;
+  border-bottom: 1px solid #dbe4de;
+}
+:root .app-shell .settings-sections > section:first-child {
+  padding-top: 0;
+}
+:root .app-shell .settings-sections h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+:root .app-shell .settings-sections p {
+  max-width: 690px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #596f61;
+}
+:root .app-shell .setting-row {
+  gap: 24px;
+  padding-block: 14px;
+}
+:root .app-shell .setting-row strong {
+  font-weight: 550;
+}
+:root .app-shell .booking-link-controls {
+  max-width: 690px;
+}
+:root .app-shell .booking-link-controls .field {
+  display: grid;
+  gap: 8px;
+  margin: 20px 0 12px;
+}
+:root .app-shell .booking-link-controls input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #bdcec3;
+  background: white;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 14px;
+}
+:root .app-shell .booking-link-controls .inline-actions {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+:root .app-shell .modal {
+  border-radius: 8px;
+  border: 1px solid #cbd8cf;
+  box-shadow: 0 28px 90px #132c2140;
+}
+:root .app-shell .modal::backdrop {
+  background: #0a211b80;
+  backdrop-filter: blur(3px);
+}
+:root .app-shell .modal-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid #dfe7e2;
+}
+:root .app-shell .modal-head h2 {
+  font-size: 20px;
+  font-weight: 650;
+}
+:root .app-shell .modal-body {
+  border-radius: 0;
+}
+:root .app-shell .modal .field > span {
+  font-size: 14px;
+  color: #425b4c;
+  font-weight: 550;
+}
+:root .app-shell .modal :is(input:not([type="checkbox"]), select, textarea) {
+  min-height: 44px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #bdcec3;
+}
+:root .app-shell .modal-actions {
+  border-top: 1px solid #dfe7e2;
+  padding: 16px 24px;
+  background: #fafcfb;
+}
+:root .app-shell .invoice-editor-dialog {
+  width: min(1100px, calc(100vw - 40px));
+  max-width: 1100px;
+  max-height: calc(100dvh - 40px);
+  padding: 0;
+  overflow: hidden;
+}
+:root .app-shell .invoice-editor-dialog[open],
+:root .app-shell .invoice-preview-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+:root .app-shell .invoice-editor-dialog > form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+:root .app-shell .invoice-editor-dialog .modal-head,
+:root .app-shell .invoice-editor-dialog .modal-actions {
+  flex: 0 0 auto;
+}
+:root .app-shell .inv-editor {
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 24px 32px;
+  padding: 24px;
+  align-items: start;
+}
+:root .app-shell .inv-section-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+:root .app-shell .inv-section-heading > svg {
+  color: #3d7d61;
+  margin-top: 3px;
+}
+:root .app-shell .inv-section-heading h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+:root .app-shell .inv-section-heading p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #5f7466;
+}
+:root .app-shell .inv-section-heading p span {
+  padding: 0 6px;
+}
+:root .app-shell .inv-top {
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  border-bottom: 1px solid #dfe7e1;
+  padding-bottom: 24px;
+}
+:root .app-shell .inv-items {
+  border: 0;
+  border-radius: 0;
+  min-width: 0;
+  overflow: visible;
+}
+:root .app-shell .inv-items-title {
+  margin: 0 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+}
+:root .app-shell .inv-items-head,
+:root .app-shell .inv-row {
+  grid-template-columns: minmax(100px, 1fr) 64px 90px 90px 44px;
+  padding: 10px 0;
+  gap: 8px;
+}
+:root .app-shell .inv-items-head {
+  font-size: 12px;
+  text-transform: none;
+  background: none;
+}
+:root .app-shell .inv-row > label {
+  min-width: 0;
+}
+:root .app-shell .inv-row > label > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+:root .app-shell .inv-row input {
+  padding: 10px 8px;
+  width: 100%;
+}
+:root .app-shell .inv-row .inv-amt {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+:root .app-shell .inv-add {
+  margin-top: 12px;
+  align-self: flex-start;
+  min-height: 44px;
+  border-radius: 6px;
+  background: #edf5ef;
+  font-size: 14px;
+  padding: 10px 14px;
+}
+:root .app-shell .inv-summary {
+  grid-column: 2;
+  grid-row: 3 / span 4;
+  border: 0;
+  border-left: 1px solid #dfe7e1;
+  border-radius: 0;
+  background: none;
+  padding: 0 0 0 24px;
+  margin: 0;
+  width: 100%;
+}
+:root .app-shell .inv-summary h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+:root .app-shell .inv-sum-row {
+  font-size: 14px;
+  padding-block: 8px;
+}
+:root .app-shell .inv-sum-row input {
+  width: 100px;
+}
+:root .app-shell .inv-total {
+  margin-top: 8px;
+  padding-top: 16px;
+}
+:root .app-shell .inv-total b {
+  font-family: inherit;
+  font-size: 22px;
+}
+:root .app-shell .inv-due {
+  border-top: 1px solid #dfe7e1;
+  margin-top: 8px;
+  padding-top: 16px;
+}
+:root .app-shell .inv-more {
+  grid-column: 1;
+  min-height: 44px;
+  font-size: 14px;
+  margin: 0;
+}
+:root .app-shell .inv-more-grid {
+  grid-column: 1;
+}
+:root .app-shell .inv-editor > .error {
+  grid-column: 1 / -1;
+}
+:root .app-shell .invoice-preview-dialog {
+  width: min(800px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  overflow: hidden;
+}
+:root .app-shell .invoice-preview-dialog .modal-body {
+  overflow-y: auto;
+  padding: 24px;
+  background: #f3f6f4;
+}
+:root .app-shell .invoice-preview-dialog .modal-head,
+:root .app-shell .invoice-preview-dialog .modal-actions {
+  flex: 0 0 auto;
+}
+:root .app-shell .inv-doc {
+  border-radius: 0;
+  padding: 30px;
+  max-width: none;
+  box-shadow: 0 2px 6px #142e2110;
+}
+:root
+  .app-shell
+  .inv-doc
+  :is(.inv-doc-meta, .inv-doc-billto, .inv-doc-totals, .inv-doc-notes) {
+  font-size: 14px;
+}
+:root
+  .app-shell
+  .inv-doc
+  :is(.inv-doc-kind, .inv-doc-billto > span, .inv-doc-notes > span) {
+  font-size: 12px;
+}
+:root .app-shell .inv-doc-notes p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+:root .app-shell .inv-document-table-scroll {
+  overflow-x: auto;
+}
+:root .app-shell .inv-doc-table {
+  min-width: 390px;
+}
+:root .app-shell .inv-doc-table :is(td, th) {
+  font-size: 13px;
+}
+@media (max-width: 1100px) {
+  :root .app-shell .inv-editor {
+    grid-template-columns: 1fr;
+  }
+  :root .app-shell .inv-summary {
+    grid-column: 1;
+    grid-row: auto;
+    border-left: 0;
+    border-top: 1px solid #dfe7e1;
+    padding: 20px 0 0;
+    width: min(360px, 100%);
+    margin-left: auto;
+  }
+}
+@media (max-width: 760px) {
+  :root .app-shell .record-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  :root .app-shell .record-toolbar .search-input {
+    max-width: none;
+    width: 100%;
+    flex: auto;
+  }
+  :root .app-shell .record-toolbar-actions {
+    justify-content: space-between;
+  }
+  :root .app-shell .record-table,
+  :root .app-shell .record-table tbody {
+    display: block;
+    min-width: 0;
+  }
+  :root .app-shell .record-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  :root .app-shell .record-table tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0;
+    padding: 16px;
+    border-bottom: 1px solid #dfe7e1;
+  }
+  :root .app-shell .record-table tr:last-child {
+    border-bottom: 0;
+  }
+  :root .app-shell .record-table td {
+    display: block;
+    grid-column: 1 / -1;
+    border: 0;
+    padding: 5px 0;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  :root .app-shell .record-table td:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0 8px 10px 0;
+  }
+  :root .app-shell .record-table td:last-child {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0;
+  }
+  :root .app-shell .record-table td[data-label]::before {
+    content: attr(data-label);
+    display: inline-block;
+    width: 96px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #65776d;
+  }
+  :root .app-shell .record-table .table-secondary {
+    display: block;
+    padding-left: 96px;
+  }
+  :root .app-shell .record-table .person-button {
+    align-items: flex-start;
+  }
+  :root .app-shell .record-table .person-button > span:last-child {
+    min-width: 0;
+  }
+  :root .app-shell .record-table .person-button small {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+  :root .app-shell .record-table .avatar {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+  }
+  :root .app-shell .task-row {
+    gap: 12px;
+  }
+  :root .app-shell .invoice-editor-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+  :root .app-shell .inv-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+  }
+  :root .app-shell .inv-editor {
+    padding: 20px;
+    gap: 20px;
+  }
+  :root .app-shell .inv-items-head {
+    display: none;
+  }
+  :root .app-shell .inv-row {
+    grid-template-columns: 1fr 1fr 44px;
+    gap: 12px;
+    border-top: 1px solid #dfe7e1;
+    padding: 16px 0;
+  }
+  :root .app-shell .inv-row .inv-line-description {
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  :root .app-shell .inv-row > .icon-button {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+  }
+  :root .app-shell .inv-row > label > span {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    display: block;
+    font-size: 13px;
+    margin-bottom: 7px;
+  }
+  :root .app-shell .inv-row > label:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  :root .app-shell .inv-row > label:nth-child(3) {
+    grid-column: 2 / 4;
+    grid-row: 2;
+  }
+  :root .app-shell .inv-row .inv-amt {
+    grid-column: 1 / -1;
+    font-size: 14px;
+  }
+  :root .app-shell .inv-amt::before {
+    content: "Line total ";
+    color: #5e7465;
+    margin-right: 12px;
+    font-weight: 400;
+  }
+  :root .app-shell .modal-actions.inv-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 20px;
+    gap: 10px;
+  }
+  :root .app-shell .inv-actions .inv-spacer {
+    display: none;
+  }
+  :root .app-shell .inv-actions > .primary {
+    grid-column: 1 / -1;
+  }
+  :root .app-shell .inv-actions .button {
+    width: 100%;
+  }
+  :root .app-shell .invoice-preview-dialog .modal-body {
+    padding: 12px;
+  }
+  :root .app-shell .inv-doc {
+    padding: 20px 16px;
+  }
+  :root .app-shell .inv-doc-head {
+    flex-direction: column;
+  }
+  :root .app-shell .inv-doc-meta {
+    text-align: left;
+  }
+  :root .app-shell .inv-doc-meta > div {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  :root .app-shell .inv-doc-billto,
+  :root .app-shell .inv-doc-biz {
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 380px) {
+  :root .app-shell .inv-top {
+    grid-template-columns: 1fr;
+  }
+  :root .app-shell .record-table td[data-label]::before {
+    width: 84px;
+  }
+  :root .app-shell .record-table .table-secondary {
+    padding-left: 84px;
+  }
+}
